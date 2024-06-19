@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import project_do_an_co_so.Login;
+import project_do_an_co_so.View_BDH_Nhan_su;
 
 class FlatArrowButton extends JButton {
     private Image arrowImage;
@@ -105,13 +107,21 @@ public class View_BanDieuHanh {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code xử lý sự kiện cho nút Nhân sự
-                View_BDH_Nhan_su.hien();
+                View_BDH_Nhansu_BDH.set();
                 frame.dispose();
             }
         });
         homePanel.add(personnelButton);
 
         JButton scheduleButton = createButton("Lịch thi đấu", 400, 200);
+        scheduleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Code xử lý sự kiện cho nút Nhân sự
+                View_BDH_LichThiDau.main();
+                frame.dispose();
+            }
+        });
         homePanel.add(scheduleButton);
 
         JButton rankingButton = createButton("Bảng xếp hạng", 600, 200);

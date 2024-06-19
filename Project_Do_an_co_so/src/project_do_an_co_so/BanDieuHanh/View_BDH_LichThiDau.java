@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class View_BDH_LichThiDau {
-    public static void main(String[] args) {
+    public static void main() {
         // Create the main frame
         JFrame frame = new JFrame("Lịch thi đấu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,8 +50,24 @@ public class View_BDH_LichThiDau {
             mainPanel.add(rowPanel);
         }
 
-        // Add main panel to frame
-        frame.add(mainPanel);
+        // Create a panel for the back button
+        JPanel backPanel = new JPanel();
+        backPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View_BanDieuHanh.hien();
+                frame.dispose();
+            }
+        });
+        backPanel.add(backButton);
+
+        // Add the main panel and the back panel to the frame
+        frame.setLayout(new BorderLayout());
+        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(backPanel, BorderLayout.SOUTH);
+
         frame.setVisible(true);
     }
 
