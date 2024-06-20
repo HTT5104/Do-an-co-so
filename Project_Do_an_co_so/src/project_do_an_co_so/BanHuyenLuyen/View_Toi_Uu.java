@@ -184,7 +184,16 @@ public class View_Toi_Uu extends JFrame {
             e.printStackTrace();
         }
     }
-
+    
+    private static int indexOfPosition(String pos, String[] positions) {
+        for (int i = 0; i < positions.length; i++) {
+            if (positions[i].equals(pos)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
     private void printTopPlayers() {
         HashSet<String> selectedPlayers = new HashSet<>();
         StringBuilder result = new StringBuilder("Selected top players:\n");
@@ -195,7 +204,7 @@ public class View_Toi_Uu extends JFrame {
                 "RWB", "CDM", "CM", "LM", "RM",
                 "CAM", "CF", "LW", "RW", "ST"
         };
-
+        selectedPositions.sort(Comparator.comparingInt(pos -> indexOfPosition(pos, positions)));
         // Get top player for each selected position
         for (String pos : selectedPositions) {
             int index = -1;
@@ -303,6 +312,11 @@ public class View_Toi_Uu extends JFrame {
 
         public double getQuality() {
             return quality;
+        }
+    }
+    public static class Main{
+        public static void main(String[] args) {
+            hien();
         }
     }
 }
