@@ -132,7 +132,7 @@ public class View_Toi_Uu extends JFrame {
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(","); // Assuming comma-separated values
-                if (values.length < 31) { // Ensure there are enough columns
+                if (values.length < 33) { // Ensure there are enough columns
                     continue;
                 }
 
@@ -163,7 +163,7 @@ public class View_Toi_Uu extends JFrame {
                         - 5 * metrics[5] + 6 * metrics[6] + 0.2 * metrics[7] + 0.2 * metrics[8] + 2 * metrics[9]
                         + 2 * metrics[10] + metrics[11] - metrics[12] - metrics[13] - 2 * metrics[14]
                         - 5 * metrics[15] - metrics[16] + 4 * metrics[17] + 5 * metrics[18] + 5 * metrics[19]
-                        + 2.5 * metrics[20]) * metrics[21];
+                        + 2.5 * metrics[20]) * metrics[21] * metrics[22];
 
                 Player player = new Player(playerName, qi);
 
