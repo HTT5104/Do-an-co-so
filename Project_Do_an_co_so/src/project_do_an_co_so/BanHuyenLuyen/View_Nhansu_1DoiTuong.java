@@ -4,17 +4,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import project_do_an_co_so.Player;
+import project_do_an_co_so.View_BDH_Nhansu_BDH;
 
 public class View_Nhansu_1DoiTuong {
+
     private static JFrame frame;
     private JLabel nameLabel;
     private JLabel positionLabel;
     private JLabel birthDateLabel;
     private JLabel hometownLabel;
+    private JLabel numberShirtLabel;
+    private JLabel weightLabel;
+    private JLabel heightLabel;
+    private JLabel bodyMassLabel;
     private JLabel photoLabel;
+    private Player currentPlayer;
 
     public void set(Player player) {
+        this.currentPlayer = player;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -23,6 +34,10 @@ public class View_Nhansu_1DoiTuong {
                 positionLabel.setText(player.getPosition());
                 birthDateLabel.setText(player.getBirthDate());
                 hometownLabel.setText(player.getHometown());
+                numberShirtLabel.setText(player.getNumberShirt());
+                weightLabel.setText(player.getWeight());
+                heightLabel.setText(player.getHeight());
+                bodyMassLabel.setText(player.getBodyMass());
                 ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/van_quyet.jpg");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
@@ -65,6 +80,8 @@ public class View_Nhansu_1DoiTuong {
             public void actionPerformed(ActionEvent e) {
                 // Chức năng quay lại (đóng cửa sổ hiện tại)
                 frame.dispose();
+                View_BDH_Nhansu_BDH.hien();
+                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
             }
         });
         gbc.gridx = 0;
@@ -72,6 +89,22 @@ public class View_Nhansu_1DoiTuong {
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(backButton, gbc);
+
+        // Edit button
+        JButton editButton = new JButton("Chỉnh sửa");
+        editButton.setFont(new Font("Arial", Font.BOLD, 24)); // Increase font size
+        editButton.setPreferredSize(new Dimension(150, 50)); // Increase button size
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openEditForm();
+            }
+        });
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(editButton, gbc);
 
         // Image placeholder
         JPanel imagePanel = new JPanel();
@@ -102,11 +135,19 @@ public class View_Nhansu_1DoiTuong {
         JLabel positionLabelTitle = new JLabel("Chức vụ / Số áo:");
         JLabel birthDateLabelTitle = new JLabel("Ngày sinh:");
         JLabel hometownLabelTitle = new JLabel("Quê quán:");
+        JLabel numberShirtLabelTitle = new JLabel("Số áo:");
+        JLabel weightLabelTitle = new JLabel("Cân nặng:");
+        JLabel heightLabelTitle = new JLabel("Chiều cao:");
+        JLabel bodyMassLabelTitle = new JLabel("Chỉ số cơ thể:");
 
         nameLabel = new JLabel();
         positionLabel = new JLabel();
         birthDateLabel = new JLabel();
         hometownLabel = new JLabel();
+        numberShirtLabel = new JLabel();
+        weightLabel = new JLabel();
+        heightLabel = new JLabel();
+        bodyMassLabel = new JLabel();
 
         // Increase font sizes
         Font labelFont = new Font("Arial", Font.PLAIN, 24);
@@ -114,37 +155,118 @@ public class View_Nhansu_1DoiTuong {
         positionLabelTitle.setFont(labelFont);
         birthDateLabelTitle.setFont(labelFont);
         hometownLabelTitle.setFont(labelFont);
+        numberShirtLabelTitle.setFont(labelFont);
+        weightLabelTitle.setFont(labelFont);
+        heightLabelTitle.setFont(labelFont);
+        bodyMassLabelTitle.setFont(labelFont);
 
         nameLabel.setFont(labelFont);
         positionLabel.setFont(labelFont);
         birthDateLabel.setFont(labelFont);
         hometownLabel.setFont(labelFont);
+        numberShirtLabel.setFont(labelFont);
+        weightLabel.setFont(labelFont);
+        heightLabel.setFont(labelFont);
+        bodyMassLabel.setFont(labelFont);
 
         addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 2);
         addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 3);
         addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 4);
         addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 5);
-
-        // Buttons (non-editable)
-        String[] buttonLabels = { "Chiều cao", "Cân nặng", "Chân thuận" };
-        for (int i = 0; i < buttonLabels.length; i++) {
-            JButton button = new JButton(buttonLabels[i]);
-            button.setFont(new Font("Arial", Font.BOLD, 24)); // Increase font size
-            button.setBackground(new Color(173, 216, 230));
-            button.setEnabled(false);
-            button.setPreferredSize(new Dimension(200, 60)); // Increase button size
-            gbc.gridx = i; // Cột tương ứng với chỉ số i
-            gbc.gridy = 6; // Hàng thứ 6 (hàng cố định)
-            gbc.gridwidth = 1;
-            gbc.insets = new Insets(20, 20, 20, 20); // Increase spacing
-            panel.add(button, gbc); // Thêm thành phần vào panel với các thiết lập trên
-        }
+        addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 6);
+        addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 7);
+        addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 8);
+        addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 9);
 
         return panel;
     }
 
-    private void addLabelAndTextField(JPanel panel, JLabel labelTitle, JLabel label, GridBagConstraints gbc,
-            int gridy) {
+    private void openEditForm() {
+        JDialog editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
+        editDialog.setSize(300, 200);
+        editDialog.setLayout(new BorderLayout());
+
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Combobox để chọn thuộc tính cần chỉnh sửa
+        String[] attributes = {"Họ tên", "Chức vụ / Số áo", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao", "Chỉ số cơ thể"};
+        JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
+        contentPanel.add(new JLabel("Chọn thuộc tính cần chỉnh sửa:"));
+        contentPanel.add(attributeComboBox);
+
+        // Trường nhập liệu mới
+        JTextField newValueField = new JTextField(20);
+        contentPanel.add(new JLabel("Giá trị mới:"));
+        contentPanel.add(newValueField);
+
+        // Nút lưu thay đổi
+        JButton saveButton = new JButton("Lưu");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedAttribute = (String) attributeComboBox.getSelectedItem();
+                String newValue = newValueField.getText();
+
+                if (newValue.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(editDialog, "Vui lòng nhập giá trị mới.");
+                    return;
+                }
+
+                switch (selectedAttribute) {
+                    case "Họ tên":
+                        currentPlayer.setName(newValue);
+                        nameLabel.setText(newValue);
+                        break;
+                    case "Chức vụ / Số áo":
+                        currentPlayer.setPosition(newValue);
+                        positionLabel.setText(newValue);
+                        break;
+                    case "Ngày sinh":
+                        currentPlayer.setBirthDate(newValue);
+                        birthDateLabel.setText(newValue);
+                        break;
+                    case "Quê quán":
+                        currentPlayer.setHometown(newValue);
+                        hometownLabel.setText(newValue);
+                        break;
+                    case "Số áo":
+                        currentPlayer.setNumberShirt(newValue);
+                        numberShirtLabel.setText(newValue);
+                        break;
+                    case "Cân nặng":
+                        currentPlayer.setWeight(newValue);
+                        weightLabel.setText(newValue);
+                        break;
+                    case "Chiều cao":
+                        currentPlayer.setHeight(newValue);
+                        heightLabel.setText(newValue);
+                        break;
+                    case "Chỉ số cơ thể":
+                        currentPlayer.setBodyMass(newValue);
+                        bodyMassLabel.setText(newValue);
+                        break;
+                }                          
+                editDialog.dispose();
+                View_BDH_Nhansu_BDH.setSelectedPlayer(currentPlayer);
+                
+            }
+        });
+
+        contentPanel.add(saveButton);
+        editDialog.add(contentPanel, BorderLayout.CENTER);
+
+        // Đặt form ra giữa màn hình
+        editDialog.setLocationRelativeTo(frame);
+        editDialog.setVisible(true);
+    }
+    
+    public Player getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    private void addLabelAndTextField(JPanel panel, JLabel labelTitle, JLabel label, GridBagConstraints gbc, int gridy) {
         gbc.gridx = 1;
         gbc.gridy = gridy;
         gbc.gridwidth = 1;
@@ -162,5 +284,5 @@ public class View_Nhansu_1DoiTuong {
         gbc.gridwidth = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(labelPanel, gbc);
-    }
+    }   
 }
