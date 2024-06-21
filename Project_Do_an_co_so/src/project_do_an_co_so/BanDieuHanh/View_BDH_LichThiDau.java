@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class View_BDH_LichThiDau {
+
     private static final int MAX_MATCHES = 5;
     private static Queue<Match> matchQueue = new LinkedList<>();
 
@@ -30,7 +31,7 @@ public class View_BDH_LichThiDau {
         }
 
         // Load data from CSV and populate the panels
-        loadDataFromCSV(mainPanel);
+        loadDataFromCSV(mainPanel, matchQueue);
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
@@ -46,7 +47,7 @@ public class View_BDH_LichThiDau {
                 JTextField tournamentField = new JTextField(10);
                 JTextField team1Field = new JTextField(10);
                 JTextField team2Field = new JTextField(10);
-                JComboBox<String> homeAwayComboBox = new JComboBox<>(new String[]{"Home", "Away"});
+                JComboBox<String> homeAwayComboBox = new JComboBox<>(new String[] { "Home", "Away" });
 
                 JPanel inputPanel = new JPanel();
                 inputPanel.setLayout(new GridLayout(6, 2, 10, 10));
@@ -56,14 +57,15 @@ public class View_BDH_LichThiDau {
                 inputPanel.add(dateField);
                 inputPanel.add(new JLabel("Giải đấu:"));
                 inputPanel.add(tournamentField);
-                inputPanel.add(new JLabel("Tên đội 1:"));
+                inputPanel.add(new JLabel("Đối thủ:"));
                 inputPanel.add(team1Field);
-                inputPanel.add(new JLabel("Tên đội 2:"));
+                inputPanel.add(new JLabel("Sân vận động:"));
                 inputPanel.add(team2Field);
                 inputPanel.add(new JLabel("Home hoặc Away:"));
                 inputPanel.add(homeAwayComboBox);
 
-                int result = JOptionPane.showConfirmDialog(frame, inputPanel, "Nhập thông tin trận đấu mới", JOptionPane.OK_CANCEL_OPTION);
+                int result = JOptionPane.showConfirmDialog(frame, inputPanel, "Nhập thông tin trận đấu mới",
+                        JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     Match newMatch = new Match(
                             timeField.getText(),
@@ -71,15 +73,14 @@ public class View_BDH_LichThiDau {
                             tournamentField.getText(),
                             team1Field.getText(),
                             team2Field.getText(),
-                            (String) homeAwayComboBox.getSelectedItem()
-                    );
+                            (String) homeAwayComboBox.getSelectedItem());
 
                     if (matchQueue.size() >= MAX_MATCHES) {
                         matchQueue.poll(); // Remove the oldest match
                     }
                     matchQueue.add(newMatch);
                     updateMainPanel(mainPanel);
-                    saveDataToCSV();
+                    saveDataToCSV("src/project_do_an_co_so/CSV/lich_thi_dau.csv", matchQueue);
                 }
             }
         });
@@ -92,7 +93,7 @@ public class View_BDH_LichThiDau {
                 if (!matchQueue.isEmpty()) {
                     matchQueue.poll();
                     updateMainPanel(mainPanel);
-                    saveDataToCSV();
+                    saveDataToCSV("src/project_do_an_co_so/CSV/lich_thi_dau.csv", matchQueue);
                 }
             }
         });
@@ -140,32 +141,45 @@ public class View_BDH_LichThiDau {
         return label;
     }
 
-    // Method to load data from CSV and populate the panels
-    private static void loadDataFromCSV(JPanel mainPanel) {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/project_do_an_co_so/CSV/lich_thi_dau.csv"))) {
-            String line;
-            br.readLine(); // Skip header
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length == 6) { // Ensure the line has 6 elements
-                    Match match = new Match(data[0], data[1], data[2], data[3], data[4], data[5]);
-                    matchQueue.add(match);
-                }
-            }
-            updateMainPanel(mainPanel);
+    public static void clearCSVFile(String filePath) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
+            pw.print(""); // Overwrite the file with an empty string
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Method to save data to CSV
-    private static void saveDataToCSV() {
-        try (PrintWriter pw = new PrintWriter(new FileWriter("src/project_do_an_co_so/CSV/lich_thi_dau.csv"))) {
-            // Add header line for CSV
-            
+    public static void saveDataToCSV(String filePath, Queue<Match> matchQueue) {
+        clearCSVFile(filePath);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+
             for (Match match : matchQueue) {
-                pw.println(match.toCSV());
+                String csvLine = String.join(",",
+                        match.getTime(),
+                        match.getDate(),
+                        match.getTournament(),
+                        match.getTeam(),
+                        match.getStadium(),
+                        match.getHomeAway());
+                bw.write(csvLine);
+                bw.newLine();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to load data from CSV and populate the panels
+    private static void loadDataFromCSV(JPanel mainPanel, Queue<Match> matchQueue) {
+        matchQueue.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader("src/project_do_an_co_so/CSV/lich_thi_dau.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                Match match = new Match(data[0], data[1], data[2], data[3], data[4], data[5]);
+                matchQueue.add(match);
+            }
+            updateMainPanel(mainPanel);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,8 +197,8 @@ public class View_BDH_LichThiDau {
             ((JLabel) rowPanel.getComponent(0)).setText(match.getTime());
             ((JLabel) rowPanel.getComponent(1)).setText(match.getDate());
             ((JLabel) rowPanel.getComponent(2)).setText(match.getTournament());
-            ((JLabel) rowPanel.getComponent(3)).setText(match.getTeam1());
-            ((JLabel) rowPanel.getComponent(4)).setText(match.getTeam2());
+            ((JLabel) rowPanel.getComponent(3)).setText(match.getTeam());
+            ((JLabel) rowPanel.getComponent(4)).setText(match.getStadium());
             ((JLabel) rowPanel.getComponent(5)).setText(match.getHomeAway());
             rowIndex++;
         }
@@ -201,49 +215,4 @@ public class View_BDH_LichThiDau {
     }
 
     // Match class to hold match details
-    static class Match {
-        private String time;
-        private String date;
-        private String tournament;
-        private String team1;
-        private String team2;
-        private String homeAway;
-
-        public Match(String time, String date, String tournament, String team1, String team2, String homeAway) {
-            this.time = time;
-            this.date = date;
-            this.tournament = tournament;
-            this.team1 = team1;
-            this.team2 = team2;
-            this.homeAway = homeAway;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getTournament() {
-            return tournament;
-        }
-
-        public String getTeam1() {
-            return team1;
-        }
-
-        public String getTeam2() {
-            return team2;
-        }
-
-        public String getHomeAway() {
-            return homeAway;
-        }
-
-        public String toCSV() {
-            return time + "," + date + "," + tournament + "," + team1 + "," + team2 + "," + homeAway;
-        }
-    }
 }
