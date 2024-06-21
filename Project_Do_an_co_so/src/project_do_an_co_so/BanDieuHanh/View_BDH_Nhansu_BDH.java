@@ -177,7 +177,7 @@ public class View_BDH_Nhansu_BDH {
 
     public static void hien() {
         frame = new JFrame("Nhân sự - 1 nhóm đối tượng");
-        frame.setSize(800, 600);
+        frame.setSize(900, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 

@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import project_do_an_co_so.Login;
-import project_do_an_co_so.View_BDH_Nhan_su;
 
 class FlatArrowButton extends JButton {
     private Image arrowImage;
@@ -97,8 +95,11 @@ public class View_BanDieuHanh {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Login.Hien();
-                frame.dispose(); // Đóng cửa sổ hiện tại
+                int response = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    Login.Hien();
+                    frame.dispose(); // Đóng cửa sổ hiện tại
+                }
             }
         });
 

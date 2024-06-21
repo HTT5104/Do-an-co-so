@@ -97,8 +97,11 @@ public class View_BanHuanLuyen {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Login.Hien();
-                frame.dispose(); // Đóng cửa sổ hiện tại
+                int response = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    Login.Hien();
+                    frame.dispose(); // Đóng cửa sổ hiện tại
+                }
             }
         });
 
