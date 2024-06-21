@@ -56,9 +56,9 @@ public class View_BDH_LichThiDau {
                 inputPanel.add(dateField);
                 inputPanel.add(new JLabel("Giải đấu:"));
                 inputPanel.add(tournamentField);
-                inputPanel.add(new JLabel("Tên đội 1:"));
+                inputPanel.add(new JLabel("Đối thủ:"));
                 inputPanel.add(team1Field);
-                inputPanel.add(new JLabel("Tên đội 2:"));
+                inputPanel.add(new JLabel("Sân vận động:"));
                 inputPanel.add(team2Field);
                 inputPanel.add(new JLabel("Home hoặc Away:"));
                 inputPanel.add(homeAwayComboBox);
@@ -183,8 +183,8 @@ public class View_BDH_LichThiDau {
             ((JLabel) rowPanel.getComponent(0)).setText(match.getTime());
             ((JLabel) rowPanel.getComponent(1)).setText(match.getDate());
             ((JLabel) rowPanel.getComponent(2)).setText(match.getTournament());
-            ((JLabel) rowPanel.getComponent(3)).setText(match.getTeam1());
-            ((JLabel) rowPanel.getComponent(4)).setText(match.getTeam2());
+            ((JLabel) rowPanel.getComponent(3)).setText(match.getTeam());
+            ((JLabel) rowPanel.getComponent(4)).setText(match.getStadium());
             ((JLabel) rowPanel.getComponent(5)).setText(match.getHomeAway());
             rowIndex++;
         }
@@ -201,49 +201,4 @@ public class View_BDH_LichThiDau {
     }
 
     // Match class to hold match details
-    static class Match {
-        private String time;
-        private String date;
-        private String tournament;
-        private String team1;
-        private String team2;
-        private String homeAway;
-
-        public Match(String time, String date, String tournament, String team1, String team2, String homeAway) {
-            this.time = time;
-            this.date = date;
-            this.tournament = tournament;
-            this.team1 = team1;
-            this.team2 = team2;
-            this.homeAway = homeAway;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getTournament() {
-            return tournament;
-        }
-
-        public String getTeam1() {
-            return team1;
-        }
-
-        public String getTeam2() {
-            return team2;
-        }
-
-        public String getHomeAway() {
-            return homeAway;
-        }
-
-        public String toCSV() {
-            return time + "," + date + "," + tournament + "," + team1 + "," + team2 + "," + homeAway;
-        }
-    }
 }
