@@ -132,7 +132,7 @@ public class View_Toi_Uu extends JFrame {
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(","); // Assuming comma-separated values
-                if (values.length < 31) { // Ensure there are enough columns
+                if (values.length < 33) { // Ensure there are enough columns
                     continue;
                 }
 
@@ -159,11 +159,11 @@ public class View_Toi_Uu extends JFrame {
                 }
 
                 // Calculate the quality score using the provided formula
-                double qi = 0.05 * metrics[0] + 10 * metrics[1] + 4 * metrics[2] + 2 * metrics[3] + 2 * metrics[4]
+                double qi = (0.05 * metrics[0] + 10 * metrics[1] + 4 * metrics[2] + 2 * metrics[3] + 2 * metrics[4]
                         - 5 * metrics[5] + 6 * metrics[6] + 0.2 * metrics[7] + 0.2 * metrics[8] + 2 * metrics[9]
                         + 2 * metrics[10] + metrics[11] - metrics[12] - metrics[13] - 2 * metrics[14]
                         - 5 * metrics[15] - metrics[16] + 4 * metrics[17] + 5 * metrics[18] + 5 * metrics[19]
-                        + 1.5 * metrics[20];
+                        + 2.5 * metrics[20]) * metrics[21] * metrics[22];
 
                 Player player = new Player(playerName, qi);
 
@@ -185,6 +185,16 @@ public class View_Toi_Uu extends JFrame {
         }
     }
 
+    
+    private static int indexOfPosition(String pos, String[] positions) {
+        for (int i = 0; i < positions.length; i++) {
+            if (positions[i].equals(pos)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
     private void printTopPlayers() {
         HashSet<String> selectedPlayers = new HashSet<>();
         StringBuilder result = new StringBuilder("Selected top players:\n");
@@ -196,6 +206,7 @@ public class View_Toi_Uu extends JFrame {
                 "CAM", "CF", "LW", "RW", "ST"
         };
 
+        selectedPositions.sort(Comparator.comparingInt(pos -> indexOfPosition(pos, positions)));
         // Get top player for each selected position
         for (String pos : selectedPositions) {
             int index = -1;
@@ -236,7 +247,7 @@ public class View_Toi_Uu extends JFrame {
                 { 700, 330 }, { 700, 480 }, { 700, 180 },
                 { 600, 330 }, { 600, 480 }, { 600, 180 },
                 { 450, 600 }, { 450, 330 }, { 450, 480 }, { 450, 180 }, { 450, 50 },
-                { 200, 600 }, { 120, 600 }, { 150, 330 }, { 150, 480 }, { 150, 180 }, { 120, 50 }, { 200, 50 },
+                { 250, 600 }, { 150, 600 }, { 150, 330 }, { 150, 480 }, { 150, 180 }, { 150, 50 }, { 250, 50 },
                 { 300, 330 }, { 300, 480 }, { 300, 180 }
         };
 
@@ -264,6 +275,7 @@ public class View_Toi_Uu extends JFrame {
             });
             panel.add(button);
         }
+        selectedPositions.add("GK");
     }
 
     private class BackgroundPanel extends JPanel {
@@ -302,6 +314,11 @@ public class View_Toi_Uu extends JFrame {
 
         public double getQuality() {
             return quality;
+        }
+    }
+    public static class Main{
+        public static void main(String[] args) {
+            hien();
         }
     }
 }
