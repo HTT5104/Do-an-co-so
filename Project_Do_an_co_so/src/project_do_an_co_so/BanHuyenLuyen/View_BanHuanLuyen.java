@@ -107,7 +107,7 @@ public class View_BanHuanLuyen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code xử lý sự kiện cho nút Nhân sự
-                View_BDH_Nhan_su.hien();
+                View_BHL_Nhan_su.hien();
                 frame.dispose();
             }
         });
@@ -149,7 +149,7 @@ public class View_BanHuanLuyen {
         return button;
     }
 
-    public static void main(String[] args) {
+    public static void run() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
