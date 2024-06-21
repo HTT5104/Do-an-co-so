@@ -271,14 +271,14 @@ public class View_BDH_Nhansu_BDH {
         panel.add(backButton);
 
         // Nút up csv
-        JButton loadCsvButton = new JButton("Up file CSV");
+        JButton loadCsvButton = new JButton("Cập nhật");
         loadCsvButton.setFont(new Font("Arial", Font.BOLD, 18));
         loadCsvButton.setBackground(new Color(255, 182, 193));
         loadCsvButton.setBounds(650, 350, 150, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                load("src/project_do_an_co_so/CSV");
+                load2("src/project_do_an_co_so/CSV");
             }
         });
         panel.add(loadCsvButton);
