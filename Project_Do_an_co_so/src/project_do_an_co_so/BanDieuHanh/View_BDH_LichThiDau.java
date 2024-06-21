@@ -37,7 +37,7 @@ public class View_BDH_LichThiDau {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        JButton addButton = new JButton("Thêm");
+        JButton addButton = new JButton("ADD");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
