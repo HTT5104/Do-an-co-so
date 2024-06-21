@@ -5,8 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import project_do_an_co_so.Player;
 import project_do_an_co_so.View_BDH_Nhansu_BDH;
 
@@ -24,12 +27,21 @@ public class View_Nhansu_1DoiTuong {
     private JLabel photoLabel;
     private Player currentPlayer;
 
-    public void set(Player player) {
+    public void set(int selectedRow, Player player, JTable table, DefaultTableModel tableModel,
+            ArrayList<Player> playerList) {
         this.currentPlayer = player;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                hien();
+                frame = new JFrame("Nhân sự");
+                frame.setSize(1000, 700); // Thay đổi kích thước của JFrame
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
+
+                JPanel panel = createPanel(selectedRow, table, tableModel, playerList);
+                frame.add(panel);
+                frame.setVisible(true);
+
                 nameLabel.setText(player.getName());
                 positionLabel.setText(player.getPosition());
                 birthDateLabel.setText(player.getBirthDate());
@@ -45,18 +57,8 @@ public class View_Nhansu_1DoiTuong {
         });
     }
 
-    public void hien() {
-        frame = new JFrame("Nhân sự - 1 đối tượng (có thể sửa vàng)");
-        frame.setSize(1000, 700); // Thay đổi kích thước của JFrame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-
-        JPanel panel = createPanel();
-        frame.add(panel);
-        frame.setVisible(true);
-    }
-
-    public JPanel createPanel() {
+    public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
+            ArrayList<Player> playerList) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.WHITE);
@@ -97,7 +99,7 @@ public class View_Nhansu_1DoiTuong {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openEditForm();
+                openEditForm(selectedRow, table, tableModel, playerList);
             }
         });
         gbc.gridx = 1;
@@ -181,7 +183,8 @@ public class View_Nhansu_1DoiTuong {
         return panel;
     }
 
-    private void openEditForm() {
+    private void openEditForm(int selectedRow, JTable table, DefaultTableModel tableModel,
+            ArrayList<Player> playerList) {
         JDialog editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
         editDialog.setSize(300, 200);
         editDialog.setLayout(new BorderLayout());
@@ -191,7 +194,8 @@ public class View_Nhansu_1DoiTuong {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Combobox để chọn thuộc tính cần chỉnh sửa
-        String[] attributes = {"Họ tên", "Chức vụ / Số áo", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao", "Chỉ số cơ thể"};
+        String[] attributes = { "Họ tên", "Chức vụ / Số áo", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao",
+                "Chỉ số cơ thể" };
         JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
         contentPanel.add(new JLabel("Chọn thuộc tính cần chỉnh sửa:"));
         contentPanel.add(attributeComboBox);
@@ -203,6 +207,7 @@ public class View_Nhansu_1DoiTuong {
 
         // Nút lưu thay đổi
         JButton saveButton = new JButton("Lưu");
+        // Nút lưu thay đổi
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -214,6 +219,7 @@ public class View_Nhansu_1DoiTuong {
                     return;
                 }
 
+                // Cập nhật thông tin của cầu thủ đã chọn
                 switch (selectedAttribute) {
                     case "Họ tên":
                         currentPlayer.setName(newValue);
@@ -247,10 +253,27 @@ public class View_Nhansu_1DoiTuong {
                         currentPlayer.setBodyMass(newValue);
                         bodyMassLabel.setText(newValue);
                         break;
-                }                          
-                editDialog.dispose();
-                View_BDH_Nhansu_BDH.setSelectedPlayer(currentPlayer);
-                
+                }
+                if (selectedRow >= 0 && selectedRow < playerList.size()) {
+                    // Cập nhật lại bảng với thông tin mới
+                    tableModel.setValueAt(currentPlayer.getName(), selectedRow, 0);
+
+                    // Cập nhật lại danh sách cầu thủ trong playerList
+
+                    playerList.set(selectedRow, currentPlayer);                   
+                    // Save updated player information to CSV
+                    frame.dispose();
+                    View_Nhansu_1DoiTuong view = new View_Nhansu_1DoiTuong();
+                    view.set(selectedRow, currentPlayer, table, tableModel, playerList);
+                    clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
+                    View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
+                    for(Player x : playerList){
+                        System.out.println(x.toString());
+                    }
+                    editDialog.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Chọn một đối tượng hợp lệ để cập nhật.");
+                }
             }
         });
 
@@ -261,12 +284,30 @@ public class View_Nhansu_1DoiTuong {
         editDialog.setLocationRelativeTo(frame);
         editDialog.setVisible(true);
     }
-    
-    public Player getCurrentPlayer(){
-        return currentPlayer;
+
+    private void clearCSVFile(String filePath) {
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(new File(filePath));
+            // Ghi đè lên file CSV với chuỗi rỗng để xóa sạch nội dung
+            fileWriter.write("");
+            
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
-    private void addLabelAndTextField(JPanel panel, JLabel labelTitle, JLabel label, GridBagConstraints gbc, int gridy) {
+    private void addLabelAndTextField(JPanel panel, JLabel labelTitle, JLabel label, GridBagConstraints gbc,
+            int gridy) {
         gbc.gridx = 1;
         gbc.gridy = gridy;
         gbc.gridwidth = 1;
@@ -284,5 +325,20 @@ public class View_Nhansu_1DoiTuong {
         gbc.gridwidth = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(labelPanel, gbc);
-    }   
+    }
+
+    private void savePlayerToCSV(Player player, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(player.getName() + ","
+                    + player.getPosition() + ","
+                    + player.getBirthDate() + ","
+                    + player.getHometown() + ","
+                    + player.getNumberShirt() + ","
+                    + player.getWeight() + ","
+                    + player.getHeight() + ","
+                    + player.getBodyMass() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

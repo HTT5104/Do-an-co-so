@@ -21,10 +21,25 @@ public class View_BDH_Nhansu_BDH {
     private static final ArrayList<Player> playerList = new ArrayList<>();
     private static String url;
 
-    public static void save2(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+    public static void save2(String filePath, ArrayList<Player> playerList1) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             // Ghi dữ liệu của từng cầu thủ vào file CSV
-            for (Player player : playerList) {
+            for (Player player : playerList1) {
+                writer.newLine();
+                writer.write(player.getName() + "," + player.getHometown() + "," + player.getBirthDate() + "," + player.getNumberShirt() + ","
+                        + player.getPosition() + "," + player.getWeight() + "," + player.getHeight() + "," + player.getBodyMass());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    } 
+    public static void save3(String filePath, ArrayList<Player> playerList1) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            // Ghi dữ liệu của từng cầu thủ vào file CSV
+            for (Player player : playerList1) {
+                System.out.println(player.toString());
+                writer.newLine();
                 writer.write(player.getName() + "," + player.getHometown() + "," + player.getBirthDate() + "," + player.getNumberShirt() + ","
                         + player.getPosition() + "," + player.getWeight() + "," + player.getHeight() + "," + player.getBodyMass());
                 writer.newLine();
@@ -34,22 +49,12 @@ public class View_BDH_Nhansu_BDH {
         }
     }
 
-    private static Player selectedPlayer;
-
-    public static Player getSelectedPlayer() {
-        return selectedPlayer;
-    }
-
-    public static void setSelectedPlayer(Player selectedPlayer) {
-        View_BDH_Nhansu_BDH.selectedPlayer = selectedPlayer;
-    }
-
-    public static void chon(JTable table) {
+    public static void chon(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
-            selectedPlayer = playerList.get(selectedRow);
+            Player selectedPlayer = playerList.get(selectedRow);
             View_Nhansu_1DoiTuong view = new View_Nhansu_1DoiTuong();
-            view.set(selectedPlayer);
+            view.set(selectedRow, selectedPlayer, table, tableModel, playerList);
             frame.dispose();
         } else {
             JOptionPane.showMessageDialog(frame, "Chọn một đối tượng.");
@@ -148,7 +153,7 @@ public class View_BDH_Nhansu_BDH {
 
         // Hiển thị dialog
         addPlayerDialog.setVisible(true);
-    }
+        }
 
     // Hàm lưu dữ liệu vào file CSV, được khai báo bên ngoài phương thức createPanel
     private static void savePlayerToCSV(String name, String hometown, String birthDate, String numberShirt,
@@ -228,7 +233,7 @@ public class View_BDH_Nhansu_BDH {
                         tableModel.removeRow(selectedRow);
 
                         // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
-                        save2("src/project_do_an_co_so/CSV/Data.csv");
+                        save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame, "Chọn một đối tượng để xóa.");
@@ -246,7 +251,7 @@ public class View_BDH_Nhansu_BDH {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                chon(table);
+                chon(table, playerList );
             }
         });
         panel.add(selectButton);
