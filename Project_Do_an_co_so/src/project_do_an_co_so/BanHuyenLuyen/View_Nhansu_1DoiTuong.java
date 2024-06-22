@@ -34,7 +34,7 @@ public class View_Nhansu_1DoiTuong {
             @Override
             public void run() {
                 frame = new JFrame("Nhân sự");
-                frame.setSize(1000, 700); // Thay đổi kích thước của JFrame
+                frame.setSize(1000, 1000); // Thay đổi kích thước của JFrame
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
 

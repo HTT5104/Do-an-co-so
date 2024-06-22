@@ -85,7 +85,7 @@ public class View_BDH_Nhansu_BDH {
     private static void openAddPlayerForm() {
         // Tạo một form mới để nhập thuộc tính cầu thủ
         JDialog addPlayerDialog = new JDialog(frame, "Thêm cầu thủ mới", true);
-        addPlayerDialog.setSize(300, 400);
+        addPlayerDialog.setSize(300, 500);
         addPlayerDialog.setLayout(new BoxLayout(addPlayerDialog.getContentPane(), BoxLayout.Y_AXIS));
 
         // Tạo các trường nhập liệu cho thuộc tính cầu thủ
