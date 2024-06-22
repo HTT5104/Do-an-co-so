@@ -159,12 +159,13 @@ public class View_BDH_Nhansu_BDH {
     private static void savePlayerToCSV(String name, String hometown, String birthDate, String numberShirt,
             String position, String weight, String height, String bodyMass) {
         // Mở hộp thoại cho người dùng chọn nơi lưu file CSV
-        JFileChooser fileChooser = new JFileChooser("src/project_do_an_co_so/CSV");
-        fileChooser.setDialogTitle("Lưu file CSV");
-        int userSelection = fileChooser.showSaveDialog(frame);
+        //JFileChooser fileChooser = new JFileChooser("src/project_do_an_co_so/CSV/Data.csv");
+        //fileChooser.setDialogTitle("Lưu file CSV");
+        //int userSelection = fileChooser.showSaveDialog(frame);
 
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
+        //if (userSelection == JFileChooser.APPROVE_OPTION) {
+            //File fileToSave = fileChooser.getSelectedFile();
+            File fileToSave = new File("src/project_do_an_co_so/CSV/Data.csv");
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave, true))) {
                 writer.write(name + "," + hometown + "," + birthDate + "," + numberShirt + "," + position + "," + weight
                         + "," + height + "," + bodyMass);
@@ -172,7 +173,7 @@ public class View_BDH_Nhansu_BDH {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        //}
     }
 
     public static void hien() {

@@ -134,13 +134,13 @@ public class View_Nhansu_1DoiTuong {
 
         // Adding JLabels
         JLabel nameLabelTitle = new JLabel("Họ tên:");
-        JLabel positionLabelTitle = new JLabel("Chức vụ / Số áo:");
+        JLabel positionLabelTitle = new JLabel("Vị trí:");
         JLabel birthDateLabelTitle = new JLabel("Ngày sinh:");
         JLabel hometownLabelTitle = new JLabel("Quê quán:");
         JLabel numberShirtLabelTitle = new JLabel("Số áo:");
         JLabel weightLabelTitle = new JLabel("Cân nặng:");
         JLabel heightLabelTitle = new JLabel("Chiều cao:");
-        JLabel bodyMassLabelTitle = new JLabel("Chỉ số cơ thể:");
+        JLabel bodyMassLabelTitle = new JLabel("Chân thuận:");
 
         nameLabel = new JLabel();
         positionLabel = new JLabel();
@@ -194,8 +194,8 @@ public class View_Nhansu_1DoiTuong {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Combobox để chọn thuộc tính cần chỉnh sửa
-        String[] attributes = { "Họ tên", "Chức vụ / Số áo", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao",
-                "Chỉ số cơ thể" };
+        String[] attributes = { "Họ tên", "Vị trí", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao",
+                "Chân thuận" };
         JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
         contentPanel.add(new JLabel("Chọn thuộc tính cần chỉnh sửa:"));
         contentPanel.add(attributeComboBox);
@@ -225,7 +225,7 @@ public class View_Nhansu_1DoiTuong {
                         currentPlayer.setName(newValue);
                         nameLabel.setText(newValue);
                         break;
-                    case "Chức vụ / Số áo":
+                    case "Vị trí":
                         currentPlayer.setPosition(newValue);
                         positionLabel.setText(newValue);
                         break;
@@ -249,7 +249,7 @@ public class View_Nhansu_1DoiTuong {
                         currentPlayer.setHeight(newValue);
                         heightLabel.setText(newValue);
                         break;
-                    case "Chỉ số cơ thể":
+                    case "Chân thuận":
                         currentPlayer.setBodyMass(newValue);
                         bodyMassLabel.setText(newValue);
                         break;
