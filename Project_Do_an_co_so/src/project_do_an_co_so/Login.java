@@ -21,7 +21,7 @@ public class Login extends JFrame {
 
         JLabel roleLabel = new JLabel("Chọn vai trò");
         roleLabel.setFont(font);
-        roleLabel.setForeground(Color.WHITE);
+        roleLabel.setForeground(Color.BLACK);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -36,7 +36,7 @@ public class Login extends JFrame {
 
         JLabel userLabel = new JLabel("Nhập tài khoản");
         userLabel.setFont(font);
-        userLabel.setForeground(Color.WHITE);
+        userLabel.setForeground(Color.BLACK);
         gbc.gridy++;
         gbc.gridwidth = 1;
         loginPanel.add(userLabel, gbc);
@@ -48,7 +48,7 @@ public class Login extends JFrame {
 
         JLabel passLabel = new JLabel("Nhập mật khẩu");
         passLabel.setFont(font);
-        passLabel.setForeground(Color.WHITE);
+        passLabel.setForeground(Color.BLACK);
         gbc.gridx = 0;
         gbc.gridy++;
         loginPanel.add(passLabel, gbc);
