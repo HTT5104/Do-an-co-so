@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 import project_do_an_co_so.Player;
 import project_do_an_co_so.View_BDH_Nhansu_BDH;
@@ -26,7 +28,13 @@ public class View_Nhansu_1DoiTuong {
     private JLabel bodyMassLabel;
     private JLabel photoLabel;
     private Player currentPlayer;
-
+    
+    public static String formatNames(String names) {
+        return Arrays.stream(names.split(" "))
+                .map(String::toLowerCase)
+                .collect(Collectors.joining("-"));
+    }
+    
     public void set(int selectedRow, Player player, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
         this.currentPlayer = player;
@@ -50,7 +58,7 @@ public class View_Nhansu_1DoiTuong {
                 weightLabel.setText(player.getWeight());
                 heightLabel.setText(player.getHeight());
                 bodyMassLabel.setText(player.getBodyMass());
-                ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/van_quyet.jpg");
+                ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/Player_avatar/" + formatNames(player.getName()) + ".png");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
             }
