@@ -23,7 +23,7 @@ public class View_Toi_Uu extends JFrame {
     private ArrayList<String> selectedPositions = new ArrayList<>(); // List to keep track of selected positions
     public File selectedFile;
     private ArrayList<Player>[] positionArrays = new ArrayList[15];
-
+    
     public View_Toi_Uu() {
         try {
             backgroundImage = ImageIO.read(new File("src/project_do_an_co_so/Image/football_filed.png"));
@@ -132,7 +132,7 @@ public class View_Toi_Uu extends JFrame {
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(","); // Assuming comma-separated values
-                if (values.length < 33) { // Ensure there are enough columns
+                if (values.length < 39) { // Ensure there are enough columns
                     continue;
                 }
 
@@ -142,7 +142,7 @@ public class View_Toi_Uu extends JFrame {
                 boolean[] positions = new boolean[15];
                 for (int i = 0; i < 15; i++) {
                     try {
-                        positions[i] = Integer.parseInt(values[i + 1].trim()) == 1;
+                        positions[i] = Double.parseDouble(values[i + 1].trim()) > 0;
                     } catch (NumberFormatException e) {
                         positions[i] = false; // Treat invalid data as false
                     }
@@ -165,11 +165,12 @@ public class View_Toi_Uu extends JFrame {
                         - 5 * metrics[15] - metrics[16] + 4 * metrics[17] + 5 * metrics[18] + 5 * metrics[19]
                         + 1.5 * metrics[20]) * metrics[21] * metrics[22];
 
-                Player player = new Player(playerName, qi);
+                //Player player = new Player(playerName, qi);
 
                 // Add player to the position arrays
                 for (int i = 0; i < 15; i++) {
                     if (positions[i]) {
+                        Player player = new Player(playerName, qi*Double.parseDouble(values[i + 1].trim()));
                         positionArrays[i].add(player);
                     }
                 }
