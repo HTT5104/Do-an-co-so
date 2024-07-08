@@ -208,41 +208,48 @@ public class View_Toi_Uu extends JFrame {
     }
 
     private void printTopPlayers() {
-        HashSet<String> selectedPlayers = new HashSet<>();
-        StringBuilder result = new StringBuilder("Selected top players:\n");
+    HashSet<String> selectedPlayers = new HashSet<>();
+    StringBuilder result = new StringBuilder("Selected top players:\n");
 
-        // Map each button text to a position array index
-        String[] positions = {
-                "GK", "CB", "LB", "RB", "LWB",
-                "RWB", "CDM", "CM", "LM", "RM",
-                "CAM", "CF", "LW", "RW", "ST"
-        };
+    // Map each button text to a position array index
+    String[] positions = {
+            "GK", "CB", "LB", "RB", "LWB",
+            "RWB", "CDM", "CM", "LM", "RM",
+            "CAM", "CF", "LW", "RW", "ST"
+    };
 
-        selectedPositions.sort(Comparator.comparingInt(pos -> indexOfPosition(pos, positions)));
-        // Get top player for each selected position
-        for (String pos : selectedPositions) {
-            int index = -1;
-            for (int i = 0; i < positions.length; i++) {
-                if (positions[i].equals(pos)) {
-                    index = i;
-                    break;
-                }
-            }
+    selectedPositions.sort(Comparator.comparingInt(pos -> indexOfPosition(pos, positions)));
 
-            if (index != -1) {
-                for (Player player : positionArrays[index]) {
-                    if (!selectedPlayers.contains(player.getName())) {
+    // Get top player for each selected position
+    for (String pos : selectedPositions) {
+        int index = indexOfPosition(pos, positions);
+
+        if (index != -1) {
+            boolean playerFound = false;
+            for (Player player : positionArrays[index]) {
+                if (!selectedPlayers.contains(player.getName())) {
+                    if (player.getQuality() > 0) {
                         selectedPlayers.add(player.getName());
                         result.append(pos).append(": ").append(player.getName()).append(" (QI: ")
                                 .append(player.getQuality()).append(")\n");
-                        break;
+                    } else {
+                        result.append(pos).append(": None\n");
                     }
+                    playerFound = true;
+                    break;
                 }
             }
+            if (!playerFound) {
+                result.append(pos).append(": None\n");
+            }
+        } else {
+            result.append(pos).append(": None\n");
         }
-
-        JOptionPane.showMessageDialog(null, result.toString());
     }
+
+    JOptionPane.showMessageDialog(null, result.toString());
+}
+
 
     public void addButtons(JPanel panel) {
         String[] positions = {
