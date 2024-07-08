@@ -42,7 +42,7 @@ public class View_Nhansu_1DoiTuong {
             @Override
             public void run() {
                 frame = new JFrame("Nhân sự");
-                frame.setSize(1000, 1000); // Thay đổi kích thước của JFrame
+                frame.setSize(1200, 800); // Updated frame size
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
 
@@ -69,12 +69,12 @@ public class View_Nhansu_1DoiTuong {
             ArrayList<Player> playerList) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(new Color(240, 240, 240)); // Light gray background
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Title label
-        JLabel titleLabel = new JLabel("Thông tin");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30)); // Increase font size
+        JLabel titleLabel = new JLabel("Thông tin cầu thủ");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Increase font size
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3;
@@ -82,13 +82,11 @@ public class View_Nhansu_1DoiTuong {
         panel.add(titleLabel, gbc);
 
         // Back button
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Arial", Font.BOLD, 24)); // Increase font size
-        backButton.setPreferredSize(new Dimension(150, 50)); // Increase button size
+        JButton backButton = new JButton("Quay lại");
+        styleButton(backButton);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Chức năng quay lại (đóng cửa sổ hiện tại)
                 frame.dispose();
                 View_BDH_Nhansu_BDH.hien();
                 View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
@@ -102,8 +100,7 @@ public class View_Nhansu_1DoiTuong {
 
         // Edit button
         JButton editButton = new JButton("Chỉnh sửa");
-        editButton.setFont(new Font("Arial", Font.BOLD, 24)); // Increase font size
-        editButton.setPreferredSize(new Dimension(150, 50)); // Increase button size
+        styleButton(editButton);
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,13 +115,14 @@ public class View_Nhansu_1DoiTuong {
 
         // Image placeholder
         JPanel imagePanel = new JPanel();
-        imagePanel.setBackground(new Color(255, 182, 193));
+        imagePanel.setBackground(new Color(220, 220, 220)); // Light gray background
         imagePanel.setPreferredSize(new Dimension(350, 350)); // Increase image size
+        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add a black border to the image
 
         // Load image from file
         photoLabel = new JLabel();
         photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/van_quyet.jpg"); // Đường dẫn đến ảnh đã tải
+        ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/van_quyet.jpg"); // Default image path
         Image image = imageIcon.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
         photoLabel.setIcon(new ImageIcon(image));
 
@@ -194,28 +192,31 @@ public class View_Nhansu_1DoiTuong {
     private void openEditForm(int selectedRow, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
         JDialog editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
-        editDialog.setSize(300, 200);
+        editDialog.setSize(400, 300);
         editDialog.setLayout(new BorderLayout());
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Increase padding
 
         // Combobox để chọn thuộc tính cần chỉnh sửa
-        String[] attributes = { "Họ tên", "Vị trí", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao",
-                "Chân thuận" };
+        String[] attributes = { "Họ tên", "Vị trí", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao", "Chân thuận" };
         JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
-        contentPanel.add(new JLabel("Chọn thuộc tính cần chỉnh sửa:"));
+        JLabel attributeLabel = new JLabel("Chọn thuộc tính cần chỉnh sửa:");
+        attributeLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
+        contentPanel.add(attributeLabel);
         contentPanel.add(attributeComboBox);
 
         // Trường nhập liệu mới
         JTextField newValueField = new JTextField(20);
-        contentPanel.add(new JLabel("Giá trị mới:"));
+        JLabel newValueLabel = new JLabel("Giá trị mới:");
+        newValueLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
+        contentPanel.add(newValueLabel);
         contentPanel.add(newValueField);
 
-        // Nút lưu thay đổi
+                // Nút lưu thay đổi
         JButton saveButton = new JButton("Lưu");
-        // Nút lưu thay đổi
+        saveButton.setFont(new Font("Arial", Font.BOLD, 18)); // Increase font size
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -262,22 +263,18 @@ public class View_Nhansu_1DoiTuong {
                         bodyMassLabel.setText(newValue);
                         break;
                 }
+
                 if (selectedRow >= 0 && selectedRow < playerList.size()) {
                     // Cập nhật lại bảng với thông tin mới
                     tableModel.setValueAt(currentPlayer.getName(), selectedRow, 0);
 
                     // Cập nhật lại danh sách cầu thủ trong playerList
+                    playerList.set(selectedRow, currentPlayer);
 
-                    playerList.set(selectedRow, currentPlayer);                   
                     // Save updated player information to CSV
-                    frame.dispose();
-                    View_Nhansu_1DoiTuong view = new View_Nhansu_1DoiTuong();
-                    view.set(selectedRow, currentPlayer, table, tableModel, playerList);
                     clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
                     View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
-                    for(Player x : playerList){
-                        System.out.println(x.toString());
-                    }
+
                     editDialog.dispose();
                 } else {
                     JOptionPane.showMessageDialog(frame, "Chọn một đối tượng hợp lệ để cập nhật.");
@@ -294,23 +291,10 @@ public class View_Nhansu_1DoiTuong {
     }
 
     private void clearCSVFile(String filePath) {
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(new File(filePath));
-            // Ghi đè lên file CSV với chuỗi rỗng để xóa sạch nội dung
-            fileWriter.write("");
-            
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(""); // Ghi đè lên file CSV với chuỗi rỗng để xóa sạch nội dung
         } catch (IOException e) {
-            
             e.printStackTrace();
-        } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -349,4 +333,14 @@ public class View_Nhansu_1DoiTuong {
             e.printStackTrace();
         }
     }
+
+    private void styleButton(JButton button) {
+        button.setFont(new Font("Arial", Font.BOLD, 24)); // Set font size to 24
+        button.setPreferredSize(new Dimension(150, 50)); // Increase button size
+        button.setBackground(new Color(70, 130, 180)); // Steel blue background color
+        button.setForeground(Color.WHITE); // White text color
+        button.setFocusPainted(false); // Remove focus paint
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Add padding
+    }
 }
+
