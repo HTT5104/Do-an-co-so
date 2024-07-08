@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 public class View_Toi_Uu extends JFrame {
@@ -23,7 +22,7 @@ public class View_Toi_Uu extends JFrame {
     private ArrayList<String> selectedPositions = new ArrayList<>(); // List to keep track of selected positions
     public File selectedFile;
     private ArrayList<Player>[] positionArrays = new ArrayList[15];
-    
+
     public View_Toi_Uu() {
         try {
             backgroundImage = ImageIO.read(new File("src/project_do_an_co_so/Image/football_filed.png"));
@@ -48,8 +47,11 @@ public class View_Toi_Uu extends JFrame {
         // Create a JPanel to contain the bottom bar, OK button, and Back button
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(new Color(70, 130, 180)); // Set background color
 
         JButton okButton = new JButton("OK");
+        customizeButton(okButton);
+
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,6 +66,7 @@ public class View_Toi_Uu extends JFrame {
         });
 
         JButton backButton = new JButton("Back");
+        customizeButton(backButton);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,11 +78,12 @@ public class View_Toi_Uu extends JFrame {
             }
         });
 
-        JButton uploadButton = new JButton("Up CSV");
+        JButton uploadButton = new JButton("Upload CSV");
+        customizeButton(uploadButton);
         uploadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser("T:\\"); // Mở ổ T
+                JFileChooser fileChooser = new JFileChooser("T:\\"); // Open the T drive
                 fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
                     @Override
                     public boolean accept(File f) {
@@ -96,15 +100,15 @@ public class View_Toi_Uu extends JFrame {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = fileChooser.getSelectedFile();
                     if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng chọn file có đuôi .csv!", "Lỗi",
+                        JOptionPane.showMessageDialog(null, "Please select a CSV file!", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     } else {
                         try {
                             readCSV(selectedFile);
-                            JOptionPane.showMessageDialog(null, "File CSV đã được chọn thành công!");
+                            JOptionPane.showMessageDialog(null, "CSV file successfully selected!");
                         } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null, "Lỗi khi đọc file CSV. Vui lòng kiểm tra lại file.",
-                                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Error reading CSV file. Please check the file.",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
@@ -117,6 +121,14 @@ public class View_Toi_Uu extends JFrame {
 
         // Add bottomPanel to JFrame
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private void customizeButton(JButton button) {
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBackground(new Color(255, 255, 255));
+        button.setForeground(new Color(0, 0, 0));
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(10, 20, 10, 20));
     }
 
     private void readCSV(File file) {
@@ -170,7 +182,7 @@ public class View_Toi_Uu extends JFrame {
                 // Add player to the position arrays
                 for (int i = 0; i < 15; i++) {
                     if (positions[i]) {
-                        Player player = new Player(playerName, qi*Double.parseDouble(values[i + 1].trim()));
+                        Player player = new Player(playerName, qi * Double.parseDouble(values[i + 1].trim()));
                         positionArrays[i].add(player);
                     }
                 }
@@ -186,7 +198,6 @@ public class View_Toi_Uu extends JFrame {
         }
     }
 
-    
     private static int indexOfPosition(String pos, String[] positions) {
         for (int i = 0; i < positions.length; i++) {
             if (positions[i].equals(pos)) {
@@ -195,7 +206,7 @@ public class View_Toi_Uu extends JFrame {
         }
         return -1;
     }
-    
+
     private void printTopPlayers() {
         HashSet<String> selectedPlayers = new HashSet<>();
         StringBuilder result = new StringBuilder("Selected top players:\n");
@@ -256,6 +267,8 @@ public class View_Toi_Uu extends JFrame {
             JButton button = new JButton(positions[i]);
             button.setBounds(coordinates[i][0], coordinates[i][1], BUTTON_SIZE, BUTTON_SIZE);
             button.setBackground(Color.YELLOW);
+            button.setFont(new Font("Arial", Font.BOLD, 13)); // Custom font
+            button.setToolTipText("Select position: " + positions[i]); // Tooltip
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -317,7 +330,8 @@ public class View_Toi_Uu extends JFrame {
             return quality;
         }
     }
-    public static class Main{
+
+    public static class Main {
         public static void main(String[] args) {
             hien();
         }
