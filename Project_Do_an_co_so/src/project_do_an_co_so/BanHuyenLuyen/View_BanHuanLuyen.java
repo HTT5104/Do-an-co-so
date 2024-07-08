@@ -117,6 +117,14 @@ public class View_BanHuanLuyen {
         homePanel.add(personnelButton);
 
         JButton scheduleButton = createButton("Lịch thi đấu", 400, 200);
+        scheduleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Code xử lý sự kiện cho nút Nhân sự
+                View_BHL_LichThiDau.main();
+                frame.dispose();
+            }
+        });
         homePanel.add(scheduleButton);
 
         JButton rankingButton = createButton("Bảng xếp hạng", 600, 200);
