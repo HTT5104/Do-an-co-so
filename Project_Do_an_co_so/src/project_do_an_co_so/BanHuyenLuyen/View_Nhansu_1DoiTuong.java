@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +30,13 @@ public class View_Nhansu_1DoiTuong {
     private JLabel bodyMassLabel;
     private JLabel photoLabel;
     private Player currentPlayer;
-    
+
     public static String formatNames(String names) {
         return Arrays.stream(names.split(" "))
                 .map(String::toLowerCase)
                 .collect(Collectors.joining("-"));
     }
-    
+
     public void set(int selectedRow, Player player, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
         this.currentPlayer = player;
@@ -58,138 +60,15 @@ public class View_Nhansu_1DoiTuong {
                 weightLabel.setText(player.getWeight());
                 heightLabel.setText(player.getHeight());
                 bodyMassLabel.setText(player.getBodyMass());
-                ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/Player_avatar/" + formatNames(player.getName()) + ".png");
+                ImageIcon imageIcon = new ImageIcon(
+                        "src/project_do_an_co_so/Image/Player_avatar/" + formatNames(player.getName()) + ".png");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
             }
         });
     }
 
-    public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
-            ArrayList<Player> playerList) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setBackground(new Color(240, 240, 240)); // Light gray background
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // Title label
-        JLabel titleLabel = new JLabel("Thông tin cầu thủ");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Increase font size
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3;
-        gbc.insets = new Insets(20, 20, 20, 20); // Increase spacing
-        panel.add(titleLabel, gbc);
-
-        // Back button
-        JButton backButton = new JButton("Quay lại");
-        styleButton(backButton);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                View_BDH_Nhansu_BDH.hien();
-                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
-            }
-        });
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(backButton, gbc);
-
-        // Edit button
-        JButton editButton = new JButton("Chỉnh sửa");
-        styleButton(editButton);
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openEditForm(selectedRow, table, tableModel, playerList);
-            }
-        });
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(editButton, gbc);
-
-        // Image placeholder
-        JPanel imagePanel = new JPanel();
-        imagePanel.setBackground(new Color(220, 220, 220)); // Light gray background
-        imagePanel.setPreferredSize(new Dimension(350, 350)); // Increase image size
-        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add a black border to the image
-
-        // Load image from file
-        photoLabel = new JLabel();
-        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/van_quyet.jpg"); // Default image path
-        Image image = imageIcon.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
-        photoLabel.setIcon(new ImageIcon(image));
-
-        imagePanel.add(photoLabel);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridheight = 4;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(imagePanel, gbc);
-
-        // Text fields (editable)
-        gbc.gridheight = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // Adding JLabels
-        JLabel nameLabelTitle = new JLabel("Họ tên:");
-        JLabel positionLabelTitle = new JLabel("Vị trí:");
-        JLabel birthDateLabelTitle = new JLabel("Ngày sinh:");
-        JLabel hometownLabelTitle = new JLabel("Quê quán:");
-        JLabel numberShirtLabelTitle = new JLabel("Số áo:");
-        JLabel weightLabelTitle = new JLabel("Cân nặng:");
-        JLabel heightLabelTitle = new JLabel("Chiều cao:");
-        JLabel bodyMassLabelTitle = new JLabel("Chân thuận:");
-
-        nameLabel = new JLabel();
-        positionLabel = new JLabel();
-        birthDateLabel = new JLabel();
-        hometownLabel = new JLabel();
-        numberShirtLabel = new JLabel();
-        weightLabel = new JLabel();
-        heightLabel = new JLabel();
-        bodyMassLabel = new JLabel();
-
-        // Increase font sizes
-        Font labelFont = new Font("Arial", Font.PLAIN, 24);
-        nameLabelTitle.setFont(labelFont);
-        positionLabelTitle.setFont(labelFont);
-        birthDateLabelTitle.setFont(labelFont);
-        hometownLabelTitle.setFont(labelFont);
-        numberShirtLabelTitle.setFont(labelFont);
-        weightLabelTitle.setFont(labelFont);
-        heightLabelTitle.setFont(labelFont);
-        bodyMassLabelTitle.setFont(labelFont);
-
-        nameLabel.setFont(labelFont);
-        positionLabel.setFont(labelFont);
-        birthDateLabel.setFont(labelFont);
-        hometownLabel.setFont(labelFont);
-        numberShirtLabel.setFont(labelFont);
-        weightLabel.setFont(labelFont);
-        heightLabel.setFont(labelFont);
-        bodyMassLabel.setFont(labelFont);
-
-        addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 2);
-        addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 3);
-        addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 4);
-        addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 5);
-        addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 6);
-        addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 7);
-        addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 8);
-        addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 9);
-
-        return panel;
-    }
-
-    private void openEditForm(int selectedRow, JTable table, DefaultTableModel tableModel,
+    private void openEditForm(int selectedRow, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
         JDialog editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
         editDialog.setSize(400, 300);
@@ -200,7 +79,8 @@ public class View_Nhansu_1DoiTuong {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Increase padding
 
         // Combobox để chọn thuộc tính cần chỉnh sửa
-        String[] attributes = { "Họ tên", "Vị trí", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao", "Chân thuận" };
+        String[] attributes = { "Họ tên", "Vị trí", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao",
+                "Chân thuận" };
         JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
         JLabel attributeLabel = new JLabel("Chọn thuộc tính cần chỉnh sửa:");
         attributeLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
@@ -214,7 +94,7 @@ public class View_Nhansu_1DoiTuong {
         contentPanel.add(newValueLabel);
         contentPanel.add(newValueField);
 
-                // Nút lưu thay đổi
+        // Nút lưu thay đổi
         JButton saveButton = new JButton("Lưu");
         saveButton.setFont(new Font("Arial", Font.BOLD, 18)); // Increase font size
         saveButton.addActionListener(new ActionListener() {
@@ -319,18 +199,79 @@ public class View_Nhansu_1DoiTuong {
         panel.add(labelPanel, gbc);
     }
 
-    private void savePlayerToCSV(Player player, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(player.getName() + ","
-                    + player.getPosition() + ","
-                    + player.getBirthDate() + ","
-                    + player.getHometown() + ","
-                    + player.getNumberShirt() + ","
-                    + player.getWeight() + ","
-                    + player.getHeight() + ","
-                    + player.getBodyMass() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void delennhau_gayqua(String Filecu, String Filemoi) {
+        // Đường dẫn tới tệp tin cũ
+        File oldFile = new File(Filecu);
+
+        // Đường dẫn tới tệp tin mới
+        File newFile = new File(Filemoi);
+
+        // Kiểm tra xem tệp tin cũ có tồn tại không
+        if (oldFile.exists()) {
+            // Kiểm tra xem tệp tin mới có tồn tại không và xóa nó nếu có
+            if (newFile.exists()) {
+                boolean deleteSuccess = newFile.delete();
+                if (!deleteSuccess) {
+                    System.out.println("Không thể xóa tệp tin đích.");
+                    return;
+                }
+            }
+            // Đổi tên tệp tin
+            boolean renameSuccess = oldFile.renameTo(newFile);
+            if (renameSuccess) {
+                System.out.println("Thành công");
+            } else {
+                System.out.println("Thất bại");
+            }
+        } else {
+            System.out.println("Tệp tin cũ không tồn tại");
+        }
+    }
+
+    public void upAnh() {
+        // Tạo giao diện người dùng để chọn tệp .png
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String fileName = selectedFile.getName();
+
+            // Đường dẫn thư mục lưu trữ (thay đổi theo yêu cầu của bạn)
+            String storagePath = "src/project_do_an_co_so/Image/Player_avatar/" + fileName;
+            File storageDir = new File("images");
+
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            if (!storageDir.exists()) {
+                if (storageDir.mkdirs()) {
+                    System.out.println("Thu muc luu tru da duoc tao: " + storageDir.getAbsolutePath());
+                } else {
+                    System.out.println("Khong the tao thu muc luu tru");
+                    return;
+                }
+            }
+
+            try {
+                // Đọc dữ liệu từ tệp tải lên
+                FileInputStream inputStream = new FileInputStream(selectedFile);
+                byte[] data = new byte[(int) selectedFile.length()];
+                inputStream.read(data);
+
+                // Ghi dữ liệu vào thư mục lưu trữ
+                FileOutputStream outputStream = new FileOutputStream(storagePath);
+                outputStream.write(data);
+
+                System.out.println("Tep " + fileName + " da duoc luu vao " + storagePath);
+
+                // Đóng các luồng
+                inputStream.close();
+                outputStream.close();
+                delennhau_gayqua(selectedFile.getAbsolutePath(),
+                        "src/project_do_an_co_so/Image/Player_avatar/" + formatNames(currentPlayer.getName()) + ".png");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -342,5 +283,140 @@ public class View_Nhansu_1DoiTuong {
         button.setFocusPainted(false); // Remove focus paint
         button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Add padding
     }
-}
 
+    public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
+            ArrayList<Player> playerList) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setBackground(new Color(240, 240, 240)); // Light gray background
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Title label
+        JLabel titleLabel = new JLabel("Thông tin cầu thủ");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Increase font size
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(20, 20, 20, 20); // Increase spacing
+        panel.add(titleLabel, gbc);
+
+        // Back button
+        JButton backButton = new JButton("Quay lại");
+        styleButton(backButton);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                View_BDH_Nhansu_BDH.hien();
+                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
+            }
+        });
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(backButton, gbc);
+
+        // Nut cap nhat hinh annh HaruHamy
+        JButton uploadImageButton = new JButton("Cập nhật hình ảnh");
+        styleButton(uploadImageButton);
+        uploadImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                upAnh();
+            }
+        });
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(uploadImageButton, gbc);
+
+        // Edit button
+        JButton editButton = new JButton("Chỉnh sửa");
+        styleButton(editButton);
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openEditForm(selectedRow, tableModel, playerList);
+            }
+        });
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(editButton, gbc);
+
+        // Image placeholder
+        JPanel imagePanel = new JPanel();
+        imagePanel.setBackground(new Color(220, 220, 220)); // Light gray background
+        imagePanel.setPreferredSize(new Dimension(350, 350)); // Increase image size
+        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add a black border to the image
+
+        // Load image from file
+        photoLabel = new JLabel();
+        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        imagePanel.add(photoLabel);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridheight = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(imagePanel, gbc);
+
+        // Text fields (editable)
+        gbc.gridheight = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Adding JLabels
+        JLabel nameLabelTitle = new JLabel("Họ tên:");
+        JLabel positionLabelTitle = new JLabel("Vị trí:");
+        JLabel birthDateLabelTitle = new JLabel("Ngày sinh:");
+        JLabel hometownLabelTitle = new JLabel("Quê quán:");
+        JLabel numberShirtLabelTitle = new JLabel("Số áo:");
+        JLabel weightLabelTitle = new JLabel("Cân nặng:");
+        JLabel heightLabelTitle = new JLabel("Chiều cao:");
+        JLabel bodyMassLabelTitle = new JLabel("Chân thuận:");
+
+        nameLabel = new JLabel();
+        positionLabel = new JLabel();
+        birthDateLabel = new JLabel();
+        hometownLabel = new JLabel();
+        numberShirtLabel = new JLabel();
+        weightLabel = new JLabel();
+        heightLabel = new JLabel();
+        bodyMassLabel = new JLabel();
+
+        // Increase font sizes
+        Font labelFont = new Font("Arial", Font.PLAIN, 24);
+        nameLabelTitle.setFont(labelFont);
+        positionLabelTitle.setFont(labelFont);
+        birthDateLabelTitle.setFont(labelFont);
+        hometownLabelTitle.setFont(labelFont);
+        numberShirtLabelTitle.setFont(labelFont);
+        weightLabelTitle.setFont(labelFont);
+        heightLabelTitle.setFont(labelFont);
+        bodyMassLabelTitle.setFont(labelFont);
+
+        nameLabel.setFont(labelFont);
+        positionLabel.setFont(labelFont);
+        birthDateLabel.setFont(labelFont);
+        hometownLabel.setFont(labelFont);
+        numberShirtLabel.setFont(labelFont);
+        weightLabel.setFont(labelFont);
+        heightLabel.setFont(labelFont);
+        bodyMassLabel.setFont(labelFont);
+
+        addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 2);
+        addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 3);
+        addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 4);
+        addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 5);
+        addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 6);
+        addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 7);
+        addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 8);
+        addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 9);
+
+        return panel;
+    }
+}
