@@ -4,39 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 import project_do_an_co_so.Player;
 import project_do_an_co_so.View_BDH_Nhansu_BDH;
-import static project_do_an_co_so.View_BDH_Nhansu_BDH.chon;
 
 public class View_Nhansu_1DoiTuong {
 
     private static JFrame frame;
-    private JLabel nameLabel;
-    private JLabel positionLabel;
-    private JLabel birthDateLabel;
-    private JLabel hometownLabel;
-    private JLabel numberShirtLabel;
-    private JLabel weightLabel;
-    private JLabel heightLabel;
-    private JLabel bodyMassLabel;
-    private JLabel photoLabel;
+    private JLabel nameLabel, positionLabel, birthDateLabel, hometownLabel, numberShirtLabel, weightLabel, heightLabel,
+            bodyMassLabel, photoLabel;
+    private JLabel nameLabelTitle, positionLabelTitle, birthDateLabelTitle, hometownLabelTitle, numberShirtLabelTitle,
+            weightLabelTitle, heightLabelTitle, bodyMassLabelTitle;
+    private GridBagConstraints gbc;
     private Player currentPlayer;
-
-    public static String formatNames(String names) {
-        return Arrays.stream(names.split(" "))
-                .map(String::toLowerCase)
-                .collect(Collectors.joining("-"));
-    }
+    private JPanel panel, imagePanel;
+    private JDialog editDialog;
 
     public void set(int selectedRow, Player player, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
@@ -62,16 +45,16 @@ public class View_Nhansu_1DoiTuong {
                 heightLabel.setText(player.getHeight());
                 bodyMassLabel.setText(player.getBodyMass());
                 ImageIcon imageIcon = new ImageIcon(
-                        "src/project_do_an_co_so/Image/Player_avatar/" + formatNames(player.getName()) + ".png");
+                        "src/project_do_an_co_so/Image/Player_avatar/"
+                                + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
             }
         });
     }
 
-    private void openEditForm(int selectedRow, DefaultTableModel tableModel,
-            ArrayList<Player> playerList) {
-        JDialog editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
+    private void openEditForm(int selectedRow, DefaultTableModel tableModel, ArrayList<Player> playerList) {
+        editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
         editDialog.setSize(400, 300);
         editDialog.setLayout(new BorderLayout());
 
@@ -109,56 +92,61 @@ public class View_Nhansu_1DoiTuong {
                     return;
                 }
 
-                // Cập nhật thông tin của cầu thủ đã chọn
-                switch (selectedAttribute) {
-                    case "Họ tên":
-                        currentPlayer.setName(newValue);
-                        nameLabel.setText(newValue);
-                        break;
-                    case "Vị trí":
-                        currentPlayer.setPosition(newValue);
-                        positionLabel.setText(newValue);
-                        break;
-                    case "Ngày sinh":
-                        currentPlayer.setBirthDate(newValue);
-                        birthDateLabel.setText(newValue);
-                        break;
-                    case "Quê quán":
-                        currentPlayer.setHometown(newValue);
-                        hometownLabel.setText(newValue);
-                        break;
-                    case "Số áo":
-                        currentPlayer.setNumberShirt(newValue);
-                        numberShirtLabel.setText(newValue);
-                        break;
-                    case "Cân nặng":
-                        currentPlayer.setWeight(newValue);
-                        weightLabel.setText(newValue);
-                        break;
-                    case "Chiều cao":
-                        currentPlayer.setHeight(newValue);
-                        heightLabel.setText(newValue);
-                        break;
-                    case "Chân thuận":
-                        currentPlayer.setBodyMass(newValue);
-                        bodyMassLabel.setText(newValue);
-                        break;
-                }
+                // Hộp thoại xác nhận
+                int confirm = JOptionPane.showConfirmDialog(editDialog, "Bạn có chắc chắn muốn thay đổi giá trị?",
+                        "Xác nhận thay đổi", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Cập nhật thông tin của cầu thủ đã chọn
+                    switch (selectedAttribute) {
+                        case "Họ tên":
+                            currentPlayer.setName(newValue);
+                            nameLabel.setText(newValue);
+                            break;
+                        case "Vị trí":
+                            currentPlayer.setPosition(newValue);
+                            positionLabel.setText(newValue);
+                            break;
+                        case "Ngày sinh":
+                            currentPlayer.setBirthDate(newValue);
+                            birthDateLabel.setText(newValue);
+                            break;
+                        case "Quê quán":
+                            currentPlayer.setHometown(newValue);
+                            hometownLabel.setText(newValue);
+                            break;
+                        case "Số áo":
+                            currentPlayer.setNumberShirt(newValue);
+                            numberShirtLabel.setText(newValue);
+                            break;
+                        case "Cân nặng":
+                            currentPlayer.setWeight(newValue);
+                            weightLabel.setText(newValue);
+                            break;
+                        case "Chiều cao":
+                            currentPlayer.setHeight(newValue);
+                            heightLabel.setText(newValue);
+                            break;
+                        case "Chân thuận":
+                            currentPlayer.setBodyMass(newValue);
+                            bodyMassLabel.setText(newValue);
+                            break;
+                    }
 
-                if (selectedRow >= 0 && selectedRow < playerList.size()) {
-                    // Cập nhật lại bảng với thông tin mới
-                    tableModel.setValueAt(currentPlayer.getName(), selectedRow, 0);
+                    if (selectedRow >= 0 && selectedRow < playerList.size()) {
+                        // Cập nhật lại bảng với thông tin mới
+                        tableModel.setValueAt(currentPlayer.getName(), selectedRow, 0);
 
-                    // Cập nhật lại danh sách cầu thủ trong playerList
-                    playerList.set(selectedRow, currentPlayer);
+                        // Cập nhật lại danh sách cầu thủ trong playerList
+                        playerList.set(selectedRow, currentPlayer);
 
-                    // Save updated player information to CSV
-                    clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                    View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
+                        // Save updated player information to CSV
+                        Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
+                        View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
 
-                    editDialog.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Chọn một đối tượng hợp lệ để cập nhật.");
+                        editDialog.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Chọn một đối tượng hợp lệ để cập nhật.");
+                    }
                 }
             }
         });
@@ -171,126 +159,12 @@ public class View_Nhansu_1DoiTuong {
         editDialog.setVisible(true);
     }
 
-    private void clearCSVFile(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(""); // Ghi đè lên file CSV với chuỗi rỗng để xóa sạch nội dung
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void addLabelAndTextField(JPanel panel, JLabel labelTitle, JLabel label, GridBagConstraints gbc,
-            int gridy) {
-        gbc.gridx = 1;
-        gbc.gridy = gridy;
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        panel.add(labelTitle, gbc);
-
-        JPanel labelPanel = new JPanel();
-        labelPanel.setBackground(Color.YELLOW);
-        labelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        labelPanel.setPreferredSize(new Dimension(300, 50)); // Increase label panel size
-        labelPanel.setLayout(new BorderLayout());
-        labelPanel.add(label, BorderLayout.CENTER);
-        gbc.gridx = 2;
-        gbc.gridy = gridy;
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        panel.add(labelPanel, gbc);
-    }
-
-    public void delennhau_gayqua(String Filecu, String Filemoi) {
-        // Đường dẫn tới tệp tin cũ
-        File oldFile = new File(Filecu);
-
-        // Đường dẫn tới tệp tin mới
-        File newFile = new File(Filemoi);
-
-        // Kiểm tra xem tệp tin cũ có tồn tại không
-        if (oldFile.exists()) {
-            // Kiểm tra xem tệp tin mới có tồn tại không và xóa nó nếu có
-            if (newFile.exists()) {
-                boolean deleteSuccess = newFile.delete();
-                if (!deleteSuccess) {
-                    System.out.println("Không thể xóa tệp tin đích.");
-                    return;
-                }
-            }
-            // Đổi tên tệp tin
-            boolean renameSuccess = oldFile.renameTo(newFile);
-            if (renameSuccess) {
-                System.out.println("Thành công");
-            } else {
-                System.out.println("Thất bại");
-            }
-        } else {
-            System.out.println("Tệp tin cũ không tồn tại");
-        }
-    }
-
-    public void upAnh() {
-        // Tạo giao diện người dùng để chọn tệp .png
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            String fileName = selectedFile.getName();
-
-            // Đường dẫn thư mục lưu trữ (thay đổi theo yêu cầu của bạn)
-            String storagePath = "src/project_do_an_co_so/Image/Player_avatar/" + fileName;
-            File storageDir = new File("images");
-
-            // Kiểm tra và tạo thư mục nếu chưa tồn tại
-            if (!storageDir.exists()) {
-                if (storageDir.mkdirs()) {
-                    System.out.println("Thu muc luu tru da duoc tao: " + storageDir.getAbsolutePath());
-                } else {
-                    System.out.println("Khong the tao thu muc luu tru");
-                    return;
-                }
-            }
-
-            try {
-                // Đọc dữ liệu từ tệp tải lên
-                FileInputStream inputStream = new FileInputStream(selectedFile);
-                byte[] data = new byte[(int) selectedFile.length()];
-                inputStream.read(data);
-
-                // Ghi dữ liệu vào thư mục lưu trữ
-                FileOutputStream outputStream = new FileOutputStream(storagePath);
-                outputStream.write(data);
-
-                System.out.println("Tep " + fileName + " da duoc luu vao " + storagePath);
-
-                // Đóng các luồng
-                inputStream.close();
-                outputStream.close();
-                delennhau_gayqua(selectedFile.getAbsolutePath(),
-                        "src/project_do_an_co_so/Image/Player_avatar/" + formatNames(currentPlayer.getName()) + ".png");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void styleButton(JButton button) {
-        button.setFont(new Font("Arial", Font.BOLD, 18)); // Set font size to 18
-        button.setPreferredSize(new Dimension(200, 60)); // Increase button size
-        button.setBackground(new Color(70, 130, 180)); // Steel blue background color
-        button.setForeground(Color.WHITE); // White text color
-        button.setFocusPainted(false); // Remove focus paint
-        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Add padding
-    }
-
     public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(new Color(240, 240, 240)); // Màu nền xám nhạt
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
 
         // Tiêu đề
         JLabel titleLabel = new JLabel("Thông tin cầu thủ");
@@ -302,7 +176,7 @@ public class View_Nhansu_1DoiTuong {
         panel.add(titleLabel, gbc); // Thêm tiêu đề vào panel
 
         // Khung ảnh
-        JPanel imagePanel = new JPanel();
+        imagePanel = new JPanel();
         imagePanel.setBackground(new Color(220, 220, 220)); // Màu nền xám nhạt
         imagePanel.setPreferredSize(new Dimension(300, 300)); // Kích thước khung ảnh
         imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Viền đen cho khung ảnh
@@ -324,14 +198,14 @@ public class View_Nhansu_1DoiTuong {
         gbc.fill = GridBagConstraints.HORIZONTAL; // Kéo dãn theo chiều ngang
 
         // Thêm các JLabel
-        JLabel nameLabelTitle = new JLabel("Họ tên:");
-        JLabel positionLabelTitle = new JLabel("Vị trí:");
-        JLabel birthDateLabelTitle = new JLabel("Ngày sinh:");
-        JLabel hometownLabelTitle = new JLabel("Quê quán:");
-        JLabel numberShirtLabelTitle = new JLabel("Số áo:");
-        JLabel weightLabelTitle = new JLabel("Cân nặng:");
-        JLabel heightLabelTitle = new JLabel("Chiều cao:");
-        JLabel bodyMassLabelTitle = new JLabel("Chân thuận:");
+        nameLabelTitle = new JLabel("Họ tên:");
+        positionLabelTitle = new JLabel("Vị trí:");
+        birthDateLabelTitle = new JLabel("Ngày sinh:");
+        hometownLabelTitle = new JLabel("Quê quán:");
+        numberShirtLabelTitle = new JLabel("Số áo:");
+        weightLabelTitle = new JLabel("Cân nặng:");
+        heightLabelTitle = new JLabel("Chiều cao:");
+        bodyMassLabelTitle = new JLabel("Chân thuận:");
 
         nameLabel = new JLabel();
         positionLabel = new JLabel();
@@ -363,18 +237,18 @@ public class View_Nhansu_1DoiTuong {
         bodyMassLabel.setFont(labelFont);
 
         // Thêm các nhãn và trường văn bản vào panel
-        addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 1);
-        addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 2);
-        addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 3);
-        addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 4);
-        addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 5);
-        addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 6);
-        addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 7);
-        addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 8);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 1);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 2);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 3);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 4);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 5);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 6);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 7);
+        Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 8);
 
         // Nút Quay lại
         JButton backButton = new JButton("Quay lại");
-        styleButton(backButton);
+        Controller_Nhansu_1DoiTuong.styleButton(backButton);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -391,7 +265,7 @@ public class View_Nhansu_1DoiTuong {
 
         // Nút Chỉnh sửa
         JButton editButton = new JButton("Chỉnh sửa");
-        styleButton(editButton);
+        Controller_Nhansu_1DoiTuong.styleButton(editButton);
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -406,13 +280,13 @@ public class View_Nhansu_1DoiTuong {
 
         // Nút Cập nhật hình ảnh
         JButton uploadImageButton = new JButton("Cập nhật hình ảnh");
-        styleButton(uploadImageButton);
+        Controller_Nhansu_1DoiTuong.styleButton(uploadImageButton);
         uploadImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                upAnh();
+                Controller_Nhansu_1DoiTuong.upAnh(currentPlayer);
                 frame.dispose();
-                View_BDH_Nhansu_BDH.chon(table, playerList);;
+                View_BDH_Nhansu_BDH.chon(table, playerList);
             }
         });
         gbc.gridx = 2; // Vị trí cột
