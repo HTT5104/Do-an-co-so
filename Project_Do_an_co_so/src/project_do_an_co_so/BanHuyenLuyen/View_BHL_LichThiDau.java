@@ -37,6 +37,16 @@ public class View_BHL_LichThiDau {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View_BanHuanLuyen.hien();
+                frame.dispose();
+            }
+        });
+        buttonPanel.add(backButton);
+        
         // Add the main panel and the button panel to the frame
         frame.setLayout(new BorderLayout());
         frame.add(mainPanel, BorderLayout.CENTER);
@@ -59,6 +69,8 @@ public class View_BHL_LichThiDau {
 
         return rowPanel;
     }
+    
+
 
     // Method to create a JLabel with specified text and styling
     private static JLabel createLabel(String text) {
