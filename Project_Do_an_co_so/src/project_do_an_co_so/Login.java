@@ -10,7 +10,7 @@ import java.util.Map;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.math.BigInteger;
-import static project_do_an_co_so.View_Toi_Uu.hien;
+import project_do_an_co_so.CauThu.View_Cau_Thu_1minh;
 
 public class Login extends JFrame {
 
@@ -36,7 +36,7 @@ public class Login extends JFrame {
         gbc.gridwidth = 2;
         loginPanel.add(roleLabel, gbc);
 
-        String[] roles = { "Ban điều hành", "Ban huấn luyện", "Y tế", "Cầu thủ" };
+        String[] roles = {"Ban điều hành", "Ban huấn luyện", "Y tế", "Cầu thủ"};
         JComboBox<String> roleComboBox = new JComboBox<>(roles);
         roleComboBox.setFont(font);
         roleComboBox.setSelectedIndex(-1);
@@ -81,10 +81,24 @@ public class Login extends JFrame {
             String role = (String) roleComboBox.getSelectedItem();
             String formattedUsername = username;
             String md5Password = getMD5(password);
-            Map<String, String> playerData = loadPlayerData("src/project_do_an_co_so/CSV/Data.csv");
+            Map<Map<String, String>, Player> playerData = loadPlayerData("src/project_do_an_co_so/CSV/Data.csv");
+
+            Map<String, String> mp = new HashMap<>();
+            mp.put(formattedUsername, md5Password);
+
+            System.out.println("Attempting login with username: " + username + " and password: " + password);
+            System.out.println("MD5 Password: " + md5Password);
+            System.out.println("Role: " + role);
+
+            // In ra mp để kiểm tra
+            System.out.println("User input map: " + mp);
+
+            // In ra playerData để kiểm tra
+            for (Map.Entry<Map<String, String>, Player> entry : playerData.entrySet()) {
+                System.out.println("Player data map: " + entry.getKey() + ", Player: " + entry.getValue());
+            }
 
             if ("minhduy".equals(username) && "123".equals(password) && "Ban điều hành".equals(role)) {
-                // Login successful
                 View_BanDieuHanh.hien();
                 Window window = SwingUtilities.getWindowAncestor(loginPanel);
                 if (window != null) {
@@ -96,30 +110,35 @@ public class Login extends JFrame {
                 if (window != null) {
                     window.dispose();
                 }
-            } else if ("Cầu thủ".equals(role)) {
-                // Load player data from the CSV file
+            } else if ("Cầu thủ".equals(role)) {               
 
-                if (playerData.containsKey(formattedUsername) && playerData.get(formattedUsername).equals(md5Password)) {
-                    // Login successful
-                    View_BanDieuHanh.hien();
+                if (playerData.containsKey(mp)) {
+                    System.out.println("Co");
+                    Player x = playerData.get(mp);
+                    View_Cau_Thu_1minh z = new View_Cau_Thu_1minh();
+                    z.set(x);
                     Window window = SwingUtilities.getWindowAncestor(loginPanel);
                     if (window != null) {
                         window.dispose();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
         // Thêm bảng điều khiển vào backgroundPanel
-        backgroundPanel.add(loginPanel, gbc);                     
+        backgroundPanel.add(loginPanel, gbc);
         return backgroundPanel;
     }
-    public static Map<String, String> loadPlayerData(String filePath) {
-        Map<String, String> playerData = new HashMap<>();
+
+    public static Map<Map<String, String>, Player> loadPlayerData(String filePath) {
+        Map<Map<String, String>, Player> playerData = new HashMap<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine();
@@ -127,16 +146,31 @@ public class Login extends JFrame {
                 String[] values = line.split(",");
                 if (values.length >= 2 && !values[0].isEmpty() && !values[values.length - 1].isEmpty()) {
                     String playerName = values[0].replace(" ", "");
-                    String md5Password = values[values.length - 1];
-                    playerData.put(playerName, md5Password);
+                    String md5Password = values[8];
+
+                    Map<String, String> bm = new HashMap<>();
+                    bm.put(playerName, md5Password); //Chứa tên đăng nhập và mật khảu chuẩn
+
+                    // Load
+                    String name = values[0];
+                    String hometown = values[1];
+                    String birthDate = values[2];
+                    String numberShirt = values[3];
+                    String position = values[4];
+                    String weight = values[5];
+                    String height = values[6];
+                    String bodyMass = values[7];
+
+                    Player pr = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass);
+
+                    playerData.put(bm, pr);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         // Print the player data for verification
-        for (Map.Entry<String, String> entry : playerData.entrySet()) {
+        for (Map.Entry<Map<String, String>, Player> entry : playerData.entrySet()) {
             System.out.println("Player: " + entry.getKey() + ", MD5 Password: " + entry.getValue());
         }
 
@@ -158,6 +192,7 @@ public class Login extends JFrame {
             throw new RuntimeException(e);
         }
     }
+
     public static void Hien() {
         try {
             // Set a modern look and feel
@@ -179,6 +214,7 @@ public class Login extends JFrame {
 }
 
 class BackgroundPanel extends JPanel {
+
     private final Image backgroundImage;
 
     public BackgroundPanel(String fileName) {
@@ -192,4 +228,3 @@ class BackgroundPanel extends JPanel {
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
     }
 }
-
