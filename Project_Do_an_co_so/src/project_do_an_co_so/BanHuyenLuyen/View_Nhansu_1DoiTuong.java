@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 import project_do_an_co_so.Player;
 import project_do_an_co_so.View_BDH_Nhansu_BDH;
+import static project_do_an_co_so.View_BDH_Nhansu_BDH.chon;
 
 public class View_Nhansu_1DoiTuong {
 
@@ -410,6 +411,8 @@ public class View_Nhansu_1DoiTuong {
             @Override
             public void actionPerformed(ActionEvent e) {
                 upAnh();
+                frame.dispose();
+                View_BDH_Nhansu_BDH.chon(table, playerList);;
             }
         });
         gbc.gridx = 2; // Vị trí cột
