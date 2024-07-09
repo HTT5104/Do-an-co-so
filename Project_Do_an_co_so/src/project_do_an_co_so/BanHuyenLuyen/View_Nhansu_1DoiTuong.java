@@ -276,8 +276,8 @@ public class View_Nhansu_1DoiTuong {
     }
 
     private void styleButton(JButton button) {
-        button.setFont(new Font("Arial", Font.BOLD, 24)); // Set font size to 24
-        button.setPreferredSize(new Dimension(150, 50)); // Increase button size
+        button.setFont(new Font("Arial", Font.BOLD, 18)); // Set font size to 18
+        button.setPreferredSize(new Dimension(200, 60)); // Increase button size
         button.setBackground(new Color(70, 130, 180)); // Steel blue background color
         button.setForeground(Color.WHITE); // White text color
         button.setFocusPainted(false); // Remove focus paint
@@ -288,88 +288,41 @@ public class View_Nhansu_1DoiTuong {
             ArrayList<Player> playerList) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        panel.setBackground(new Color(240, 240, 240)); // Light gray background
+        panel.setBackground(new Color(240, 240, 240)); // Màu nền xám nhạt
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Title label
+        // Tiêu đề
         JLabel titleLabel = new JLabel("Thông tin cầu thủ");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Increase font size
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3;
-        gbc.insets = new Insets(20, 20, 20, 20); // Increase spacing
-        panel.add(titleLabel, gbc);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Tăng kích thước font
+        gbc.gridx = 0; // Vị trí cột
+        gbc.gridy = 0; // Vị trí hàng
+        gbc.gridwidth = 3; // Chiếm 3 cột
+        gbc.insets = new Insets(20, 20, 20, 20); // Tăng khoảng cách
+        panel.add(titleLabel, gbc); // Thêm tiêu đề vào panel
 
-        // Back button
-        JButton backButton = new JButton("Quay lại");
-        styleButton(backButton);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                View_BDH_Nhansu_BDH.hien();
-                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
-            }
-        });
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(backButton, gbc);
-
-        // Nut cap nhat hinh annh HaruHamy
-        JButton uploadImageButton = new JButton("Cập nhật hình ảnh");
-        styleButton(uploadImageButton);
-        uploadImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                upAnh();
-            }
-        });
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(uploadImageButton, gbc);
-
-        // Edit button
-        JButton editButton = new JButton("Chỉnh sửa");
-        styleButton(editButton);
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openEditForm(selectedRow, tableModel, playerList);
-            }
-        });
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(editButton, gbc);
-
-        // Image placeholder
+        // Khung ảnh
         JPanel imagePanel = new JPanel();
-        imagePanel.setBackground(new Color(220, 220, 220)); // Light gray background
-        imagePanel.setPreferredSize(new Dimension(350, 350)); // Increase image size
-        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add a black border to the image
+        imagePanel.setBackground(new Color(220, 220, 220)); // Màu nền xám nhạt
+        imagePanel.setPreferredSize(new Dimension(300, 300)); // Kích thước khung ảnh
+        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Viền đen cho khung ảnh
 
-        // Load image from file
+        // Tải ảnh từ file
         photoLabel = new JLabel();
         photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
         imagePanel.add(photoLabel);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridheight = 4;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(imagePanel, gbc);
+        gbc.gridx = 8; // Vị trí cột
+        gbc.gridy = 1; // Vị trí hàng
+        gbc.gridheight = 8; // Chiếm 8 hàng
+        gbc.insets = new Insets(10, 10, 10, 10); // Giảm khoảng cách giữa các thành phần
+        gbc.anchor = GridBagConstraints.CENTER; // Canh giữa
+        panel.add(imagePanel, gbc); // Thêm khung ảnh vào panel
 
-        // Text fields (editable)
-        gbc.gridheight = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        // Các trường văn bản (có thể chỉnh sửa)
+        gbc.gridheight = 1; // Chiếm 1 hàng
+        gbc.anchor = GridBagConstraints.WEST; // Canh trái
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Kéo dãn theo chiều ngang
 
-        // Adding JLabels
+        // Thêm các JLabel
         JLabel nameLabelTitle = new JLabel("Họ tên:");
         JLabel positionLabelTitle = new JLabel("Vị trí:");
         JLabel birthDateLabelTitle = new JLabel("Ngày sinh:");
@@ -388,8 +341,8 @@ public class View_Nhansu_1DoiTuong {
         heightLabel = new JLabel();
         bodyMassLabel = new JLabel();
 
-        // Increase font sizes
-        Font labelFont = new Font("Arial", Font.PLAIN, 24);
+        // Tăng kích thước font
+        Font labelFont = new Font("Arial", Font.PLAIN, 18);
         nameLabelTitle.setFont(labelFont);
         positionLabelTitle.setFont(labelFont);
         birthDateLabelTitle.setFont(labelFont);
@@ -408,15 +361,63 @@ public class View_Nhansu_1DoiTuong {
         heightLabel.setFont(labelFont);
         bodyMassLabel.setFont(labelFont);
 
-        addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 2);
-        addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 3);
-        addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 4);
-        addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 5);
-        addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 6);
-        addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 7);
-        addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 8);
-        addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 9);
+        // Thêm các nhãn và trường văn bản vào panel
+        addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 1);
+        addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 2);
+        addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 3);
+        addLabelAndTextField(panel, hometownLabelTitle, hometownLabel, gbc, 4);
+        addLabelAndTextField(panel, numberShirtLabelTitle, numberShirtLabel, gbc, 5);
+        addLabelAndTextField(panel, weightLabelTitle, weightLabel, gbc, 6);
+        addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 7);
+        addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 8);
 
-        return panel;
+        // Nút Quay lại
+        JButton backButton = new JButton("Quay lại");
+        styleButton(backButton);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                View_BDH_Nhansu_BDH.hien();
+                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
+            }
+        });
+        gbc.gridx = 0; // Vị trí cột
+        gbc.gridy = 9; // Vị trí hàng
+        gbc.gridwidth = 1; // Chiếm 1 cột
+        gbc.anchor = GridBagConstraints.WEST; // Canh trái
+        panel.add(backButton, gbc); // Thêm nút Quay lại vào panel
+
+        // Nút Chỉnh sửa
+        JButton editButton = new JButton("Chỉnh sửa");
+        styleButton(editButton);
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openEditForm(selectedRow, tableModel, playerList);
+            }
+        });
+        gbc.gridx = 1; // Vị trí cột
+        gbc.gridy = 9; // Vị trí hàng
+        gbc.gridwidth = 1; // Chiếm 1 cột
+        gbc.anchor = GridBagConstraints.WEST; // Canh trái
+        panel.add(editButton, gbc); // Thêm nút Chỉnh sửa vào panel
+
+        // Nút Cập nhật hình ảnh
+        JButton uploadImageButton = new JButton("Cập nhật hình ảnh");
+        styleButton(uploadImageButton);
+        uploadImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                upAnh();
+            }
+        });
+        gbc.gridx = 2; // Vị trí cột
+        gbc.gridy = 9; // Vị trí hàng
+        gbc.gridwidth = 1; // Chiếm 1 cột
+        gbc.anchor = GridBagConstraints.WEST; // Canh trái
+        panel.add(uploadImageButton, gbc); // Thêm nút Cập nhật hình ảnh vào panel
+
+        return panel; // Trả về panel đã được thiết lập
     }
 }
