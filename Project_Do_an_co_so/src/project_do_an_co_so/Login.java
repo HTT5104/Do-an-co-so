@@ -30,7 +30,7 @@ public class Login extends JFrame {
         // Tạo các thành phần cho biểu mẫu đăng nhập
         Font font = new Font("Arial", Font.BOLD, 14);
 
-        JLabel roleLabel = new JLabel("Chọn vai trò ");
+        JLabel roleLabel = new JLabel("Role");
         roleLabel.setFont(font);
         roleLabel.setForeground(Color.BLACK);
         gbc.gridx = 0;
@@ -38,14 +38,14 @@ public class Login extends JFrame {
         gbc.gridwidth = 2;
         loginPanel.add(roleLabel, gbc);
 
-        String[] roles = {"Ban điều hành", "Ban huấn luyện", "Y tế", "Cầu thủ"};
+        String[] roles = {"Manager", "Coach", "Player"};
         JComboBox<String> roleComboBox = new JComboBox<>(roles);
         roleComboBox.setFont(font);
         roleComboBox.setSelectedIndex(-1);
         gbc.gridy++;
         loginPanel.add(roleComboBox, gbc);
 
-        JLabel userLabel = new JLabel("Nhập tài khoản");
+        JLabel userLabel = new JLabel("Username");
         userLabel.setFont(font);
         userLabel.setForeground(Color.BLACK);
         gbc.gridy++;
@@ -57,7 +57,7 @@ public class Login extends JFrame {
         gbc.gridx = 1;
         loginPanel.add(userField, gbc);
 
-        JLabel passLabel = new JLabel("Nhập mật khẩu");
+        JLabel passLabel = new JLabel("Password");
         passLabel.setFont(font);
         passLabel.setForeground(Color.BLACK);
         gbc.gridx = 0;
@@ -69,7 +69,7 @@ public class Login extends JFrame {
         gbc.gridx = 1;
         loginPanel.add(passField, gbc);
 
-        JButton loginButton = new JButton("Nút Đăng nhập");
+        JButton loginButton = new JButton("Login");
         loginButton.setFont(font);
         loginButton.setBackground(new Color(33, 150, 243));
         loginButton.setForeground(Color.WHITE);
@@ -100,19 +100,19 @@ public class Login extends JFrame {
                 System.out.println("Player data map: " + entry.getKey() + ", Player: " + entry.getValue());
             }
 
-            if ("minhduy".equals(username) && "123".equals(password) && "Ban điều hành".equals(role)) {
+            if ("minhduy".equals(username) && "123".equals(password) && "Manager".equals(role)) {
                 View_BanDieuHanh.hien();
                 Window window = SwingUtilities.getWindowAncestor(loginPanel);
                 if (window != null) {
                     window.dispose();
                 }
-            } else if ("minhduy".equals(username) && "123".equals(password) && "Ban huấn luyện".equals(role)) {
+            } else if ("minhduy".equals(username) && "123".equals(password) && "Coach".equals(role)) {
                 View_BanHuanLuyen.hien();
                 Window window = SwingUtilities.getWindowAncestor(loginPanel);
                 if (window != null) {
                     window.dispose();
                 }
-            } else if ("Cầu thủ".equals(role)) {               
+            } else if ("Player".equals(role)) {               
 
                 if (playerData.containsKey(mp)) {
                     System.out.println("Co");
@@ -124,11 +124,11 @@ public class Login extends JFrame {
                         window.dispose();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác", "Lỗi",
+                    JOptionPane.showMessageDialog(null, "Wrong information", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác", "Lỗi",
+                JOptionPane.showMessageDialog(null, "Wrong information", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         });

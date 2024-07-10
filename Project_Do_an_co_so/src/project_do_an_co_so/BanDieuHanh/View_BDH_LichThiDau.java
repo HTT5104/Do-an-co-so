@@ -15,7 +15,7 @@ public class View_BDH_LichThiDau {
 
     public static void main() {
         // Create the main frame
-        JFrame frame = new JFrame("Lịch thi đấu");
+        JFrame frame = new JFrame("Schedule");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 600);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
@@ -37,7 +37,7 @@ public class View_BDH_LichThiDau {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        JButton addButton = new JButton("Thêm");
+        JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,20 +51,20 @@ public class View_BDH_LichThiDau {
 
                 JPanel inputPanel = new JPanel();
                 inputPanel.setLayout(new GridLayout(6, 2, 10, 10));
-                inputPanel.add(new JLabel("Giờ thi đấu:"));
+                inputPanel.add(new JLabel("Time:"));
                 inputPanel.add(timeField);
-                inputPanel.add(new JLabel("Ngày trận đấu:"));
+                inputPanel.add(new JLabel("Date:"));
                 inputPanel.add(dateField);
-                inputPanel.add(new JLabel("Giải đấu:"));
+                inputPanel.add(new JLabel("League:"));
                 inputPanel.add(tournamentField);
-                inputPanel.add(new JLabel("Đối thủ:"));
+                inputPanel.add(new JLabel("Opponent:"));
                 inputPanel.add(team1Field);
-                inputPanel.add(new JLabel("Sân vận động:"));
+                inputPanel.add(new JLabel("Stadium:"));
                 inputPanel.add(team2Field);
-                inputPanel.add(new JLabel("Home hoặc Away:"));
+                inputPanel.add(new JLabel("Home or Away:"));
                 inputPanel.add(homeAwayComboBox);
 
-                int result = JOptionPane.showConfirmDialog(frame, inputPanel, "Nhập thông tin trận đấu mới",
+                int result = JOptionPane.showConfirmDialog(frame, inputPanel, "New match",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     Match newMatch = new Match(
@@ -86,7 +86,7 @@ public class View_BDH_LichThiDau {
         });
         buttonPanel.add(addButton);
 
-        JButton deleteButton = new JButton("Xóa");
+        JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,12 +122,12 @@ public class View_BDH_LichThiDau {
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(1, 6, 10, 10));
 
-        rowPanel.add(createLabel("Giờ thi đấu"));
-        rowPanel.add(createLabel("Ngày trận đấu"));
-        rowPanel.add(createLabel("Giải đấu"));
-        rowPanel.add(createLabel("Tên đội 1"));
-        rowPanel.add(createLabel("Tên đội 2"));
-        rowPanel.add(createLabel("Home hoặc Away"));
+        rowPanel.add(createLabel("Time"));
+        rowPanel.add(createLabel("Date"));
+        rowPanel.add(createLabel("League"));
+        rowPanel.add(createLabel("Opponent"));
+        rowPanel.add(createLabel("Stadium"));
+        rowPanel.add(createLabel("Home or Away"));
 
         return rowPanel;
     }
