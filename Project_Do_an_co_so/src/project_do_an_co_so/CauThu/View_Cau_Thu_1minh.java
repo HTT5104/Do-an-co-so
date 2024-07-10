@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
 
 import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
 import project_do_an_co_so.Player;
-
+import project_do_an_co_so.View_CT_LichThiDau;
 public class View_Cau_Thu_1minh {
     private static JFrame frame;
     private JLabel nameLabel, positionLabel, birthDateLabel, hometownLabel, numberShirtLabel, weightLabel, heightLabel,
@@ -167,19 +167,21 @@ public class View_Cau_Thu_1minh {
         panel.add(backButton, gbc); // Thêm nút Quay lại vào panel
 
         // Nút Chỉnh sửa
-        JButton editButton = new JButton("Chỉnh sửa");
-        Controller_Nhansu_1DoiTuong.styleButton(editButton);
-        editButton.addActionListener(new ActionListener() {
+        JButton scheduleButton = new JButton("Lịch thi đấu");
+        Controller_Nhansu_1DoiTuong.styleButton(scheduleButton);
+        scheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // openEditForm(selectedRow, tableModel, playerList);
+                // Code xử lý sự kiện cho nút Nhân sự
+                View_CT_LichThiDau.main();
+                frame.dispose();
             }
         });
         gbc.gridx = 1; // Vị trí cột
         gbc.gridy = 9; // Vị trí hàng
         gbc.gridwidth = 1; // Chiếm 1 cột
         gbc.anchor = GridBagConstraints.WEST; // Canh trái
-        panel.add(editButton, gbc); // Thêm nút Chỉnh sửa vào panel
+        panel.add(scheduleButton, gbc); // Thêm nút Chỉnh sửa vào panel
 
         // Nút Cập nhật hình ảnh
         JButton uploadImageButton = new JButton("Cập nhật hình ảnh");
