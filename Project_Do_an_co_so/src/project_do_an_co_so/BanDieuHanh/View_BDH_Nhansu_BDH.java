@@ -192,7 +192,7 @@ public class View_BDH_Nhansu_BDH {
         panel.setLayout(null);
         panel.setBackground(Color.WHITE);
 
-        JLabel titleLabel = new JLabel("Nhân sự - 1 nhóm đối tượng");
+        JLabel titleLabel = new JLabel("Danh sách cầu thủ");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBounds(250, 20, 400, 30);
         panel.add(titleLabel);

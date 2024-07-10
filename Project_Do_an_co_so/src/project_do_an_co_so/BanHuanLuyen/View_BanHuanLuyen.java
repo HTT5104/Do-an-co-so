@@ -110,7 +110,7 @@ public class View_BanHuanLuyen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code xử lý sự kiện cho nút Nhân sự
-                View_BHL_Nhan_su_BHL.hien();
+                View_BHL_Nhan_su_BHL.set();
                 frame.dispose();
             }
         });

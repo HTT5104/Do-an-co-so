@@ -53,7 +53,7 @@ public class View_BHL_Nhan_su_BHL {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
             Player selectedPlayer = playerList.get(selectedRow);
-            View_Nhansu_1DoiTuong view = new View_Nhansu_1DoiTuong();
+            View_BHL_Nhansu_1nguoi view = new View_BHL_Nhansu_1nguoi();
             view.set(selectedRow, selectedPlayer, table, tableModel, playerList);
             frame.dispose();
         } else {
@@ -192,7 +192,7 @@ public class View_BHL_Nhan_su_BHL {
         panel.setLayout(null);
         panel.setBackground(Color.WHITE);
 
-        JLabel titleLabel = new JLabel("Nhân sự - 1 nhóm đối tượng");
+        JLabel titleLabel = new JLabel("Danh sách cầu thủ");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBounds(250, 20, 400, 30);
         panel.add(titleLabel);
@@ -206,49 +206,13 @@ public class View_BHL_Nhan_su_BHL {
         panel.add(scrollPane);
 
         // Add "Thêm" button
-        JButton addButton = new JButton("Nút Thêm");
-        addButton.setFont(new Font("Arial", Font.BOLD, 18));
-        addButton.setBackground(new Color(255, 182, 193));
-        addButton.setBounds(50, 350, 120, 50);
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openAddPlayerForm();
-            }
-        });
-        panel.add(addButton);
-
         // Add "Xóa" button
-        JButton deleteButton = new JButton("Nút Xóa");
-        deleteButton.setFont(new Font("Arial", Font.BOLD, 18));
-        deleteButton.setBackground(new Color(255, 182, 193));
-        deleteButton.setBounds(200, 350, 120, 50);
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow >= 0) {
-                    int confirm = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn xóa cầu thủ này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        playerList.remove(selectedRow);
-                        tableModel.removeRow(selectedRow);
-
-                        // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
-                        save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Chọn một đối tượng để xóa.");
-                }
-            }
-        });
-
-        panel.add(deleteButton);
 
         // Add "Chọn" button
         JButton selectButton = new JButton("Nút Chọn");
         selectButton.setFont(new Font("Arial", Font.BOLD, 18));
         selectButton.setBackground(new Color(255, 182, 193));
-        selectButton.setBounds(350, 350, 120, 50);
+        selectButton.setBounds(150, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -261,11 +225,11 @@ public class View_BHL_Nhan_su_BHL {
         JButton backButton = new JButton("Nút Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.setBackground(new Color(255, 182, 193));
-        backButton.setBounds(500, 350, 120, 50);
+        backButton.setBounds(350, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                View_BanDieuHanh.hien();
+                View_BanHuanLuyen.hien();
                 frame.dispose();
             }
         });
@@ -275,7 +239,7 @@ public class View_BHL_Nhan_su_BHL {
         JButton loadCsvButton = new JButton("Cập nhật");
         loadCsvButton.setFont(new Font("Arial", Font.BOLD, 18));
         loadCsvButton.setBackground(new Color(255, 182, 193));
-        loadCsvButton.setBounds(650, 350, 150, 50);
+        loadCsvButton.setBounds(550, 350, 120, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
