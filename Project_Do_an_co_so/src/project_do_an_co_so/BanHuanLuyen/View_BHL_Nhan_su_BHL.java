@@ -14,7 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class View_BDH_Nhansu_BDH {
+public class View_BHL_Nhan_su_BHL {
 
     private static JFrame frame;
     private static DefaultTableModel tableModel;

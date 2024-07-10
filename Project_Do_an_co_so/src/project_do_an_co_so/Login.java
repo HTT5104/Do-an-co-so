@@ -1,5 +1,7 @@
 package project_do_an_co_so;
 
+import project_do_an_co_so.BackgroundPanel;
+import project_do_an_co_so.View_BanHuanLuyen;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;

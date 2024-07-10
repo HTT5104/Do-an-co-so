@@ -1,4 +1,4 @@
-package project_do_an_co_so.BanHuyenLuyen;
+package project_do_an_co_so;
 
 import javax.swing.*;
 import java.awt.*;

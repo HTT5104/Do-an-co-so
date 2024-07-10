@@ -1,4 +1,4 @@
-package project_do_an_co_so.BanHuyenLuyen;
+package project_do_an_co_so;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

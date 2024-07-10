@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import project_do_an_co_so.BanHuyenLuyen.Controller_Nhansu_1DoiTuong;
+import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
 import project_do_an_co_so.Player;
 
 public class View_Cau_Thu_1minh {
