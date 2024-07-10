@@ -15,7 +15,7 @@ public class View_BHL_LichThiDau {
 
     public static void main() {
         // Create the main frame
-        JFrame frame = new JFrame("Lịch thi đấu");
+        JFrame frame = new JFrame("Schedule");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 600);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
@@ -60,12 +60,12 @@ public class View_BHL_LichThiDau {
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(1, 6, 10, 10));
 
-        rowPanel.add(createLabel("Giờ thi đấu"));
-        rowPanel.add(createLabel("Ngày trận đấu"));
-        rowPanel.add(createLabel("Giải đấu"));
-        rowPanel.add(createLabel("Tên đội 1"));
-        rowPanel.add(createLabel("Tên đội 2"));
-        rowPanel.add(createLabel("Home hoặc Away"));
+        rowPanel.add(createLabel("Time"));
+        rowPanel.add(createLabel("Date"));
+        rowPanel.add(createLabel("League"));
+        rowPanel.add(createLabel("Opponent"));
+        rowPanel.add(createLabel("Stadium"));
+        rowPanel.add(createLabel("Home or Away"));
 
         return rowPanel;
     }

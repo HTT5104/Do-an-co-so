@@ -47,9 +47,9 @@ public class Controller_BHL_Nhansu_1nguoi {
                 // Kiểm tra và tạo thư mục nếu chưa tồn tại
                 if (!storageDir.exists()) {
                     if (storageDir.mkdirs()) {
-                        System.out.println("Thư mục lưu trữ đã được tạo: " + storageDir.getAbsolutePath());
+                        System.out.println("Folder created: " + storageDir.getAbsolutePath());
                     } else {
-                        System.out.println("Không thể tạo thư mục lưu trữ");
+                        System.out.println("Can't create a folder to save");
                         return;
                     }
                 }
@@ -59,9 +59,9 @@ public class Controller_BHL_Nhansu_1nguoi {
                 File oldPlayerFile = new File(storageDir, playerFileName);
                 if (oldPlayerFile.exists()) {
                     if (oldPlayerFile.delete()) {
-                        System.out.println("Đã xóa file cũ: " + oldPlayerFile.getAbsolutePath());
+                        System.out.println("File deleted: " + oldPlayerFile.getAbsolutePath());
                     } else {
-                        System.out.println("Không thể xóa file cũ: " + oldPlayerFile.getAbsolutePath());
+                        System.out.println("Can't delete the old file: " + oldPlayerFile.getAbsolutePath());
                     }
                 }
 
@@ -70,16 +70,16 @@ public class Controller_BHL_Nhansu_1nguoi {
                     Files.copy(selectedFile.toPath(), new File(storagePath).toPath(),
                             StandardCopyOption.REPLACE_EXISTING);
 
-                    System.out.println("Tệp " + fileName + " đã được sao chép vào " + storagePath);
+                    System.out.println("Tệp " + fileName + " has copied to " + storagePath);
 
                     // Đổi tên file đã copy trong folder mới theo tên của Player
                     File newFile = new File(storagePath);
                     File renamedFile = new File("src/project_do_an_co_so/Image/Player_avatar/" + playerFileName);
 
                     if (newFile.renameTo(renamedFile)) {
-                        System.out.println("Đã đổi tên file thành: " + renamedFile.getAbsolutePath());
+                        System.out.println("File's name has changed to: " + renamedFile.getAbsolutePath());
                     } else {
-                        System.out.println("Không thể đổi tên file.");
+                        System.out.println("Can't change the file's name");
                     }
 
                 } catch (IOException e) {
@@ -101,12 +101,12 @@ public class Controller_BHL_Nhansu_1nguoi {
             try {
                 // Sao chép tệp tin cũ sang tệp tin mới
                 Files.copy(oldFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Thành công");
+                System.out.println("Success");
             } catch (IOException e) {
-                System.out.println("Thất bại: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         } else {
-            System.out.println("Tệp tin cũ không tồn tại");
+            System.out.println("The old file doesn't exist");
         }
     }
 

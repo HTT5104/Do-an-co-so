@@ -66,7 +66,7 @@ public class View_BanHuanLuyen {
     private static JFrame frame;
 
     public static void hien() {
-        frame = new JFrame("Trang chu");
+        frame = new JFrame("Homepage");
         frame.setTitle("Soccer App");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,7 +83,7 @@ public class View_BanHuanLuyen {
 
         Font font = new Font("Arial", Font.BOLD, 24);
 
-        JLabel titleLabel = new JLabel("Trang chủ");
+        JLabel titleLabel = new JLabel("Homepage");
         titleLabel.setFont(font);
         titleLabel.setBounds(350, 30, 200, 50);
         homePanel.add(titleLabel);
@@ -105,7 +105,7 @@ public class View_BanHuanLuyen {
             }
         });
 
-        JButton personnelButton = createButton("Nhân sự", 200, 200);
+        JButton personnelButton = createButton("Player", 200, 200);
         personnelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +116,7 @@ public class View_BanHuanLuyen {
         });
         homePanel.add(personnelButton);
 
-        JButton scheduleButton = createButton("Lịch thi đấu", 400, 200);
+        JButton scheduleButton = createButton("Schedule", 400, 200);
         scheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class View_BanHuanLuyen {
         JButton evaluationButton = createButton("Đánh giá", 400, 300);
         homePanel.add(evaluationButton);
 
-        JButton optimizationButton = createButton("Tối ưu", 600, 300);
+        JButton optimizationButton = createButton("Optimize Lineup", 600, 300);
         optimizationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

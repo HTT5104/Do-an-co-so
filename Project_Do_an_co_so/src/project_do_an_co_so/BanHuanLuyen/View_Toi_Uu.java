@@ -78,7 +78,7 @@ public class View_Toi_Uu extends JFrame {
             }
         });
 
-        JButton uploadButton = new JButton("Upload CSV");
+        JButton uploadButton = new JButton("Upload data last match");
         customizeButton(uploadButton);
         uploadButton.addActionListener(new ActionListener() {
             @Override

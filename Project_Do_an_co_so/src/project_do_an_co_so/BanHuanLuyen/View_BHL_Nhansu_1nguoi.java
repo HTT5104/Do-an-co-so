@@ -27,7 +27,7 @@ public class View_BHL_Nhansu_1nguoi {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                frame = new JFrame("Nhân sự");
+                frame = new JFrame("Player");
                 frame.setSize(1200, 800); // Updated frame size
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
@@ -54,7 +54,7 @@ public class View_BHL_Nhansu_1nguoi {
     }
 
     private void openEditForm(int selectedRow, DefaultTableModel tableModel, ArrayList<Player> playerList) {
-        editDialog = new JDialog(frame, "Chỉnh sửa thông tin", true);
+        editDialog = new JDialog(frame, "Information edit", true);
         editDialog.setSize(400, 300);
         editDialog.setLayout(new BorderLayout());
 
@@ -63,23 +63,23 @@ public class View_BHL_Nhansu_1nguoi {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Increase padding
 
         // Combobox để chọn thuộc tính cần chỉnh sửa
-        String[] attributes = { "Họ tên", "Vị trí", "Ngày sinh", "Quê quán", "Số áo", "Cân nặng", "Chiều cao",
-                "Chân thuận" };
+        String[] attributes = { "Name", "Position", "DoB", "Hometown", "Number", "Height", "Weight",
+                "Dominant foot" };
         JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
-        JLabel attributeLabel = new JLabel("Chọn thuộc tính cần chỉnh sửa:");
+        JLabel attributeLabel = new JLabel("Choose a feature to edit:");
         attributeLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
         contentPanel.add(attributeLabel);
         contentPanel.add(attributeComboBox);
 
         // Trường nhập liệu mới
         JTextField newValueField = new JTextField(20);
-        JLabel newValueLabel = new JLabel("Giá trị mới:");
+        JLabel newValueLabel = new JLabel("New information:");
         newValueLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
         contentPanel.add(newValueLabel);
         contentPanel.add(newValueField);
 
         // Nút lưu thay đổi
-        JButton saveButton = new JButton("Lưu");
+        JButton saveButton = new JButton("Save");
         saveButton.setFont(new Font("Arial", Font.BOLD, 18)); // Increase font size
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -88,45 +88,45 @@ public class View_BHL_Nhansu_1nguoi {
                 String newValue = newValueField.getText();
 
                 if (newValue.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(editDialog, "Vui lòng nhập giá trị mới.");
+                    JOptionPane.showMessageDialog(editDialog, "Write new information");
                     return;
                 }
 
                 // Hộp thoại xác nhận
-                int confirm = JOptionPane.showConfirmDialog(editDialog, "Bạn có chắc chắn muốn thay đổi giá trị?",
-                        "Xác nhận thay đổi", JOptionPane.YES_NO_OPTION);
+                int confirm = JOptionPane.showConfirmDialog(editDialog, "Do you want to edit this information?",
+                        "Edit", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     // Cập nhật thông tin của cầu thủ đã chọn
                     switch (selectedAttribute) {
-                        case "Họ tên":
+                        case "Name":
                             currentPlayer.setName(newValue);
                             nameLabel.setText(newValue);
                             break;
-                        case "Vị trí":
+                        case "Position":
                             currentPlayer.setPosition(newValue);
                             positionLabel.setText(newValue);
                             break;
-                        case "Ngày sinh":
+                        case "DoB":
                             currentPlayer.setBirthDate(newValue);
                             birthDateLabel.setText(newValue);
                             break;
-                        case "Quê quán":
+                        case "Hometown":
                             currentPlayer.setHometown(newValue);
                             hometownLabel.setText(newValue);
                             break;
-                        case "Số áo":
+                        case "Number":
                             currentPlayer.setNumberShirt(newValue);
                             numberShirtLabel.setText(newValue);
                             break;
-                        case "Cân nặng":
+                        case "Weight":
                             currentPlayer.setWeight(newValue);
                             weightLabel.setText(newValue);
                             break;
-                        case "Chiều cao":
+                        case "Height":
                             currentPlayer.setHeight(newValue);
                             heightLabel.setText(newValue);
                             break;
-                        case "Chân thuận":
+                        case "Dominant foot":
                             currentPlayer.setBodyMass(newValue);
                             bodyMassLabel.setText(newValue);
                             break;
@@ -145,7 +145,7 @@ public class View_BHL_Nhansu_1nguoi {
 
                         editDialog.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Chọn một đối tượng hợp lệ để cập nhật.");
+                        JOptionPane.showMessageDialog(frame, "Choose a player to edit information");
                     }
                 }
             }
@@ -167,7 +167,7 @@ public class View_BHL_Nhansu_1nguoi {
         gbc = new GridBagConstraints();
 
         // Tiêu đề
-        JLabel titleLabel = new JLabel("Thông tin cầu thủ");
+        JLabel titleLabel = new JLabel("Player's information");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Tăng kích thước font
         gbc.gridx = 0; // Vị trí cột
         gbc.gridy = 0; // Vị trí hàng
@@ -198,14 +198,14 @@ public class View_BHL_Nhansu_1nguoi {
         gbc.fill = GridBagConstraints.HORIZONTAL; // Kéo dãn theo chiều ngang
 
         // Thêm các JLabel
-        nameLabelTitle = new JLabel("Họ tên:");
-        positionLabelTitle = new JLabel("Vị trí:");
-        birthDateLabelTitle = new JLabel("Ngày sinh:");
-        hometownLabelTitle = new JLabel("Quê quán:");
-        numberShirtLabelTitle = new JLabel("Số áo:");
-        weightLabelTitle = new JLabel("Cân nặng:");
-        heightLabelTitle = new JLabel("Chiều cao:");
-        bodyMassLabelTitle = new JLabel("Chân thuận:");
+        nameLabelTitle = new JLabel("Name:");
+        positionLabelTitle = new JLabel("Position:");
+        birthDateLabelTitle = new JLabel("DoB:");
+        hometownLabelTitle = new JLabel("Hometown:");
+        numberShirtLabelTitle = new JLabel("Number:");
+        weightLabelTitle = new JLabel("Weight:");
+        heightLabelTitle = new JLabel("Height:");
+        bodyMassLabelTitle = new JLabel("Dominant foot:");
 
         nameLabel = new JLabel();
         positionLabel = new JLabel();
@@ -247,7 +247,7 @@ public class View_BHL_Nhansu_1nguoi {
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 8);
 
         // Nút Quay lại
-        JButton backButton = new JButton("Quay lại");
+        JButton backButton = new JButton("Back");
         Controller_Nhansu_1DoiTuong.styleButton(backButton);
         backButton.addActionListener(new ActionListener() {
             @Override
