@@ -57,7 +57,7 @@ public class View_BDH_Nhansu_BDH {
             view.set(selectedRow, selectedPlayer, table, tableModel, playerList);
             frame.dispose();
         } else {
-            JOptionPane.showMessageDialog(frame, "Chọn một đối tượng.");
+            JOptionPane.showMessageDialog(frame, "Choose a player");
         }
     }
 
@@ -78,13 +78,13 @@ public class View_BDH_Nhansu_BDH {
             // Nếu đường dẫn x là hợp lệ và không phải là một thư mục
             loadCSV(file);
         } else {
-            System.out.println("Đường dẫn không hợp lệ hoặc không tồn tại: " + x);
+            System.out.println("Error direction: " + x);
         }
     }
 
     private static void openAddPlayerForm() {
         // Tạo một form mới để nhập thuộc tính cầu thủ
-        JDialog addPlayerDialog = new JDialog(frame, "Thêm cầu thủ mới", true);
+        JDialog addPlayerDialog = new JDialog(frame, "Add a new player", true);
         addPlayerDialog.setSize(300, 500);
         addPlayerDialog.setLayout(new BoxLayout(addPlayerDialog.getContentPane(), BoxLayout.Y_AXIS));
 
@@ -99,25 +99,25 @@ public class View_BDH_Nhansu_BDH {
         JTextField bodyMassField = new JTextField(20);
 
         // Thêm các trường nhập liệu vào dialog
-        addPlayerDialog.add(new JLabel("Tên:"));
+        addPlayerDialog.add(new JLabel("Name:"));
         addPlayerDialog.add(nameField);
-        addPlayerDialog.add(new JLabel("Quê quán:"));
+        addPlayerDialog.add(new JLabel("Hometown:"));
         addPlayerDialog.add(hometownField);
-        addPlayerDialog.add(new JLabel("Ngày sinh:"));
+        addPlayerDialog.add(new JLabel("DoB:"));
         addPlayerDialog.add(birthDateField);
-        addPlayerDialog.add(new JLabel("Số áo:"));
+        addPlayerDialog.add(new JLabel("Number:"));
         addPlayerDialog.add(numberShirtField);
-        addPlayerDialog.add(new JLabel("Vị trí:"));
+        addPlayerDialog.add(new JLabel("Positions:"));
         addPlayerDialog.add(positionField);
-        addPlayerDialog.add(new JLabel("Cân nặng:"));
+        addPlayerDialog.add(new JLabel("Weight:"));
         addPlayerDialog.add(weightField);
-        addPlayerDialog.add(new JLabel("Chiều cao:"));
+        addPlayerDialog.add(new JLabel("Height:"));
         addPlayerDialog.add(heightField);
-        addPlayerDialog.add(new JLabel("Chỉ số cơ thể:"));
+        addPlayerDialog.add(new JLabel("Dominant foot:"));
         addPlayerDialog.add(bodyMassField);
 
         // Thêm nút lưu cầu thủ
-        JButton saveButton = new JButton("Lưu");
+        JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +145,7 @@ public class View_BDH_Nhansu_BDH {
                     View_BDH_Nhansu_BDH.hien();
                     load2("src/project_do_an_co_so/CSV/Data.csv");
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Vui lòng nhập tên cầu thủ.");
+                    JOptionPane.showMessageDialog(frame, "Write the player's name");
                 }
             }
         });
@@ -177,7 +177,7 @@ public class View_BDH_Nhansu_BDH {
     }
 
     public static void hien() {
-        frame = new JFrame("Nhân sự");
+        frame = new JFrame("Player");
         frame.setSize(900, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -192,13 +192,13 @@ public class View_BDH_Nhansu_BDH {
         panel.setLayout(null);
         panel.setBackground(Color.WHITE);
 
-        JLabel titleLabel = new JLabel("Danh sách cầu thủ");
+        JLabel titleLabel = new JLabel("Player list");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBounds(250, 20, 400, 30);
         panel.add(titleLabel);
 
         // Create table
-        String[] columnNames = {"Tên"};
+        String[] columnNames = {"Name"};
         tableModel = new DefaultTableModel(columnNames, 0);
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -206,7 +206,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(scrollPane);
 
         // Add "Thêm" button
-        JButton addButton = new JButton("Nút Thêm");
+        JButton addButton = new JButton("Add");
         addButton.setFont(new Font("Arial", Font.BOLD, 18));
         addButton.setBackground(new Color(255, 182, 193));
         addButton.setBounds(50, 350, 120, 50);
@@ -219,7 +219,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(addButton);
 
         // Add "Xóa" button
-        JButton deleteButton = new JButton("Nút Xóa");
+        JButton deleteButton = new JButton("Delete");
         deleteButton.setFont(new Font("Arial", Font.BOLD, 18));
         deleteButton.setBackground(new Color(255, 182, 193));
         deleteButton.setBounds(200, 350, 120, 50);
@@ -228,7 +228,7 @@ public class View_BDH_Nhansu_BDH {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
-                    int confirm = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn xóa cầu thủ này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+                    int confirm = JOptionPane.showConfirmDialog(frame, "Do you want to delete this player?", "Delete", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         playerList.remove(selectedRow);
                         tableModel.removeRow(selectedRow);
@@ -237,7 +237,7 @@ public class View_BDH_Nhansu_BDH {
                         save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Chọn một đối tượng để xóa.");
+                    JOptionPane.showMessageDialog(frame, "Choose a player to delete");
                 }
             }
         });
@@ -245,7 +245,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(deleteButton);
 
         // Add "Chọn" button
-        JButton selectButton = new JButton("Nút Chọn");
+        JButton selectButton = new JButton("Choose");
         selectButton.setFont(new Font("Arial", Font.BOLD, 18));
         selectButton.setBackground(new Color(255, 182, 193));
         selectButton.setBounds(350, 350, 120, 50);
@@ -258,7 +258,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(selectButton);
 
         // Add "Back" button
-        JButton backButton = new JButton("Nút Back");
+        JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.setBackground(new Color(255, 182, 193));
         backButton.setBounds(500, 350, 120, 50);
@@ -272,7 +272,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(backButton);
 
         // Nút up csv
-        JButton loadCsvButton = new JButton("Cập nhật");
+        JButton loadCsvButton = new JButton("Update");
         loadCsvButton.setFont(new Font("Arial", Font.BOLD, 18));
         loadCsvButton.setBackground(new Color(255, 182, 193));
         loadCsvButton.setBounds(650, 350, 150, 50);

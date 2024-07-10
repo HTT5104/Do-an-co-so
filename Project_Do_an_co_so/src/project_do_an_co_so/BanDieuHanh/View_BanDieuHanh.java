@@ -65,7 +65,7 @@ public class View_BanDieuHanh {
     private static JFrame frame;
     
     public static void hien() {
-        frame = new JFrame("Trang chu");
+        frame = new JFrame("Homepage");
         frame.setTitle("Soccer App");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,21 +82,21 @@ public class View_BanDieuHanh {
 
         Font font = new Font("Arial", Font.BOLD, 18);
 
-        JLabel titleLabel = new JLabel("Trang chủ");
+        JLabel titleLabel = new JLabel("Homepage");
         titleLabel.setFont(font);
         titleLabel.setBounds(350, 30, 100, 30);
         homePanel.add(titleLabel);
 
         // Tạo nút Đăng xuất với hình mũi tên tùy chỉnh
         ImageIcon arrowIcon = new ImageIcon("src/project_do_an_co_so/Image/arrow.png");
-        FlatArrowButton logoutButton = new FlatArrowButton("Đăng xuất", arrowIcon);
+        FlatArrowButton logoutButton = new FlatArrowButton("Log out", arrowIcon);
         logoutButton.setBounds(30, 30, 200, 80); // Điều chỉnh kích thước nút cho mũi tên ngắn lại và chữ nằm hoàn toàn trong mũi tên
         homePanel.add(logoutButton);
 
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int response = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int response = JOptionPane.showConfirmDialog(frame, "Do you want to log out?", "Log out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     Login.Hien();
                     frame.dispose(); // Đóng cửa sổ hiện tại
@@ -104,7 +104,7 @@ public class View_BanDieuHanh {
             }
         });
 
-        JButton personnelButton = createButton("Nhân sự", 200, 200);
+        JButton personnelButton = createButton("Player", 200, 200);
         personnelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,7 +115,7 @@ public class View_BanDieuHanh {
         });
         homePanel.add(personnelButton);
 
-        JButton scheduleButton = createButton("Lịch thi đấu", 400, 200);
+        JButton scheduleButton = createButton("Schedule", 400, 200);
         scheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +126,7 @@ public class View_BanDieuHanh {
         });
         homePanel.add(scheduleButton);
 
-        JButton rankingButton = createButton("Bảng xếp hạng", 600, 200);
+        JButton rankingButton = createButton("Cái qq gì đấy", 600, 200);
         homePanel.add(rankingButton);
 
         return homePanel;
