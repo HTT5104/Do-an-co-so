@@ -199,18 +199,18 @@ public class View_Cau_Thu_1minh {
         uploadImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentPlayer = Controller_Cau_Thu_1minh.viewController_Cau_Thu_1minh(currentPlayer);
-                ArrayList<Player> data = new ArrayList<>();
-                String path = "src/project_do_an_co_so/CSV/Data.csv";
-                data = readCSV(data, path);
-                for (int i = 0; i < data.size(); i++) {
-                    if (data.get(i).getName().equals(currentPlayer.getName())) {   
-                        data.set(i, currentPlayer);
-                        
-                    }
-                }
-                Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", data);
+//                ArrayList<Player> data = new ArrayList<>();
+//                String path = "src/project_do_an_co_so/CSV/Data.csv";
+//                data = readCSV(data, path);
+//                for (int i = 0; i < data.size(); i++) {
+//                    if (data.get(i).getName().equals(currentPlayer.getName())) {   
+//                        data.set(i, currentPlayer);
+//                        
+//                    }
+//                }
+//                Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
+//                View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", data);
+                  Controller_Cau_Thu_1minh.viewController_Cau_Thu_1minh(currentPlayer);
             }            
         });
         gbc.gridx = 2; // Vị trí cột
