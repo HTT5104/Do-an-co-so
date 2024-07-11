@@ -12,7 +12,6 @@ import java.util.Map;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.math.BigInteger;
-import project_do_an_co_so.CauThu.View_Cau_Thu_1minh;
 
 public class Login extends JFrame {
 
@@ -163,7 +162,7 @@ public class Login extends JFrame {
                     String height = values[6];
                     String bodyMass = values[7];
 
-                    Player pr = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass);
+                    Player pr = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, md5Password);
 
                     playerData.put(bm, pr);
                 }

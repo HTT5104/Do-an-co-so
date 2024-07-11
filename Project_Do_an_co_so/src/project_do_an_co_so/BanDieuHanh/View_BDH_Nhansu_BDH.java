@@ -37,11 +37,14 @@ public class View_BDH_Nhansu_BDH {
     public static void save3(String filePath, ArrayList<Player> playerList1) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             // Ghi dữ liệu của từng cầu thủ vào file CSV
+            writer.write(1 + "," + 1 + "," + 1 + "," + 1 + ","
+                        + 1 + "," + 1 + "," + 1 + "," + 1 + "," + 1);
+            writer.newLine();
             for (Player player : playerList1) {
                 System.out.println(player.toString());
                 writer.newLine();
                 writer.write(player.getName() + "," + player.getHometown() + "," + player.getBirthDate() + "," + player.getNumberShirt() + ","
-                        + player.getPosition() + "," + player.getWeight() + "," + player.getHeight() + "," + player.getBodyMass());
+                        + player.getPosition() + "," + player.getWeight() + "," + player.getHeight() + "," + player.getBodyMass() + "," + player.getPassword());
                 writer.newLine();
             }
         } catch (IOException e) {

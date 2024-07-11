@@ -9,8 +9,9 @@ public class Player {
     private String weight;
     private String height;
     private String bodyMass;
+    private String password;
 
-    // Constructor, getters, and setters
+    // Constructor thuong
     public Player(String name, String hometown, String birthDate, String numberShirt, String position, String weight, String height, String bodyMass) {
         this.name = name;
         this.hometown = hometown;
@@ -21,6 +22,27 @@ public class Player {
         this.height = height;
         this.bodyMass = bodyMass;
     }
+    
+    //Constructor vjppro
+    public Player(String name, String hometown, String birthDate, String numberShirt, String position, String weight, String height, String bodyMass, String password) {
+        this.name = name;
+        this.hometown = hometown;
+        this.birthDate = birthDate;
+        this.numberShirt = numberShirt;
+        this.position = position;
+        this.weight = weight;
+        this.height = height;
+        this.bodyMass = bodyMass;
+        this.password = password;
+    }
+    
+    //Constructor vjpnopro
+
+    public Player(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+    
 
     public void setName(String name) {
         this.name = name;
@@ -53,6 +75,14 @@ public class Player {
     public void setBodyMass(String bodyMass) {
         this.bodyMass = bodyMass;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }      
 
     // Getters and Setters
     public String getName() { return name; }

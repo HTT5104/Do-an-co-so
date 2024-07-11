@@ -13,7 +13,8 @@ public class View_CT_LichThiDau {
     private static final int MAX_MATCHES = 5;
     private static Queue<Match> matchQueue = new LinkedList<>();
 
-    public static void main() {
+    public static void main(Player x) {
+        
         // Create the main frame
         JFrame frame = new JFrame("Lịch thi đấu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +42,8 @@ public class View_CT_LichThiDau {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                View_BanHuanLuyen.hien();
+                View_Cau_Thu_1minh z = new View_Cau_Thu_1minh();
+                z.set(x);
                 frame.dispose();
             }
         });
@@ -68,9 +70,7 @@ public class View_CT_LichThiDau {
         rowPanel.add(createLabel("Home hoặc Away"));
 
         return rowPanel;
-    }
-    
-
+    }   
 
     // Method to create a JLabel with specified text and styling
     private static JLabel createLabel(String text) {
