@@ -14,6 +14,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
+
 public class View_BDH_Nhansu_BDH {
 
     private static JFrame frame;
@@ -238,6 +240,7 @@ public class View_BDH_Nhansu_BDH {
                         tableModel.removeRow(selectedRow);
 
                         // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
+                        Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
                         save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
                     }
                 } else {
