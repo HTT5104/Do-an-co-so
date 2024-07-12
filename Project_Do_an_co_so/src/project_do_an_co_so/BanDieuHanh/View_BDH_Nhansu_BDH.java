@@ -133,6 +133,7 @@ public class View_BDH_Nhansu_BDH {
                 String weight = weightField.getText();
                 String height = heightField.getText();
                 String bodyMass = bodyMassField.getText();
+                String password = "dd4b21e9ef71e1291183a46b913ae6f2";
 
                 // Kiểm tra xem tên có được nhập hay không
                 if (!name.trim().isEmpty()) {
@@ -140,7 +141,7 @@ public class View_BDH_Nhansu_BDH {
                     tableModel.addRow(new Object[]{name});
 
                     // Lưu dữ liệu vào file CSV
-                    savePlayerToCSV(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass);
+                    savePlayerToCSV(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
 
                     // Đóng dialog
                     addPlayerDialog.dispose();
@@ -160,7 +161,7 @@ public class View_BDH_Nhansu_BDH {
 
     // Hàm lưu dữ liệu vào file CSV, được khai báo bên ngoài phương thức createPanel
     private static void savePlayerToCSV(String name, String hometown, String birthDate, String numberShirt,
-            String position, String weight, String height, String bodyMass) {
+            String position, String weight, String height, String bodyMass, String password) {
         // Mở hộp thoại cho người dùng chọn nơi lưu file CSV
         //JFileChooser fileChooser = new JFileChooser("src/project_do_an_co_so/CSV/Data.csv");
         //fileChooser.setDialogTitle("Lưu file CSV");
@@ -171,7 +172,7 @@ public class View_BDH_Nhansu_BDH {
             File fileToSave = new File("src/project_do_an_co_so/CSV/Data.csv");
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave, true))) {
                 writer.write(name + "," + hometown + "," + birthDate + "," + numberShirt + "," + position + "," + weight
-                        + "," + height + "," + bodyMass);
+                        + "," + height + "," + bodyMass + "," + password);
                 writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
