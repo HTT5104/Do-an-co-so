@@ -90,14 +90,14 @@ public class View_BanHuanLuyen {
 
         // Tạo nút Đăng xuất với hình mũi tên tùy chỉnh
         ImageIcon arrowIcon = new ImageIcon("src/project_do_an_co_so/Image/arrow.png");
-        FlatArrowButton logoutButton = new FlatArrowButton("Đăng xuất", arrowIcon);
+        FlatArrowButton logoutButton = new FlatArrowButton("Log out", arrowIcon);
         logoutButton.setBounds(30, 30, 200, 80); // Điều chỉnh kích thước nút cho mũi tên ngắn lại và chữ nằm hoàn toàn trong mũi tên
         homePanel.add(logoutButton);
 
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int response = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int response = JOptionPane.showConfirmDialog(frame, "Do you want to log out?", "Log out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     Login.Hien();
                     frame.dispose(); // Đóng cửa sổ hiện tại
@@ -105,7 +105,7 @@ public class View_BanHuanLuyen {
             }
         });
 
-        JButton personnelButton = createButton("Player", 200, 200);
+        JButton personnelButton = createButton("Player", 350, 200);
         personnelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +116,7 @@ public class View_BanHuanLuyen {
         });
         homePanel.add(personnelButton);
 
-        JButton scheduleButton = createButton("Schedule", 400, 200);
+        JButton scheduleButton = createButton("Schedule", 350, 300);
         scheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,16 +127,7 @@ public class View_BanHuanLuyen {
         });
         homePanel.add(scheduleButton);
 
-        JButton rankingButton = createButton("Bảng xếp hạng", 600, 200);
-        homePanel.add(rankingButton);
-
-        JButton trainingButton = createButton("Lịch tập luyện", 200, 300);
-        homePanel.add(trainingButton);
-
-        JButton evaluationButton = createButton("Đánh giá", 400, 300);
-        homePanel.add(evaluationButton);
-
-        JButton optimizationButton = createButton("Optimize Lineup", 600, 300);
+        JButton optimizationButton = createButton("Optimize Lineup", 350, 400);
         optimizationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

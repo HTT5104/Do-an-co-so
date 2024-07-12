@@ -104,7 +104,7 @@ public class View_BanDieuHanh {
             }
         });
 
-        JButton personnelButton = createButton("Player", 200, 200);
+        JButton personnelButton = createButton("Player", 350, 200);
         personnelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,7 +115,7 @@ public class View_BanDieuHanh {
         });
         homePanel.add(personnelButton);
 
-        JButton scheduleButton = createButton("Schedule", 400, 200);
+        JButton scheduleButton = createButton("Schedule", 350, 300);
         scheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,9 +125,6 @@ public class View_BanDieuHanh {
             }
         });
         homePanel.add(scheduleButton);
-
-        JButton rankingButton = createButton("Cái qq gì đấy", 600, 200);
-        homePanel.add(rankingButton);
 
         return homePanel;
     }
