@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import project_do_an_co_so.Player;
 import project_do_an_co_so.View_BDH_Nhansu_BDH;
+import project_do_an_co_so.Ngoaile;
 
 public class View_Nhansu_1DoiTuong {
 
@@ -20,6 +21,7 @@ public class View_Nhansu_1DoiTuong {
     private Player currentPlayer;
     private JPanel panel, imagePanel;
     private JDialog editDialog;
+    private final Ngoaile x = new Ngoaile();
 
     public void set(int selectedRow, Player player, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
@@ -94,8 +96,8 @@ public class View_Nhansu_1DoiTuong {
 
         // Khung nhập liệu cho từng thuộc tính
         JTextField nameField = new JTextField(20);
-        JTextField positionField = new JTextField(20);
-        JPanel dobPanel = createDobPanel(); // Tạo panel chứa 3 JComboBox
+        JButton positionButton = new JButton("Select Positions"); // Nút mở dialog chọn vị trí
+        JPanel dobPanel = x.createDobPanel(); // Tạo panel chứa 3 JComboBox
         JTextField hometownField = new JTextField(20);
         JTextField numberField = new JTextField(20);
         JTextField weightField = new JTextField(20);
@@ -108,7 +110,7 @@ public class View_Nhansu_1DoiTuong {
         attributePanel.add(nameCheckBox);
         attributePanel.add(nameField);
         attributePanel.add(positionCheckBox);
-        attributePanel.add(positionField);
+        attributePanel.add(positionButton); // Thêm nút mở dialog chọn vị trí
         attributePanel.add(dobCheckBox);
         attributePanel.add(dobPanel); // Thêm panel chứa 3 JComboBox
         attributePanel.add(hometownCheckBox);
@@ -124,7 +126,7 @@ public class View_Nhansu_1DoiTuong {
 
         // Thêm action listeners cho checkboxes để hiển thị/ẩn khung nhập liệu
         nameCheckBox.addActionListener(e -> nameField.setVisible(nameCheckBox.isSelected()));
-        positionCheckBox.addActionListener(e -> positionField.setVisible(positionCheckBox.isSelected()));
+        positionCheckBox.addActionListener(e -> positionButton.setVisible(positionCheckBox.isSelected())); // Sử dụng positionButton
         dobCheckBox.addActionListener(e -> dobPanel.setVisible(dobCheckBox.isSelected())); // Sử dụng dobPanel
         hometownCheckBox.addActionListener(e -> hometownField.setVisible(hometownCheckBox.isSelected()));
         numberCheckBox.addActionListener(e -> numberField.setVisible(numberCheckBox.isSelected()));
@@ -134,13 +136,22 @@ public class View_Nhansu_1DoiTuong {
 
         // Ban đầu ẩn tất cả các khung nhập liệu
         nameField.setVisible(false);
-        positionField.setVisible(false);
+        positionButton.setVisible(false); // Ẩn positionButton
         dobPanel.setVisible(false); // Ẩn dobPanel
         hometownField.setVisible(false);
         numberField.setVisible(false);
         weightField.setVisible(false);
         heightField.setVisible(false);
         dominantFootField.setVisible(false);
+
+        // Action listener cho nút positionButton để mở dialog chọn vị trí
+        positionButton.addActionListener(e -> {
+            String selectedPositions = x.openPositionSelectionDialog(positionButton, editDialog);
+            if (selectedPositions != null && !selectedPositions.isEmpty()) {
+                currentPlayer.setPosition(selectedPositions);
+                positionButton.setText(selectedPositions); // Cập nhật tên nút
+            }
+        });
 
         // Action listener cho nút lưu
         saveButton.addActionListener(new ActionListener() {
@@ -150,14 +161,15 @@ public class View_Nhansu_1DoiTuong {
                     currentPlayer.setName(normalizeName(nameField.getText().trim()));
                     nameLabel.setText(currentPlayer.getName());
                 }
-                if (positionCheckBox.isSelected() && !positionField.getText().trim().isEmpty()) {
-                    currentPlayer.setPosition(positionField.getText().trim());
-                    positionLabel.setText(currentPlayer.getPosition());
-                }
-                if (dobCheckBox.isSelected()) {
-                    String dob = getDobFromComboBoxes(dobPanel); // Lấy giá trị từ 3 JComboBox
+                if (dobCheckBox.isSelected()) {                    
+                    String dob = x.getDobFromComboBoxes(dobPanel); // Lấy giá trị từ 3 JComboBox
                     currentPlayer.setBirthDate(dob);
                     birthDateLabel.setText(dob);
+                }
+                if (positionCheckBox.isSelected() && !positionButton.getText().equals("Select Positions")) {                    
+                    String vitri = positionButton.getText(); // Lấy giá trị từ 3 JComboBox
+                    currentPlayer.setPosition(vitri);
+                    positionLabel.setText(vitri);
                 }
                 if (hometownCheckBox.isSelected() && !hometownField.getText().trim().isEmpty()) {
                     currentPlayer.setHometown(hometownField.getText().trim());
@@ -200,48 +212,7 @@ public class View_Nhansu_1DoiTuong {
 
         editDialog.setLocationRelativeTo(frame);
         editDialog.setVisible(true);
-    }
-
-    private JPanel createDobPanel() {
-        JPanel dobPanel = new JPanel();
-        dobPanel.setLayout(new FlowLayout());
-
-        // Tạo JComboBox cho ngày
-        JComboBox<String> dayComboBox = new JComboBox<>();
-        for (int i = 31; i >= 1; i--) {
-            dayComboBox.addItem(String.format("%02d", i));
-        }
-
-        // Tạo JComboBox cho tháng
-        JComboBox<String> monthComboBox = new JComboBox<>();
-        for (int i = 12; i >= 1; i--) {
-            monthComboBox.addItem(String.format("%02d", i));
-        }
-
-        // Tạo JComboBox cho năm
-        JComboBox<String> yearComboBox = new JComboBox<>();
-        for (int i = 2024; i >= 1900; i--) {
-            yearComboBox.addItem(Integer.toString(i));
-        }
-
-        dobPanel.add(dayComboBox);
-        dobPanel.add(monthComboBox);
-        dobPanel.add(yearComboBox);
-
-        return dobPanel;
-    }
-
-    private String getDobFromComboBoxes(JPanel dobPanel) {
-        JComboBox<String> dayComboBox = (JComboBox<String>) dobPanel.getComponent(0);
-        JComboBox<String> monthComboBox = (JComboBox<String>) dobPanel.getComponent(1);
-        JComboBox<String> yearComboBox = (JComboBox<String>) dobPanel.getComponent(2);
-
-        String day = (String) dayComboBox.getSelectedItem();
-        String month = (String) monthComboBox.getSelectedItem();
-        String year = (String) yearComboBox.getSelectedItem();
-
-        return day + "/" + month + "/" + year;
-    }
+    }    
 
     public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
