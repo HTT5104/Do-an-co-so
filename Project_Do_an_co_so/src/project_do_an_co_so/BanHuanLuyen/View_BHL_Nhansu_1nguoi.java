@@ -141,7 +141,7 @@ public class View_BHL_Nhansu_1nguoi {
 
                         // Save updated player information to CSV
                         Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                        View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
+                        View_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", playerList);
 
                         editDialog.dispose();
                     } else {

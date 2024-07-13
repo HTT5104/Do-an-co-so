@@ -57,7 +57,7 @@ public class Controller_Cau_Thu_1minh{
                     }
                 }
                 Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", data);
+                View_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", data);
             }
         });
 

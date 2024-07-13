@@ -28,7 +28,6 @@ import javax.swing.SwingUtilities;
 
 import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
 import project_do_an_co_so.Player;
-import project_do_an_co_so.View_BDH_Nhansu_BDH;
 import project_do_an_co_so.View_CT_LichThiDau;
 
 public class View_Cau_Thu_1minh {

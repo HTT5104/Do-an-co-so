@@ -1,6 +1,5 @@
 package project_do_an_co_so;
 
-//import project_do_an_co_so.BanDieuHanh.View_Nhansu_1DoiTuong;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -13,7 +12,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
 
 public class View_BDH_Nhansu_BDH {
@@ -22,25 +20,11 @@ public class View_BDH_Nhansu_BDH {
     private static DefaultTableModel tableModel;
     private static final ArrayList<Player> playerList = new ArrayList<>();
     private static String url;
-
-    public static void save2(String filePath, ArrayList<Player> playerList1) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
-            // Ghi dữ liệu của từng cầu thủ vào file CSV
-            for (Player player : playerList1) {
-                writer.newLine();
-                writer.write(player.getName() + "," + player.getHometown() + "," + player.getBirthDate() + "," + player.getNumberShirt() + ","
-                        + player.getPosition() + "," + player.getWeight() + "," + player.getHeight() + "," + player.getBodyMass());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    } 
-    public static void save3(String filePath, ArrayList<Player> playerList1) {
+     
+    public static void save(String filePath, ArrayList<Player> playerList1) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             // Ghi dữ liệu của từng cầu thủ vào file CSV
-            writer.write(1 + "," + 1 + "," + 1 + "," + 1 + ","
-                        + 1 + "," + 1 + "," + 1 + "," + 1 + "," + 1);
+            writer.write("Name,Hometown,DoB,Number,Position,Weight,Height,Dominant foot,Pass");
             writer.newLine();
             for (Player player : playerList1) {
                 System.out.println(player.toString());
@@ -53,7 +37,15 @@ public class View_BDH_Nhansu_BDH {
             e.printStackTrace();
         }
     }
-
+    public static void load2(String x) {
+        File file = new File("src/project_do_an_co_so/CSV/Data.csv");
+        if (file.exists() && !file.isDirectory()) {
+            // Nếu đường dẫn x là hợp lệ và không phải là một thư mục
+            loadCSV(file);
+        } else {
+            System.out.println("Error direction: " + x);
+        }
+    }    
     public static void chon(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
@@ -64,30 +56,9 @@ public class View_BDH_Nhansu_BDH {
         } else {
             JOptionPane.showMessageDialog(frame, "Choose a player");
         }
-    }
+    }    
 
-    public static void load(String x) {
-        JFileChooser fileChooser = new JFileChooser(x);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            String filePath = selectedFile.getAbsolutePath(); // Lấy đường dẫn tuyệt đối của file
-            url = filePath;
-            loadCSV(selectedFile);
-        }
-    }
-
-    public static void load2(String x) {
-        File file = new File("src/project_do_an_co_so/CSV/Data.csv");
-        if (file.exists() && !file.isDirectory()) {
-            // Nếu đường dẫn x là hợp lệ và không phải là một thư mục
-            loadCSV(file);
-        } else {
-            System.out.println("Error direction: " + x);
-        }
-    }
-
-    private static void openAddPlayerForm() {
+    public static void openAddPlayerForm() {
         // Tạo một form mới để nhập thuộc tính cầu thủ
         JDialog addPlayerDialog = new JDialog(frame, "Add a new player", true);
         addPlayerDialog.setSize(300, 500);
@@ -159,27 +130,20 @@ public class View_BDH_Nhansu_BDH {
 
         // Hiển thị dialog
         addPlayerDialog.setVisible(true);
-        }
+    }
 
     // Hàm lưu dữ liệu vào file CSV, được khai báo bên ngoài phương thức createPanel
-    private static void savePlayerToCSV(String name, String hometown, String birthDate, String numberShirt,
+    public static void savePlayerToCSV(String name, String hometown, String birthDate, String numberShirt,
             String position, String weight, String height, String bodyMass, String password) {
-        // Mở hộp thoại cho người dùng chọn nơi lưu file CSV
-        //JFileChooser fileChooser = new JFileChooser("src/project_do_an_co_so/CSV/Data.csv");
-        //fileChooser.setDialogTitle("Lưu file CSV");
-        //int userSelection = fileChooser.showSaveDialog(frame);
-
-        //if (userSelection == JFileChooser.APPROVE_OPTION) {
-            //File fileToSave = fileChooser.getSelectedFile();
             File fileToSave = new File("src/project_do_an_co_so/CSV/Data.csv");
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave, true))) {
+                writer.newLine();
                 writer.write(name + "," + hometown + "," + birthDate + "," + numberShirt + "," + position + "," + weight
                         + "," + height + "," + bodyMass + "," + password);
                 writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        //}
     }
 
     public static void hien() {
@@ -241,7 +205,7 @@ public class View_BDH_Nhansu_BDH {
 
                         // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
                         Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                        save3("src/project_do_an_co_so/CSV/Data.csv", playerList);
+                        save("src/project_do_an_co_so/CSV/Data.csv", playerList);
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame, "Choose a player to delete");
@@ -318,8 +282,9 @@ public class View_BDH_Nhansu_BDH {
                 String weight = values[5];
                 String height = values[6];
                 String bodyMass = values[7];
+                String password = values[8];
 
-                Player player = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass);
+                Player player = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
                 playerList.add(player);
                 tableModel.addRow(new Object[]{name});
             }
