@@ -1,14 +1,12 @@
 package project_do_an_co_so;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import project_do_an_co_so.Player;
-import project_do_an_co_so.View_BDH_Nhansu_BDH;
-import project_do_an_co_so.Ngoaile;
 
 public class View_Nhansu_1DoiTuong {
 
@@ -53,23 +51,7 @@ public class View_Nhansu_1DoiTuong {
                 photoLabel.setIcon(new ImageIcon(image));
             }
         });
-    }
-
-    public static String normalizeName(String name) {
-        if (name == null || name.isEmpty()) {
-            return name;
-        }
-
-        String[] words = name.trim().split("\\s+"); // Tách chuỗi dựa trên một hoặc nhiều dấu cách
-        StringBuilder normalized = new StringBuilder();
-
-        for (String word : words) {
-            String normalizedWord = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
-            normalized.append(normalizedWord).append(" ");
-        }
-
-        return normalized.toString().trim(); // Loại bỏ dấu cách thừa ở cuối chuỗi trước khi trả về
-    }
+    }    
 
     public void openEditForm(int selectedRow, DefaultTableModel tableModel, ArrayList<Player> playerList) {
         editDialog = new JDialog(frame, "Information edit", true);
@@ -98,11 +80,19 @@ public class View_Nhansu_1DoiTuong {
         JTextField nameField = new JTextField(20);
         JButton positionButton = new JButton("Select Positions"); // Nút mở dialog chọn vị trí
         JPanel dobPanel = x.createDobPanel(); // Tạo panel chứa 3 JComboBox
-        JTextField hometownField = new JTextField(20);
+        JComboBox<String> hometownComboBox = new JComboBox<>(x.getCountries()); // Tạo JComboBox với danh sách các nước
+        hometownComboBox.setEditable(true);
+        JTextComponent editor = (JTextComponent) hometownComboBox.getEditor().getEditorComponent();
+        editor.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                SwingUtilities.invokeLater(() -> x.autoComplete(hometownComboBox, editor.getText()));
+            }
+        });
         JTextField numberField = new JTextField(20);
         JTextField weightField = new JTextField(20);
         JTextField heightField = new JTextField(20);
-        JTextField dominantFootField = new JTextField(20);
+        JComboBox<String> dominantFootComboBox = new JComboBox<>(new String[]{"Right", "Left", "Both"});
 
         // Panel chứa checkboxes và khung nhập liệu
         JPanel attributePanel = new JPanel();
@@ -114,7 +104,7 @@ public class View_Nhansu_1DoiTuong {
         attributePanel.add(dobCheckBox);
         attributePanel.add(dobPanel); // Thêm panel chứa 3 JComboBox
         attributePanel.add(hometownCheckBox);
-        attributePanel.add(hometownField);
+        attributePanel.add(hometownComboBox); // Thêm JComboBox cho Hometown
         attributePanel.add(numberCheckBox);
         attributePanel.add(numberField);
         attributePanel.add(weightCheckBox);
@@ -122,27 +112,27 @@ public class View_Nhansu_1DoiTuong {
         attributePanel.add(heightCheckBox);
         attributePanel.add(heightField);
         attributePanel.add(dominantFootCheckBox);
-        attributePanel.add(dominantFootField);
+        attributePanel.add(dominantFootComboBox);
 
         // Thêm action listeners cho checkboxes để hiển thị/ẩn khung nhập liệu
         nameCheckBox.addActionListener(e -> nameField.setVisible(nameCheckBox.isSelected()));
         positionCheckBox.addActionListener(e -> positionButton.setVisible(positionCheckBox.isSelected())); // Sử dụng positionButton
         dobCheckBox.addActionListener(e -> dobPanel.setVisible(dobCheckBox.isSelected())); // Sử dụng dobPanel
-        hometownCheckBox.addActionListener(e -> hometownField.setVisible(hometownCheckBox.isSelected()));
+        hometownCheckBox.addActionListener(e -> hometownComboBox.setVisible(hometownCheckBox.isSelected()));
         numberCheckBox.addActionListener(e -> numberField.setVisible(numberCheckBox.isSelected()));
         weightCheckBox.addActionListener(e -> weightField.setVisible(weightCheckBox.isSelected()));
         heightCheckBox.addActionListener(e -> heightField.setVisible(heightCheckBox.isSelected()));
-        dominantFootCheckBox.addActionListener(e -> dominantFootField.setVisible(dominantFootCheckBox.isSelected()));
+        dominantFootCheckBox.addActionListener(e -> dominantFootComboBox.setVisible(dominantFootCheckBox.isSelected()));
 
         // Ban đầu ẩn tất cả các khung nhập liệu
         nameField.setVisible(false);
         positionButton.setVisible(false); // Ẩn positionButton
         dobPanel.setVisible(false); // Ẩn dobPanel
-        hometownField.setVisible(false);
+        hometownComboBox.setVisible(false); // Ẩn hometownComboBox
         numberField.setVisible(false);
         weightField.setVisible(false);
         heightField.setVisible(false);
-        dominantFootField.setVisible(false);
+        dominantFootComboBox.setVisible(false);
 
         // Action listener cho nút positionButton để mở dialog chọn vị trí
         positionButton.addActionListener(e -> {
@@ -158,21 +148,21 @@ public class View_Nhansu_1DoiTuong {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (nameCheckBox.isSelected() && !nameField.getText().trim().isEmpty()) {
-                    currentPlayer.setName(normalizeName(nameField.getText().trim()));
+                    currentPlayer.setName(x.normalizeName(nameField.getText().trim()));
                     nameLabel.setText(currentPlayer.getName());
                 }
-                if (dobCheckBox.isSelected()) {                    
+                if (dobCheckBox.isSelected()) {
                     String dob = x.getDobFromComboBoxes(dobPanel); // Lấy giá trị từ 3 JComboBox
                     currentPlayer.setBirthDate(dob);
                     birthDateLabel.setText(dob);
                 }
-                if (positionCheckBox.isSelected() && !positionButton.getText().equals("Select Positions")) {                    
+                if (positionCheckBox.isSelected() && !positionButton.getText().equals("Select Positions")) {
                     String vitri = positionButton.getText(); // Lấy giá trị từ 3 JComboBox
                     currentPlayer.setPosition(vitri);
                     positionLabel.setText(vitri);
                 }
-                if (hometownCheckBox.isSelected() && !hometownField.getText().trim().isEmpty()) {
-                    currentPlayer.setHometown(hometownField.getText().trim());
+                if (hometownCheckBox.isSelected() && hometownComboBox.getSelectedItem() != null) {
+                    currentPlayer.setHometown(hometownComboBox.getSelectedItem().toString());
                     hometownLabel.setText(currentPlayer.getHometown());
                 }
                 if (numberCheckBox.isSelected() && !numberField.getText().trim().isEmpty()) {
@@ -187,8 +177,8 @@ public class View_Nhansu_1DoiTuong {
                     currentPlayer.setHeight(heightField.getText().trim());
                     heightLabel.setText(currentPlayer.getHeight());
                 }
-                if (dominantFootCheckBox.isSelected() && !dominantFootField.getText().trim().isEmpty()) {
-                    currentPlayer.setBodyMass(dominantFootField.getText().trim());
+                if (dominantFootCheckBox.isSelected() && dominantFootComboBox.getSelectedItem() != null) {
+                    currentPlayer.setBodyMass(dominantFootComboBox.getSelectedItem().toString());
                     bodyMassLabel.setText(currentPlayer.getBodyMass());
                 }
 
@@ -212,7 +202,7 @@ public class View_Nhansu_1DoiTuong {
 
         editDialog.setLocationRelativeTo(frame);
         editDialog.setVisible(true);
-    }    
+    }
 
     public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
