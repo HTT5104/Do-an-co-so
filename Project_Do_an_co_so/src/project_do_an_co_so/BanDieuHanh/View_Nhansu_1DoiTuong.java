@@ -46,118 +46,167 @@ public class View_Nhansu_1DoiTuong {
                 bodyMassLabel.setText(player.getBodyMass());
                 ImageIcon imageIcon = new ImageIcon(
                         "src/project_do_an_co_so/Image/Player_avatar/"
-                                + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
+                        + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
             }
         });
     }
+    
+    public static String normalizeName(String name) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
 
-    private void openEditForm(int selectedRow, DefaultTableModel tableModel, ArrayList<Player> playerList) {
+        String[] words = name.trim().split("\\s+"); // Tách chuỗi dựa trên một hoặc nhiều dấu cách
+        StringBuilder normalized = new StringBuilder();
+
+        for (String word : words) {
+            String normalizedWord = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+            normalized.append(normalizedWord).append(" ");
+        }
+
+        return normalized.toString().trim(); // Loại bỏ dấu cách thừa ở cuối chuỗi trước khi trả về
+    }
+    
+    public void openEditForm(int selectedRow, DefaultTableModel tableModel, ArrayList<Player> playerList) {
         editDialog = new JDialog(frame, "Information edit", true);
-        editDialog.setSize(400, 300);
+        editDialog.setSize(400, 400);
         editDialog.setLayout(new BorderLayout());
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Increase padding
 
-        // Combobox để chọn thuộc tính cần chỉnh sửa
-        String[] attributes = { "Name", "Position", "DoB", "Hometown", "Number", "Height", "Weight",
-                "Dominant foot" };
-        JComboBox<String> attributeComboBox = new JComboBox<>(attributes);
-        JLabel attributeLabel = new JLabel("Choose a feature to edit:");
-        attributeLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
-        contentPanel.add(attributeLabel);
-        contentPanel.add(attributeComboBox);
-
-        // Trường nhập liệu mới
-        JTextField newValueField = new JTextField(20);
-        JLabel newValueLabel = new JLabel("New information:");
-        newValueLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Set font size to 18
-        contentPanel.add(newValueLabel);
-        contentPanel.add(newValueField);
-
+        // Nút lưu thay đổi
         // Nút lưu thay đổi
         JButton saveButton = new JButton("Save");
         saveButton.setFont(new Font("Arial", Font.BOLD, 18)); // Increase font size
+
+        // Checkboxes for each attribute
+        JCheckBox nameCheckBox = new JCheckBox("Name");
+        JCheckBox positionCheckBox = new JCheckBox("Position");
+        JCheckBox dobCheckBox = new JCheckBox("DoB");
+        JCheckBox hometownCheckBox = new JCheckBox("Hometown");
+        JCheckBox numberCheckBox = new JCheckBox("Number");
+        JCheckBox weightCheckBox = new JCheckBox("Weight");
+        JCheckBox heightCheckBox = new JCheckBox("Height");
+        JCheckBox dominantFootCheckBox = new JCheckBox("Dominant foot");
+
+        // Input fields for each attribute
+        JTextField nameField = new JTextField(20);
+        JTextField positionField = new JTextField(20);
+        JTextField dobField = new JTextField(20);
+        JTextField hometownField = new JTextField(20);
+        JTextField numberField = new JTextField(20);
+        JTextField weightField = new JTextField(20);
+        JTextField heightField = new JTextField(20);
+        JTextField dominantFootField = new JTextField(20);
+
+        // Panel to hold checkboxes and input fields
+        JPanel attributePanel = new JPanel();
+        attributePanel.setLayout(new GridLayout(0, 2));
+        attributePanel.add(nameCheckBox);
+        attributePanel.add(nameField);
+        attributePanel.add(positionCheckBox);
+        attributePanel.add(positionField);
+        attributePanel.add(dobCheckBox);
+        attributePanel.add(dobField);
+        attributePanel.add(hometownCheckBox);
+        attributePanel.add(hometownField);
+        attributePanel.add(numberCheckBox);
+        attributePanel.add(numberField);
+        attributePanel.add(weightCheckBox);
+        attributePanel.add(weightField);
+        attributePanel.add(heightCheckBox);
+        attributePanel.add(heightField);
+        attributePanel.add(dominantFootCheckBox);
+        attributePanel.add(dominantFootField);
+
+        // Add action listeners to checkboxes to show/hide input fields
+        nameCheckBox.addActionListener(e -> nameField.setVisible(nameCheckBox.isSelected()));
+        positionCheckBox.addActionListener(e -> positionField.setVisible(positionCheckBox.isSelected()));
+        dobCheckBox.addActionListener(e -> dobField.setVisible(dobCheckBox.isSelected()));
+        hometownCheckBox.addActionListener(e -> hometownField.setVisible(hometownCheckBox.isSelected()));
+        numberCheckBox.addActionListener(e -> numberField.setVisible(numberCheckBox.isSelected()));
+        weightCheckBox.addActionListener(e -> weightField.setVisible(weightCheckBox.isSelected()));
+        heightCheckBox.addActionListener(e -> heightField.setVisible(heightCheckBox.isSelected()));
+        dominantFootCheckBox.addActionListener(e -> dominantFootField.setVisible(dominantFootCheckBox.isSelected()));
+
+        // Initially hide all input fields
+        nameField.setVisible(false);
+        positionField.setVisible(false);
+        dobField.setVisible(false);
+        hometownField.setVisible(false);
+        numberField.setVisible(false);
+        weightField.setVisible(false);
+        heightField.setVisible(false);
+        dominantFootField.setVisible(false);
+
+        // Save button action listener
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedAttribute = (String) attributeComboBox.getSelectedItem();
-                String newValue = newValueField.getText();
-
-                if (newValue.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(editDialog, "Write new information");
-                    return;
+                // Update currentPlayer based on selected checkboxes
+                if (nameCheckBox.isSelected() && !nameField.getText().trim().isEmpty()) {
+                    currentPlayer.setName(normalizeName(nameField.getText().trim()));
+                    nameLabel.setText(currentPlayer.getName());
+                }
+                if (positionCheckBox.isSelected() && !positionField.getText().trim().isEmpty()) {
+                    currentPlayer.setPosition(positionField.getText().trim());
+                    positionLabel.setText(currentPlayer.getPosition());
+                }
+                if (dobCheckBox.isSelected() && !dobField.getText().trim().isEmpty()) {
+                    currentPlayer.setBirthDate(dobField.getText().trim());
+                    birthDateLabel.setText(currentPlayer.getBirthDate());
+                }
+                if (hometownCheckBox.isSelected() && !hometownField.getText().trim().isEmpty()) {
+                    currentPlayer.setHometown(hometownField.getText().trim());
+                    hometownLabel.setText(currentPlayer.getHometown());
+                }
+                if (numberCheckBox.isSelected() && !numberField.getText().trim().isEmpty()) {
+                    currentPlayer.setNumberShirt(numberField.getText().trim());
+                    numberShirtLabel.setText(currentPlayer.getNumberShirt());
+                }
+                if (weightCheckBox.isSelected() && !weightField.getText().trim().isEmpty()) {
+                    currentPlayer.setWeight(weightField.getText().trim());
+                    weightLabel.setText(currentPlayer.getWeight());
+                }
+                if (heightCheckBox.isSelected() && !heightField.getText().trim().isEmpty()) {
+                    currentPlayer.setHeight(heightField.getText().trim());
+                    heightLabel.setText(currentPlayer.getHeight());
+                }
+                if (dominantFootCheckBox.isSelected() && !dominantFootField.getText().trim().isEmpty()) {
+                    currentPlayer.setBodyMass(dominantFootField.getText().trim());
+                    bodyMassLabel.setText(currentPlayer.getBodyMass());
                 }
 
-                // Hộp thoại xác nhận
-                int confirm = JOptionPane.showConfirmDialog(editDialog, "Do you want to edit this information?",
-                        "Edit", JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    // Cập nhật thông tin của cầu thủ đã chọn
-                    switch (selectedAttribute) {
-                        case "Name":
-                            currentPlayer.setName(newValue);
-                            nameLabel.setText(newValue);
-                            break;
-                        case "Position":
-                            currentPlayer.setPosition(newValue);
-                            positionLabel.setText(newValue);
-                            break;
-                        case "DoB":
-                            currentPlayer.setBirthDate(newValue);
-                            birthDateLabel.setText(newValue);
-                            break;
-                        case "Hometown":
-                            currentPlayer.setHometown(newValue);
-                            hometownLabel.setText(newValue);
-                            break;
-                        case "Number":
-                            currentPlayer.setNumberShirt(newValue);
-                            numberShirtLabel.setText(newValue);
-                            break;
-                        case "Weight":
-                            currentPlayer.setWeight(newValue);
-                            weightLabel.setText(newValue);
-                            break;
-                        case "Height":
-                            currentPlayer.setHeight(newValue);
-                            heightLabel.setText(newValue);
-                            break;
-                        case "Dominant foot":
-                            currentPlayer.setBodyMass(newValue);
-                            bodyMassLabel.setText(newValue);
-                            break;
-                    }
+                if (selectedRow >= 0 && selectedRow < playerList.size()) {
+                    // Update the table and playerList with the new information
+                    tableModel.setValueAt(currentPlayer.getName(), selectedRow, 0);
+                    playerList.set(selectedRow, currentPlayer);
 
-                    if (selectedRow >= 0 && selectedRow < playerList.size()) {
-                        // Cập nhật lại bảng với thông tin mới
-                        tableModel.setValueAt(currentPlayer.getName(), selectedRow, 0);
+                    // Save updated player information to CSV
+                    Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
+                    View_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", playerList);
 
-                        // Cập nhật lại danh sách cầu thủ trong playerList
-                        playerList.set(selectedRow, currentPlayer);
-
-                        // Save updated player information to CSV
-                        Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                        View_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", playerList);
-
-                        editDialog.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Choose a player to edit information");
-                    }
+                    editDialog.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Choose a player to edit information");
                 }
             }
         });
 
+        contentPanel.add(attributePanel);
         contentPanel.add(saveButton);
         editDialog.add(contentPanel, BorderLayout.CENTER);
 
-        // Đặt form ra giữa màn hình
+        // Set dialog position and visibility
         editDialog.setLocationRelativeTo(frame);
         editDialog.setVisible(true);
     }
+
+    
 
     public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
