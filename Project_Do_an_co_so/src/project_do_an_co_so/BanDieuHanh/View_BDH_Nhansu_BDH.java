@@ -1,6 +1,8 @@
 package project_do_an_co_so;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,8 +25,10 @@ public class View_BDH_Nhansu_BDH {
     private static JFrame frame;
     private static DefaultTableModel tableModel;
     private static final ArrayList<Player> playerList = new ArrayList<>();
+    private static final ArrayList<Player> displayedPlayers = new ArrayList<>();
     private static String url;
     private static final Ngoaile x = new Ngoaile();
+    private static JTextField searchField;
 
     public static void save(String filePath, ArrayList<Player> playerList1) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -56,9 +60,9 @@ public class View_BDH_Nhansu_BDH {
     public static void chon(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
-            Player selectedPlayer = playerList.get(selectedRow);
+            Player selectedPlayer = displayedPlayers.get(selectedRow);
             View_Nhansu_1DoiTuong view = new View_Nhansu_1DoiTuong();
-            view.set(selectedRow, selectedPlayer, table, tableModel, playerList);
+            view.set(playerList.indexOf(selectedPlayer), selectedPlayer, table, tableModel, playerList);
             frame.dispose();
         } else {
             JOptionPane.showMessageDialog(frame, "Choose a player");
@@ -68,9 +72,9 @@ public class View_BDH_Nhansu_BDH {
     public static void chon2(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
-            Player selectedPlayer = playerList.get(selectedRow);
+            Player selectedPlayer = displayedPlayers.get(selectedRow);
             View_Chon_Loc_1Cauthu view = new View_Chon_Loc_1Cauthu();
-            view.set(selectedRow, selectedPlayer, table, tableModel, playerList);
+            view.set(playerList.indexOf(selectedPlayer), selectedPlayer, table, tableModel, playerList);
             frame.dispose();
         } else {
             JOptionPane.showMessageDialog(frame, "Choose a player");
@@ -208,6 +212,9 @@ public class View_BDH_Nhansu_BDH {
                 }
 
                 // Thêm dữ liệu vào bảng
+                Player newPlayer = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
+                playerList.add(newPlayer);
+                displayedPlayers.add(newPlayer);
                 tableModel.addRow(new Object[]{name});
 
                 // Lưu dữ liệu vào file CSV
@@ -282,6 +289,27 @@ public class View_BDH_Nhansu_BDH {
         scrollPane.setBounds(100, 100, 600, 200);
         panel.add(scrollPane);
 
+        // Add search field
+        searchField = new JTextField(20);
+        searchField.setBounds(100, 60, 200, 30);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterTable();
+            }
+        });
+        panel.add(searchField);
+
         // Add "Thêm" button
         JButton addButton = new JButton("Add");
         addButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -307,7 +335,9 @@ public class View_BDH_Nhansu_BDH {
                 if (selectedRow >= 0) {
                     int confirm = JOptionPane.showConfirmDialog(frame, "Do you want to delete this player?", "Delete", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        playerList.remove(selectedRow);
+                        Player selectedPlayer = displayedPlayers.get(selectedRow);
+                        playerList.remove(selectedPlayer);
+                        displayedPlayers.remove(selectedPlayer);
                         tableModel.removeRow(selectedRow);
 
                         // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
@@ -383,6 +413,7 @@ public class View_BDH_Nhansu_BDH {
             String line;
             // Clear the previous list
             playerList.clear();
+            displayedPlayers.clear();
             tableModel.setRowCount(0);
 
             // Read the header
@@ -406,6 +437,7 @@ public class View_BDH_Nhansu_BDH {
 
                 Player player = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
                 playerList.add(player);
+                displayedPlayers.add(player);
                 tableModel.addRow(new Object[]{name});
             }
         } catch (IOException e) {
@@ -661,5 +693,18 @@ public class View_BDH_Nhansu_BDH {
         });
         panel.add(backButton);
         filterFrame.add(panel);
+    }
+
+    private static void filterTable() {
+        String query = searchField.getText().toLowerCase();
+        displayedPlayers.clear();
+        tableModel.setRowCount(0);
+
+        for (Player player : playerList) {
+            if (player.getName().toLowerCase().contains(query)) {
+                displayedPlayers.add(player);
+                tableModel.addRow(new Object[]{player.getName()});
+            }
+        }
     }
 }
