@@ -48,7 +48,6 @@ public class View_BHL_Nhan_su_BHL {
             e.printStackTrace();
         }
     }
-
     public static void chon(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
@@ -60,7 +59,6 @@ public class View_BHL_Nhan_su_BHL {
             JOptionPane.showMessageDialog(frame, "Choose a player");
         }
     }
-
     public static void load(String x) {
         JFileChooser fileChooser = new JFileChooser(x);
         int returnValue = fileChooser.showOpenDialog(null);
@@ -71,7 +69,6 @@ public class View_BHL_Nhan_su_BHL {
             loadCSV(selectedFile);
         }
     }
-
     public static void load2(String x) {
         File file = new File("src/project_do_an_co_so/CSV/Data.csv");
         if (file.exists() && !file.isDirectory()) {

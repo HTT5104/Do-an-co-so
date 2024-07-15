@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import project_do_an_co_so.BanDieuHanh.Controller_BDH_Nhansu_BDH;
 import project_do_an_co_so.Player;
 import static project_do_an_co_so.View_Cau_Thu_1minh.readCSV;
 
@@ -57,7 +58,7 @@ public class Controller_Cau_Thu_1minh{
                     }
                 }
                 Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                View_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", data);
+                Controller_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", data);
             }
         });
 

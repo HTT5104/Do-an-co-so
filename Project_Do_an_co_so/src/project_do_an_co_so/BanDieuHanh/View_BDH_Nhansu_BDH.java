@@ -9,14 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.text.JTextComponent;
+import project_do_an_co_so.BanDieuHanh.Controller_BDH_Nhansu_BDH;
 import project_do_an_co_so.BanDieuHanh.View_Chon_Loc_1Cauthu;
 import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
 
@@ -29,33 +28,6 @@ public class View_BDH_Nhansu_BDH {
     private static String url;
     private static final Ngoaile x = new Ngoaile();
     private static JTextField searchField;
-
-    public static void save(String filePath, ArrayList<Player> playerList1) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            // Ghi dữ liệu của từng cầu thủ vào file CSV
-            writer.write("Name,Hometown,DoB,Number,Position,Weight,Height,Dominant foot,Pass");
-            writer.newLine();
-            for (Player player : playerList1) {
-                System.out.println(player.toString());
-                writer.newLine();
-                writer.write(player.getName() + "," + player.getHometown() + "," + player.getBirthDate() + "," + player.getNumberShirt() + ","
-                        + player.getPosition() + "," + player.getWeight() + "," + player.getHeight() + "," + player.getBodyMass() + "," + player.getPassword());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void load2(String x) {
-        File file = new File("src/project_do_an_co_so/CSV/Data.csv");
-        if (file.exists() && !file.isDirectory()) {
-            // Nếu đường dẫn x là hợp lệ và không phải là một thư mục
-            loadCSV(file);
-        } else {
-            System.out.println("Error direction: " + x);
-        }
-    }
 
     public static void chon(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
@@ -206,7 +178,7 @@ public class View_BDH_Nhansu_BDH {
                 }
 
                 // Kiểm tra xem số áo, chiều cao và cân nặng có phải là số tự nhiên hay không
-                if (!isNaturalNumber(numberShirt) || !isNaturalNumber(weight) || !isNaturalNumber(height)) {
+                if (!Controller_BDH_Nhansu_BDH.isNaturalNumber(numberShirt) || !Controller_BDH_Nhansu_BDH.isNaturalNumber(weight) || !Controller_BDH_Nhansu_BDH.isNaturalNumber(height)) {
                     JOptionPane.showMessageDialog(frame, "Number, weight and height must be natural numbers");
                     return;
                 }
@@ -224,7 +196,7 @@ public class View_BDH_Nhansu_BDH {
                 addPlayerDialog.dispose();
                 frame.dispose();
                 View_BDH_Nhansu_BDH.hien();
-                load2("src/project_do_an_co_so/CSV/Data.csv");
+                Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers, tableModel);
             }
         });
         gbc.gridx = 0;
@@ -235,15 +207,6 @@ public class View_BDH_Nhansu_BDH {
         // Hiển thị dialog
         addPlayerDialog.setLocationRelativeTo(null);
         addPlayerDialog.setVisible(true);
-    }
-
-    private static boolean isNaturalNumber(String str) {
-        try {
-            int num = Integer.parseInt(str);
-            return num > 0;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     // Hàm lưu dữ liệu vào file CSV, được khai báo bên ngoài phương thức createPanel
@@ -342,7 +305,7 @@ public class View_BDH_Nhansu_BDH {
 
                         // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
                         Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                        save("src/project_do_an_co_so/CSV/Data.csv", playerList);
+                        Controller_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", playerList);
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame, "Choose a player to delete");
@@ -387,7 +350,7 @@ public class View_BDH_Nhansu_BDH {
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                load2("src/project_do_an_co_so/CSV");
+                up();
             }
         });
         panel.add(loadCsvButton);
@@ -408,41 +371,8 @@ public class View_BDH_Nhansu_BDH {
         return panel;
     }
 
-    private static void loadCSV(File file) {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            // Clear the previous list
-            playerList.clear();
-            displayedPlayers.clear();
-            tableModel.setRowCount(0);
-
-            // Read the header
-            br.readLine();
-
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                if (values.length < 5) {
-                    continue; // Skip if there are not enough values
-                }
-
-                String name = values[0];
-                String hometown = values[1];
-                String birthDate = values[2];
-                String numberShirt = values[3];
-                String position = values[4];
-                String weight = values[5];
-                String height = values[6];
-                String bodyMass = values[7];
-                String password = values[8];
-
-                Player player = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
-                playerList.add(player);
-                displayedPlayers.add(player);
-                tableModel.addRow(new Object[]{name});
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void up() {
+        Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers, tableModel);
     }
 
     public static void set() {
@@ -586,53 +516,6 @@ public class View_BDH_Nhansu_BDH {
         filterPlayers(a, b, c, d, k, g);
     }
 
-    public static void filterPlayers(String minWeight, String maxWeight, String minHeight, String maxHeight, String position, String hometown) {
-        a = minWeight;
-        b = maxWeight;
-        c = minHeight;
-        d = maxHeight;
-        k = position;
-        g = hometown;
-
-        displayedPlayers.clear(); // Cập nhật displayedPlayers
-
-        for (Player player : playerList) {
-            boolean matches = true;
-
-            if (!minWeight.isEmpty() && !maxWeight.isEmpty()) {
-                int weight = Integer.parseInt(player.getWeight());
-                int minW = Integer.parseInt(minWeight);
-                int maxW = Integer.parseInt(maxWeight);
-                if (weight < minW || weight > maxW) {
-                    matches = false;
-                }
-            }
-
-            if (!minHeight.isEmpty() && !maxHeight.isEmpty()) {
-                int height = Integer.parseInt(player.getHeight());
-                int minH = Integer.parseInt(minHeight);
-                int maxH = Integer.parseInt(maxHeight);
-                if (height < minH || height > maxH) {
-                    matches = false;
-                }
-            }
-
-            if (!position.isEmpty() && !player.getPosition().contains(position)) {
-                matches = false;
-            }
-
-            if (!hometown.isEmpty() && !player.getHometown().equalsIgnoreCase(hometown)) {
-                matches = false;
-            }
-
-            if (matches) {
-                displayedPlayers.add(player); // Thêm vào displayedPlayers
-            }
-        }
-
-        showFilteredPlayers(displayedPlayers); // Hiển thị displayedPlayers đã lọc
-    }
-
     public static void showFilteredPlayers(ArrayList<Player> filteredList) {
         JFrame filterFrame = new JFrame("Filtered Players");
         filterFrame.setSize(900, 600);
@@ -683,7 +566,7 @@ public class View_BDH_Nhansu_BDH {
             public void actionPerformed(ActionEvent e) {
                 filterFrame.dispose();
                 View_BDH_Nhansu_BDH.hien();
-                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
+                Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers, tableModel);
             }
         });
         panel.add(backButton);
@@ -692,7 +575,54 @@ public class View_BDH_Nhansu_BDH {
         filterFrame.setVisible(true);
     }
 
-    private static void filterTable() {
+    public static void filterPlayers(String minWeight, String maxWeight, String minHeight, String maxHeight, String position, String hometown) {
+        a = minWeight;
+        b = maxWeight;
+        c = minHeight;
+        d = maxHeight;
+        k = position;
+        g = hometown;
+
+        displayedPlayers.clear(); // Cập nhật displayedPlayers
+
+        for (Player player : playerList) {
+            boolean matches = true;
+
+            if (!minWeight.isEmpty() && !maxWeight.isEmpty()) {
+                int weight = Integer.parseInt(player.getWeight());
+                int minW = Integer.parseInt(minWeight);
+                int maxW = Integer.parseInt(maxWeight);
+                if (weight < minW || weight > maxW) {
+                    matches = false;
+                }
+            }
+
+            if (!minHeight.isEmpty() && !maxHeight.isEmpty()) {
+                int height = Integer.parseInt(player.getHeight());
+                int minH = Integer.parseInt(minHeight);
+                int maxH = Integer.parseInt(maxHeight);
+                if (height < minH || height > maxH) {
+                    matches = false;
+                }
+            }
+
+            if (!position.isEmpty() && !player.getPosition().contains(position)) {
+                matches = false;
+            }
+
+            if (!hometown.isEmpty() && !player.getHometown().equalsIgnoreCase(hometown)) {
+                matches = false;
+            }
+
+            if (matches) {
+                displayedPlayers.add(player); // Thêm vào displayedPlayers
+            }
+        }
+
+        showFilteredPlayers(displayedPlayers); // Hiển thị displayedPlayers đã lọc
+    }
+
+    public static void filterTable() {
         String query = searchField.getText().toLowerCase();
         displayedPlayers.clear();
         tableModel.setRowCount(0);

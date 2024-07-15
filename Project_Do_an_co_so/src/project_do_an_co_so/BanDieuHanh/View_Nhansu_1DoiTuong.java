@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import project_do_an_co_so.BanDieuHanh.Controller_BDH_Nhansu_BDH;
 
 public class View_Nhansu_1DoiTuong {
 
@@ -186,7 +187,7 @@ public class View_Nhansu_1DoiTuong {
                     playerList.set(selectedRow, currentPlayer);
 
                     Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-                    View_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", playerList);
+                    Controller_BDH_Nhansu_BDH.save("src/project_do_an_co_so/CSV/Data.csv", playerList);
 
                     editDialog.dispose();
                 } else {
@@ -298,7 +299,7 @@ public class View_Nhansu_1DoiTuong {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 View_BDH_Nhansu_BDH.hien();
-                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
+                View_BDH_Nhansu_BDH.up();
             }
         });
         gbc.gridx = 0; // Vị trí cột
