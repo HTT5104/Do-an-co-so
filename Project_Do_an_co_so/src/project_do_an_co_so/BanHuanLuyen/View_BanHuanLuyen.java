@@ -147,7 +147,7 @@ public class View_BanHuanLuyen {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 18));
         button.setBackground(new Color(144, 238, 144));
-        button.setBounds(x, y, 170, 50); // Tăng chiều rộng nút để hiển thị đủ chữ
+        button.setBounds(x, y, 200, 50); // Tăng chiều rộng nút để hiển thị đủ chữ
         return button;
     }
 

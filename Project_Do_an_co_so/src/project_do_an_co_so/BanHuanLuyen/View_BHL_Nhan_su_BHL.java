@@ -80,101 +80,7 @@ public class View_BHL_Nhan_su_BHL {
         } else {
             System.out.println("Error direction: " + x);
         }
-    }
-
-    private static void openAddPlayerForm() {
-        // Tạo một form mới để nhập thuộc tính cầu thủ
-        JDialog addPlayerDialog = new JDialog(frame, "Add a new player", true);
-        addPlayerDialog.setSize(300, 500);
-        addPlayerDialog.setLayout(new BoxLayout(addPlayerDialog.getContentPane(), BoxLayout.Y_AXIS));
-
-        // Tạo các trường nhập liệu cho thuộc tính cầu thủ
-        JTextField nameField = new JTextField(20);
-        JTextField hometownField = new JTextField(20);
-        JTextField birthDateField = new JTextField(20);
-        JTextField numberShirtField = new JTextField(20);
-        JTextField positionField = new JTextField(20);
-        JTextField weightField = new JTextField(20);
-        JTextField heightField = new JTextField(20);
-        JTextField bodyMassField = new JTextField(20);
-
-        // Thêm các trường nhập liệu vào dialog
-        addPlayerDialog.add(new JLabel("Name:"));
-        addPlayerDialog.add(nameField);
-        addPlayerDialog.add(new JLabel("Hometown:"));
-        addPlayerDialog.add(hometownField);
-        addPlayerDialog.add(new JLabel("DoB:"));
-        addPlayerDialog.add(birthDateField);
-        addPlayerDialog.add(new JLabel("Number:"));
-        addPlayerDialog.add(numberShirtField);
-        addPlayerDialog.add(new JLabel("Positions:"));
-        addPlayerDialog.add(positionField);
-        addPlayerDialog.add(new JLabel("Weight:"));
-        addPlayerDialog.add(weightField);
-        addPlayerDialog.add(new JLabel("Height:"));
-        addPlayerDialog.add(heightField);
-        addPlayerDialog.add(new JLabel("Dominant foot:"));
-        addPlayerDialog.add(bodyMassField);
-
-        // Thêm nút lưu cầu thủ
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lấy dữ liệu từ các trường nhập liệu
-                String name = nameField.getText();
-                String hometown = hometownField.getText();
-                String birthDate = birthDateField.getText();
-                String numberShirt = numberShirtField.getText();
-                String position = positionField.getText();
-                String weight = weightField.getText();
-                String height = heightField.getText();
-                String bodyMass = bodyMassField.getText();
-
-                // Kiểm tra xem tên có được nhập hay không
-                if (!name.trim().isEmpty()) {
-                    // Thêm dữ liệu vào bảng
-                    tableModel.addRow(new Object[]{name});
-
-                    // Lưu dữ liệu vào file CSV
-                    savePlayerToCSV(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass);
-
-                    // Đóng dialog
-                    addPlayerDialog.dispose();
-                    frame.dispose();
-                    View_BDH_Nhansu_BDH.hien();
-                    load2("src/project_do_an_co_so/CSV/Data.csv");
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Write the player's name");
-                }
-            }
-        });
-        addPlayerDialog.add(saveButton);
-
-        // Hiển thị dialog
-        addPlayerDialog.setVisible(true);
-        }
-
-    // Hàm lưu dữ liệu vào file CSV, được khai báo bên ngoài phương thức createPanel
-    private static void savePlayerToCSV(String name, String hometown, String birthDate, String numberShirt,
-            String position, String weight, String height, String bodyMass) {
-        // Mở hộp thoại cho người dùng chọn nơi lưu file CSV
-        //JFileChooser fileChooser = new JFileChooser("src/project_do_an_co_so/CSV/Data.csv");
-        //fileChooser.setDialogTitle("Lưu file CSV");
-        //int userSelection = fileChooser.showSaveDialog(frame);
-
-        //if (userSelection == JFileChooser.APPROVE_OPTION) {
-            //File fileToSave = fileChooser.getSelectedFile();
-            File fileToSave = new File("src/project_do_an_co_so/CSV/Data.csv");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave, true))) {
-                writer.write(name + "," + hometown + "," + birthDate + "," + numberShirt + "," + position + "," + weight
-                        + "," + height + "," + bodyMass);
-                writer.newLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        //}
-    }
+    }    
 
     public static void hien() {
         frame = new JFrame("Player");
@@ -204,9 +110,6 @@ public class View_BHL_Nhan_su_BHL {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(100, 100, 600, 200);
         panel.add(scrollPane);
-
-        // Add "Thêm" button
-        // Add "Xóa" button
 
         // Add "Chọn" button
         JButton selectButton = new JButton("Choose");
@@ -251,7 +154,7 @@ public class View_BHL_Nhan_su_BHL {
         return panel;
     }
 
-    private static void loadCSV(File file) {
+    public static void loadCSV(File file) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             // Clear the previous list
