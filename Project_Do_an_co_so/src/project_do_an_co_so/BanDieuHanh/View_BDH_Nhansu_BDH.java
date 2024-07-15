@@ -5,10 +5,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -44,7 +41,8 @@ public class View_BDH_Nhansu_BDH {
     public static void chon2(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
-            Player selectedPlayer = displayedPlayers.get(selectedRow); // Sử dụng displayedPlayers để lấy cầu thủ được chọn
+            Player selectedPlayer = displayedPlayers.get(selectedRow); // Sử dụng displayedPlayers để lấy cầu thủ được
+                                                                       // chọn
             View_Chon_Loc_1Cauthu view = new View_Chon_Loc_1Cauthu();
             view.set(playerList.indexOf(selectedPlayer), selectedPlayer, table, tableModel, playerList);
             frame.dispose();
@@ -82,7 +80,7 @@ public class View_BDH_Nhansu_BDH {
         JTextField heightField = new JTextField(20);
 
         // Tạo JComboBox cho phần nhập chân thuận
-        JComboBox<String> dominantFootComboBox = new JComboBox<>(new String[]{"Left", "Right", "Both"});
+        JComboBox<String> dominantFootComboBox = new JComboBox<>(new String[] { "Left", "Right", "Both" });
 
         // Thêm các trường nhập liệu vào dialog
         gbc.gridx = 0;
@@ -150,13 +148,16 @@ public class View_BDH_Nhansu_BDH {
         });
 
         // Thêm nút lưu cầu thủ
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new RoundedButton("Save");
+        styleButton(saveButton);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Lấy dữ liệu từ các trường nhập liệu
                 String name = x.normalizeName(nameField.getText());
-                String hometown = hometownComboBox.getSelectedItem() != null ? hometownComboBox.getSelectedItem().toString() : "";
+                String hometown = hometownComboBox.getSelectedItem() != null
+                        ? hometownComboBox.getSelectedItem().toString()
+                        : "";
                 String birthDate = x.getDobFromComboBoxes(dobPanel);
                 String numberShirt = numberShirtField.getText();
                 String position = positionButton.getText();
@@ -178,16 +179,19 @@ public class View_BDH_Nhansu_BDH {
                 }
 
                 // Kiểm tra xem số áo, chiều cao và cân nặng có phải là số tự nhiên hay không
-                if (!Controller_BDH_Nhansu_BDH.isNaturalNumber(numberShirt) || !Controller_BDH_Nhansu_BDH.isNaturalNumber(weight) || !Controller_BDH_Nhansu_BDH.isNaturalNumber(height)) {
+                if (!Controller_BDH_Nhansu_BDH.isNaturalNumber(numberShirt)
+                        || !Controller_BDH_Nhansu_BDH.isNaturalNumber(weight)
+                        || !Controller_BDH_Nhansu_BDH.isNaturalNumber(height)) {
                     JOptionPane.showMessageDialog(frame, "Number, weight and height must be natural numbers");
                     return;
                 }
 
                 // Thêm dữ liệu vào bảng
-                Player newPlayer = new Player(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
+                Player newPlayer = new Player(name, hometown, birthDate, numberShirt, position, weight, height,
+                        bodyMass, password);
                 playerList.add(newPlayer);
                 displayedPlayers.add(newPlayer);
-                tableModel.addRow(new Object[]{name});
+                tableModel.addRow(new Object[] { name });
 
                 // Lưu dữ liệu vào file CSV
                 savePlayerToCSV(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
@@ -196,7 +200,8 @@ public class View_BDH_Nhansu_BDH {
                 addPlayerDialog.dispose();
                 frame.dispose();
                 View_BDH_Nhansu_BDH.hien();
-                Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers, tableModel);
+                Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers,
+                        tableModel);
             }
         });
         gbc.gridx = 0;
@@ -235,9 +240,16 @@ public class View_BDH_Nhansu_BDH {
     }
 
     public static JPanel createPanel() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon icon = new ImageIcon("src/project_do_an_co_so/Image/BG1.png");
+                Image image = icon.getImage();
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         panel.setLayout(null);
-        panel.setBackground(Color.WHITE);
 
         JLabel titleLabel = new JLabel("Player list");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -245,7 +257,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(titleLabel);
 
         // Create table
-        String[] columnNames = {"Name"};
+        String[] columnNames = { "Name" };
         tableModel = new DefaultTableModel(columnNames, 0);
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -274,9 +286,8 @@ public class View_BDH_Nhansu_BDH {
         panel.add(searchField);
 
         // Add "Thêm" button
-        JButton addButton = new JButton("Add");
-        addButton.setFont(new Font("Arial", Font.BOLD, 18));
-        addButton.setBackground(new Color(255, 182, 193));
+        JButton addButton = new RoundedButton("Add");
+        styleButton(addButton);
         addButton.setBounds(50, 350, 120, 50);
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -287,16 +298,16 @@ public class View_BDH_Nhansu_BDH {
         panel.add(addButton);
 
         // Add "Xóa" button
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setFont(new Font("Arial", Font.BOLD, 18));
-        deleteButton.setBackground(new Color(255, 182, 193));
+        JButton deleteButton = new RoundedButton("Delete");
+        styleButton(deleteButton);
         deleteButton.setBounds(200, 350, 120, 50);
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
-                    int confirm = JOptionPane.showConfirmDialog(frame, "Do you want to delete this player?", "Delete", JOptionPane.YES_NO_OPTION);
+                    int confirm = JOptionPane.showConfirmDialog(frame, "Do you want to delete this player?", "Delete",
+                            JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         Player selectedPlayer = displayedPlayers.get(selectedRow);
                         playerList.remove(selectedPlayer);
@@ -312,13 +323,11 @@ public class View_BDH_Nhansu_BDH {
                 }
             }
         });
-
         panel.add(deleteButton);
 
         // Add "Chọn" button
-        JButton selectButton = new JButton("Choose");
-        selectButton.setFont(new Font("Arial", Font.BOLD, 18));
-        selectButton.setBackground(new Color(255, 182, 193));
+        JButton selectButton = new RoundedButton("Choose");
+        styleButton(selectButton);
         selectButton.setBounds(350, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
             @Override
@@ -329,9 +338,8 @@ public class View_BDH_Nhansu_BDH {
         panel.add(selectButton);
 
         // Add "Back" button
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Arial", Font.BOLD, 18));
-        backButton.setBackground(new Color(255, 182, 193));
+        JButton backButton = new RoundedButton("Back");
+        styleButton(backButton);
         backButton.setBounds(500, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -343,9 +351,8 @@ public class View_BDH_Nhansu_BDH {
         panel.add(backButton);
 
         // Nút up csv
-        JButton loadCsvButton = new JButton("Update");
-        loadCsvButton.setFont(new Font("Arial", Font.BOLD, 18));
-        loadCsvButton.setBackground(new Color(255, 182, 193));
+        JButton loadCsvButton = new RoundedButton("Update");
+        styleButton(loadCsvButton);
         loadCsvButton.setBounds(650, 350, 150, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
@@ -356,14 +363,13 @@ public class View_BDH_Nhansu_BDH {
         panel.add(loadCsvButton);
 
         // Add "Filter" button
-        JButton filterButton = new JButton("Filter");
-        filterButton.setFont(new Font("Arial", Font.BOLD, 18));
-        filterButton.setBackground(new Color(255, 182, 193));
+        JButton filterButton = new RoundedButton("Filter");
+        styleButton(filterButton);
         filterButton.setBounds(650, 450, 150, 50);
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openFilterDialog();
+                Controller_BDH_Nhansu_BDH.openFilterDialog(x, frame);
             }
         });
         panel.add(filterButton);
@@ -372,7 +378,8 @@ public class View_BDH_Nhansu_BDH {
     }
 
     public static void up() {
-        Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers, tableModel);
+        Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers,
+                tableModel);
     }
 
     public static void set() {
@@ -386,196 +393,12 @@ public class View_BDH_Nhansu_BDH {
 
     private static String a, b, c, d, k, g;
 
-    public static void openFilterDialog() {
-        JDialog filterDialog = new JDialog(frame, "Filter Players", true);
-        filterDialog.setSize(500, 600);  // Tăng kích thước hộp thoại
-        filterDialog.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // Tạo các trường nhập liệu cho khoảng giá trị cân nặng và chiều cao
-        JTextField minWeightField = new JTextField(10);
-        JTextField maxWeightField = new JTextField(10);
-        JTextField minHeightField = new JTextField(10);
-        JTextField maxHeightField = new JTextField(10);
-
-        // Tạo các hộp chọn cho vị trí và quốc tịch
-        // Thay JComboBox bằng JCheckBox
-        JPanel positionPanel = new JPanel();
-        positionPanel.setLayout(new BoxLayout(positionPanel, BoxLayout.Y_AXIS));
-        String[] positions = {"GK", "LB", "CB", "RB", "LWB", "RWB", "CDM", "CM", "CAM", "LM", "RM", "LW", "RW", "CF", "ST"};
-        for (String position : positions) {
-            JCheckBox checkBox = new JCheckBox(position);
-            positionPanel.add(checkBox);
-        }
-
-        // Thêm giá trị trống lên đầu và làm mặc định
-        JComboBox<String> hometownComboBox = new JComboBox<>();
-        hometownComboBox.addItem(""); // Thêm giá trị trống lên đầu
-        for (String country : x.getCountries()) {
-            hometownComboBox.addItem(country);
-        }
-        hometownComboBox.setEditable(true);
-        hometownComboBox.setSelectedIndex(0);  // Đặt giá trị trống làm mặc định
-        JTextComponent editor = (JTextComponent) hometownComboBox.getEditor().getEditorComponent();
-        editor.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                SwingUtilities.invokeLater(() -> x.autoComplete(hometownComboBox, editor.getText()));
-            }
-        });
-
-        // Thêm các trường nhập liệu vào dialog
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        filterDialog.add(new JLabel("Weight:"), gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        filterDialog.add(minWeightField, gbc);
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        filterDialog.add(new JLabel("to"), gbc);
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        filterDialog.add(maxWeightField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        filterDialog.add(new JLabel("Height:"), gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        filterDialog.add(minHeightField, gbc);
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        filterDialog.add(new JLabel("to"), gbc);
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        filterDialog.add(maxHeightField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        filterDialog.add(new JLabel("Positions:"), gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
-        filterDialog.add(new JScrollPane(positionPanel), gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        filterDialog.add(new JLabel("Hometown:"), gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.gridwidth = 3;
-        filterDialog.add(hometownComboBox, gbc);
-
-        // Thêm nút lọc cầu thủ
-        JButton filterButton = new JButton("Filter");
-        filterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String minWeight = minWeightField.getText();
-                String maxWeight = maxWeightField.getText();
-                String minHeight = minHeightField.getText();
-                String maxHeight = maxHeightField.getText();
-
-                // Lấy các vị trí đã chọn từ JCheckBox
-                StringBuilder selectedPositions = new StringBuilder();
-                for (Component comp : positionPanel.getComponents()) {
-                    if (comp instanceof JCheckBox && ((JCheckBox) comp).isSelected()) {
-                        if (selectedPositions.length() > 0) {
-                            selectedPositions.append(", ");
-                        }
-                        selectedPositions.append(((JCheckBox) comp).getText());
-                    }
-                }
-
-                String hometown = hometownComboBox.getSelectedItem() != null ? hometownComboBox.getSelectedItem().toString() : "";
-
-                // Đóng frame hiện tại
-                frame.dispose();
-
-                // Hiển thị frame mới với danh sách cầu thủ đã lọc                
-                filterPlayers(minWeight, maxWeight, minHeight, maxHeight, selectedPositions.toString(), hometown);
-
-                filterDialog.dispose();
-            }
-        });
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 4;
-        filterDialog.add(filterButton, gbc);
-
-        // Hiển thị dialog
-        filterDialog.setLocationRelativeTo(null);
-        filterDialog.setVisible(true);
-    }
-
     public static void backk() {
         filterPlayers(a, b, c, d, k, g);
-    }
+    }   
 
-    public static void showFilteredPlayers(ArrayList<Player> filteredList) {
-        JFrame filterFrame = new JFrame("Filtered Players");
-        filterFrame.setSize(900, 600);
-        filterFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        filterFrame.setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBackground(Color.WHITE);
-
-        JLabel titleLabel = new JLabel("Filtered Player List");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(250, 20, 400, 30);
-        panel.add(titleLabel);
-
-        String[] columnNames = {"Name"};
-        DefaultTableModel filteredTableModel = new DefaultTableModel(columnNames, 0);
-        JTable filteredTable = new JTable(filteredTableModel);
-        JScrollPane scrollPane = new JScrollPane(filteredTable);
-        scrollPane.setBounds(100, 100, 600, 200);
-        panel.add(scrollPane);
-
-        for (Player player : filteredList) {
-            filteredTableModel.addRow(new Object[]{player.getName()});
-        }
-
-        // Add "Chọn" button
-        JButton selectButton = new JButton("Choose");
-        selectButton.setFont(new Font("Arial", Font.BOLD, 18));
-        selectButton.setBackground(new Color(255, 182, 193));
-        selectButton.setBounds(350, 350, 120, 50);
-        selectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                filterFrame.dispose();
-                chon2(filteredTable, filteredList); // Sử dụng filteredList để chọn cầu thủ
-            }
-        });
-        panel.add(selectButton);
-
-        // Add "Back" button
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Arial", Font.BOLD, 18));
-        backButton.setBackground(new Color(255, 182, 193));
-        backButton.setBounds(200, 350, 120, 50);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                filterFrame.dispose();
-                View_BDH_Nhansu_BDH.hien();
-                Controller_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv", playerList, displayedPlayers, tableModel);
-            }
-        });
-        panel.add(backButton);
-        filterFrame.add(panel);
-
-        filterFrame.setVisible(true);
-    }
-
-    public static void filterPlayers(String minWeight, String maxWeight, String minHeight, String maxHeight, String position, String hometown) {
+    public static void filterPlayers(String minWeight, String maxWeight, String minHeight, String maxHeight,
+            String position, String hometown) {
         a = minWeight;
         b = maxWeight;
         c = minHeight;
@@ -619,7 +442,7 @@ public class View_BDH_Nhansu_BDH {
             }
         }
 
-        showFilteredPlayers(displayedPlayers); // Hiển thị displayedPlayers đã lọc
+        Controller_BDH_Nhansu_BDH.showFilteredPlayers(displayedPlayers, playerList, displayedPlayers, tableModel); // Hiển thị displayedPlayers đã lọc
     }
 
     public static void filterTable() {
@@ -630,8 +453,80 @@ public class View_BDH_Nhansu_BDH {
         for (Player player : playerList) {
             if (player.getName().toLowerCase().contains(query)) {
                 displayedPlayers.add(player);
-                tableModel.addRow(new Object[]{player.getName()});
+                tableModel.addRow(new Object[] { player.getName() });
             }
+        }
+    }
+
+    public static void styleButton(JButton button) {
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(false); // Make the button completely transparent
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        button.setForeground(Color.BLACK);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button.setPreferredSize(new Dimension(120, 50));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(255, 69, 0, 150));
+                button.setOpaque(true);
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(0, 0, 0, 0));
+                button.setOpaque(false);
+            }
+        });
+    }
+
+    public static class RoundedButton extends JButton {
+        public RoundedButton(String label) {
+            super(label);
+            setOpaque(false);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+            setBorderPainted(false);
+            setForeground(Color.BLACK);
+            setBackground(new Color(255, 0, 0, 150)); // Red color
+            setFont(new Font("Arial", Font.BOLD, 14));
+            setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            setPreferredSize(new Dimension(120, 50));
+            addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    setBackground(new Color(255, 69, 0, 150)); // Darker red on hover
+                    setOpaque(true);
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    setBackground(new Color(255, 0, 0, 150)); // Original red
+                    setOpaque(false);
+                }
+            });
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+            g2.dispose();
+            super.paintComponent(g);
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(Color.BLACK);
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
+            g2.dispose();
         }
     }
 }
