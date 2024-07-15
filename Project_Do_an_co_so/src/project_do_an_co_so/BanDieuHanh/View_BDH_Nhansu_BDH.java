@@ -68,11 +68,11 @@ public class View_BDH_Nhansu_BDH {
             JOptionPane.showMessageDialog(frame, "Choose a player");
         }
     }
-    
+
     public static void chon2(JTable table, ArrayList<Player> playerList) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
-            Player selectedPlayer = displayedPlayers.get(selectedRow);
+            Player selectedPlayer = displayedPlayers.get(selectedRow); // Sử dụng displayedPlayers để lấy cầu thủ được chọn
             View_Chon_Loc_1Cauthu view = new View_Chon_Loc_1Cauthu();
             view.set(playerList.indexOf(selectedPlayer), selectedPlayer, table, tableModel, playerList);
             frame.dispose();
@@ -453,9 +453,9 @@ public class View_BDH_Nhansu_BDH {
             }
         });
     }
-    
+
     private static String a, b, c, d, k, g;
-    
+
     public static void openFilterDialog() {
         JDialog filterDialog = new JDialog(frame, "Filter Players", true);
         filterDialog.setSize(500, 600);  // Tăng kích thước hộp thoại
@@ -567,9 +567,8 @@ public class View_BDH_Nhansu_BDH {
                 frame.dispose();
 
                 // Hiển thị frame mới với danh sách cầu thủ đã lọc                
-                      
                 filterPlayers(minWeight, maxWeight, minHeight, maxHeight, selectedPositions.toString(), hometown);
-                
+
                 filterDialog.dispose();
             }
         });
@@ -582,21 +581,20 @@ public class View_BDH_Nhansu_BDH {
         filterDialog.setLocationRelativeTo(null);
         filterDialog.setVisible(true);
     }
-    
-    public static void backk(){
+
+    public static void backk() {
         filterPlayers(a, b, c, d, k, g);
     }
-    
+
     public static void filterPlayers(String minWeight, String maxWeight, String minHeight, String maxHeight, String position, String hometown) {
-        
         a = minWeight;
         b = maxWeight;
         c = minHeight;
         d = maxHeight;
         k = position;
         g = hometown;
-        
-        ArrayList<Player> filteredList = new ArrayList<>();
+
+        displayedPlayers.clear(); // Cập nhật displayedPlayers
 
         for (Player player : playerList) {
             boolean matches = true;
@@ -628,11 +626,11 @@ public class View_BDH_Nhansu_BDH {
             }
 
             if (matches) {
-                filteredList.add(player);
+                displayedPlayers.add(player); // Thêm vào displayedPlayers
             }
         }
 
-        showFilteredPlayers(filteredList);
+        showFilteredPlayers(displayedPlayers); // Hiển thị displayedPlayers đã lọc
     }
 
     public static void showFilteredPlayers(ArrayList<Player> filteredList) {
@@ -649,9 +647,6 @@ public class View_BDH_Nhansu_BDH {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBounds(250, 20, 400, 30);
         panel.add(titleLabel);
-        
-        
-        filterFrame.setVisible(true);
 
         String[] columnNames = {"Name"};
         DefaultTableModel filteredTableModel = new DefaultTableModel(columnNames, 0);
@@ -672,8 +667,8 @@ public class View_BDH_Nhansu_BDH {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filterFrame.dispose(); 
-                chon2(filteredTable, filteredList);
+                filterFrame.dispose();
+                chon2(filteredTable, filteredList); // Sử dụng filteredList để chọn cầu thủ
             }
         });
         panel.add(selectButton);
@@ -686,13 +681,15 @@ public class View_BDH_Nhansu_BDH {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filterFrame.dispose();   
+                filterFrame.dispose();
                 View_BDH_Nhansu_BDH.hien();
-                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");                
+                View_BDH_Nhansu_BDH.load2("src/project_do_an_co_so/CSV/Data.csv");
             }
         });
         panel.add(backButton);
         filterFrame.add(panel);
+
+        filterFrame.setVisible(true);
     }
 
     private static void filterTable() {
