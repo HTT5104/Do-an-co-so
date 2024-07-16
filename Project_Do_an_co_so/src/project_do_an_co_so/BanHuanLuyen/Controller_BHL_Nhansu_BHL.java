@@ -1,4 +1,4 @@
-package project_do_an_co_so.BanDieuHanh;
+package project_do_an_co_so.BanHuanLuyen;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,24 +33,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 import project_do_an_co_so.Ngoaile;
 import project_do_an_co_so.Player;
-import project_do_an_co_so.View_BDH_Nhansu_BDH;
-import static project_do_an_co_so.View_BDH_Nhansu_BDH.chon2;
-import static project_do_an_co_so.View_BDH_Nhansu_BDH.filterPlayers;
-import static project_do_an_co_so.View_BDH_Nhansu_BDH.styleButton;
-import static project_do_an_co_so.View_BDH_Nhansu_BDH.up;
 import project_do_an_co_so.View_BHL_Nhan_su_BHL;
 
-public class Controller_BDH_Nhansu_BDH {
-
-    public static boolean isNaturalNumber(String str) {
-        try {
-            int num = Integer.parseInt(str);
-            return num > 0;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
+public class Controller_BHL_Nhansu_BHL {
     public static void save(String filePath, ArrayList<Player> playerList1) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             // Ghi dữ liệu của từng cầu thủ vào file CSV
@@ -113,7 +98,7 @@ public class Controller_BDH_Nhansu_BDH {
             e.printStackTrace();
         }
     } 
-     public static void openFilterDialog(int y, Ngoaile x, JFrame frame) {
+     public static void openFilterDialog(Ngoaile x, JFrame frame) {
         JDialog filterDialog = new JDialog(frame, "Filter Players", true);
         filterDialog.setSize(500, 600); // Tăng kích thước hộp thoại
         filterDialog.setLayout(new GridBagLayout());
@@ -200,7 +185,7 @@ public class Controller_BDH_Nhansu_BDH {
 
         // Thêm nút lọc cầu thủ
         JButton filterButton = new JButton("Filter");
-        View_BDH_Nhansu_BDH.styleButton(filterButton);
+        View_BHL_Nhan_su_BHL.styleButton(filterButton);
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -228,7 +213,7 @@ public class Controller_BDH_Nhansu_BDH {
                 frame.dispose();
 
                 // Hiển thị frame mới với danh sách cầu thủ đã lọc
-                filterPlayers(minWeight, maxWeight, minHeight, maxHeight, selectedPositions.toString(), hometown);
+                View_BHL_Nhan_su_BHL.filterPlayers(minWeight, maxWeight, minHeight, maxHeight, selectedPositions.toString(), hometown);
 
                 filterDialog.dispose();
             }
@@ -271,27 +256,27 @@ public class Controller_BDH_Nhansu_BDH {
 
         // Add "Chọn" button
         JButton selectButton = new JButton("Choose");
-        styleButton(selectButton);
+        View_BHL_Nhan_su_BHL.styleButton(selectButton);
         selectButton.setBounds(350, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 filterFrame.dispose();
-                chon2(filteredTable, filteredList); // Sử dụng filteredList để chọn cầu thủ
+                View_BHL_Nhan_su_BHL .chon2(filteredTable, filteredList); // Sử dụng filteredList để chọn cầu thủ
             }
         });
         panel.add(selectButton);
 
         // Add "Back" button
         JButton backButton = new JButton("Back");
-        styleButton(backButton);
+        View_BHL_Nhan_su_BHL.styleButton(backButton);
         backButton.setBounds(200, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 filterFrame.dispose();
-                View_BDH_Nhansu_BDH.hien();
-                up();
+                View_BHL_Nhan_su_BHL.hien();
+                View_BHL_Nhan_su_BHL.up();
             }
         });
         panel.add(backButton);

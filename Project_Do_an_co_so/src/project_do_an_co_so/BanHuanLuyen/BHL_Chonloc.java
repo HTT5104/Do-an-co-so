@@ -1,15 +1,31 @@
-package project_do_an_co_so;
+package project_do_an_co_so.BanHuanLuyen;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
 import project_do_an_co_so.Player;
+import project_do_an_co_so.View_BDH_Nhansu_BDH;
+import project_do_an_co_so.View_BHL_Nhan_su_BHL;
 
-public class View_BHL_Nhansu_1nguoi {
-
+public class BHL_Chonloc {
     private static JFrame frame;
     private JLabel nameLabel, positionLabel, birthDateLabel, hometownLabel, numberShirtLabel, weightLabel, heightLabel,
             bodyMassLabel, photoLabel;
@@ -44,14 +60,12 @@ public class View_BHL_Nhansu_1nguoi {
                 bodyMassLabel.setText(player.getBodyMass());
                 ImageIcon imageIcon = new ImageIcon(
                         "src/project_do_an_co_so/Image/Player_avatar/"
-                                + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
+                        + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
             }
         });
-    }
-
-    
+    }       
 
     public JPanel createPanel(int selectedRow, JTable table, DefaultTableModel tableModel,
             ArrayList<Player> playerList) {
@@ -147,8 +161,7 @@ public class View_BHL_Nhansu_1nguoi {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                View_BHL_Nhan_su_BHL.hien();
-                View_BHL_Nhan_su_BHL.up();
+                View_BHL_Nhan_su_BHL.backk();
             }
         });
         gbc.gridx = 0; // Vị trí cột
@@ -156,6 +169,17 @@ public class View_BHL_Nhansu_1nguoi {
         gbc.gridwidth = 1; // Chiếm 1 cột
         gbc.anchor = GridBagConstraints.WEST; // Canh trái
         panel.add(backButton, gbc); // Thêm nút Quay lại vào panel
+
+        gbc.gridx = 1; // Vị trí cột
+        gbc.gridy = 9; // Vị trí hàng
+        gbc.gridwidth = 1; // Chiếm 1 cột
+        gbc.anchor = GridBagConstraints.WEST; // Canh trái
+        
+        gbc.gridx = 2; // Vị trí cột
+        gbc.gridy = 9; // Vị trí hàng
+        gbc.gridwidth = 1; // Chiếm 1 cột
+        gbc.anchor = GridBagConstraints.WEST; // Canh trái
+
 
         return panel; // Trả về panel đã được thiết lập
     }

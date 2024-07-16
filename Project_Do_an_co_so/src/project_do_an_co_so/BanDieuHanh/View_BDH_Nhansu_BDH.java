@@ -371,7 +371,7 @@ public class View_BDH_Nhansu_BDH {
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller_BDH_Nhansu_BDH.openFilterDialog(x, frame);
+                Controller_BDH_Nhansu_BDH.openFilterDialog(1, x, frame);
             }
         });
         panel.add(filterButton);
