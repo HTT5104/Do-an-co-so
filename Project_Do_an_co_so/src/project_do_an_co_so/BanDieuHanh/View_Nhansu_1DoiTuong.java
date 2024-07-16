@@ -70,7 +70,7 @@ public class View_Nhansu_1DoiTuong {
         JCheckBox nameCheckBox = new JCheckBox("Name");
         JCheckBox positionCheckBox = new JCheckBox("Position");
         JCheckBox dobCheckBox = new JCheckBox("DoB");
-        JCheckBox hometownCheckBox = new JCheckBox("Hometown");
+        JCheckBox hometownCheckBox = new JCheckBox("Nation");
         JCheckBox numberCheckBox = new JCheckBox("Number");
         JCheckBox weightCheckBox = new JCheckBox("Weight");
         JCheckBox heightCheckBox = new JCheckBox("Height");
