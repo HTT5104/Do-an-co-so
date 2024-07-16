@@ -26,7 +26,7 @@ public class Controller_Cau_Thu_1minh{
         // Thiết lập kích thước cho khung
         frame.setSize(400, 250);
         // Thiết lập hành động khi đóng khung
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // Đặt khung ở giữa màn hình
         frame.setLocationRelativeTo(null);               
         // Tạo panel và thiết lập bố cục

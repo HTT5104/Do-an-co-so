@@ -42,7 +42,7 @@ public class View_BDH_Nhansu_BDH {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
             Player selectedPlayer = displayedPlayers.get(selectedRow); // Sử dụng displayedPlayers để lấy cầu thủ được
-                                                                       // chọn
+            // chọn
             View_Chon_Loc_1Cauthu view = new View_Chon_Loc_1Cauthu();
             view.set(playerList.indexOf(selectedPlayer), selectedPlayer, table, tableModel, playerList);
             frame.dispose();
@@ -80,7 +80,7 @@ public class View_BDH_Nhansu_BDH {
         JTextField heightField = new JTextField(20);
 
         // Tạo JComboBox cho phần nhập chân thuận
-        JComboBox<String> dominantFootComboBox = new JComboBox<>(new String[] { "Left", "Right", "Both" });
+        JComboBox<String> dominantFootComboBox = new JComboBox<>(new String[]{"Left", "Right", "Both"});
 
         // Thêm các trường nhập liệu vào dialog
         gbc.gridx = 0;
@@ -191,7 +191,7 @@ public class View_BDH_Nhansu_BDH {
                         bodyMass, password);
                 playerList.add(newPlayer);
                 displayedPlayers.add(newPlayer);
-                tableModel.addRow(new Object[] { name });
+                tableModel.addRow(new Object[]{name});
 
                 // Lưu dữ liệu vào file CSV
                 savePlayerToCSV(name, hometown, birthDate, numberShirt, position, weight, height, bodyMass, password);
@@ -257,7 +257,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(titleLabel);
 
         // Create table
-        String[] columnNames = { "Name" };
+        String[] columnNames = {"Name"};
         tableModel = new DefaultTableModel(columnNames, 0);
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -395,7 +395,7 @@ public class View_BDH_Nhansu_BDH {
 
     public static void backk() {
         filterPlayers(a, b, c, d, k, g);
-    }   
+    }
 
     public static void filterPlayers(String minWeight, String maxWeight, String minHeight, String maxHeight,
             String position, String hometown) {
@@ -406,7 +406,7 @@ public class View_BDH_Nhansu_BDH {
         k = position;
         g = hometown;
 
-        displayedPlayers.clear(); // Cập nhật displayedPlayers
+        displayedPlayers.clear(); // Clear the displayedPlayers list
 
         for (Player player : playerList) {
             boolean matches = true;
@@ -429,8 +429,18 @@ public class View_BDH_Nhansu_BDH {
                 }
             }
 
-            if (!position.isEmpty() && !player.getPosition().contains(position)) {
-                matches = false;
+            if (!position.isEmpty()) {
+                String[] selectedPositions = position.split(",\\s*");
+                boolean positionMatches = false;
+                for (String pos : selectedPositions) {
+                    if (player.getPosition().contains(pos)) {
+                        positionMatches = true;
+                        break;
+                    }
+                }
+                if (!positionMatches) {
+                    matches = false;
+                }
             }
 
             if (!hometown.isEmpty() && !player.getHometown().equalsIgnoreCase(hometown)) {
@@ -438,11 +448,11 @@ public class View_BDH_Nhansu_BDH {
             }
 
             if (matches) {
-                displayedPlayers.add(player); // Thêm vào displayedPlayers
+                displayedPlayers.add(player); // Add to displayedPlayers if all conditions are met
             }
         }
 
-        Controller_BDH_Nhansu_BDH.showFilteredPlayers(displayedPlayers, playerList, displayedPlayers, tableModel); // Hiển thị displayedPlayers đã lọc
+        Controller_BDH_Nhansu_BDH.showFilteredPlayers(displayedPlayers, playerList, displayedPlayers, tableModel); // Display the filtered players
     }
 
     public static void filterTable() {
@@ -453,7 +463,7 @@ public class View_BDH_Nhansu_BDH {
         for (Player player : playerList) {
             if (player.getName().toLowerCase().contains(query)) {
                 displayedPlayers.add(player);
-                tableModel.addRow(new Object[] { player.getName() });
+                tableModel.addRow(new Object[]{player.getName()});
             }
         }
     }
@@ -484,6 +494,7 @@ public class View_BDH_Nhansu_BDH {
     }
 
     public static class RoundedButton extends JButton {
+
         public RoundedButton(String label) {
             super(label);
             setOpaque(false);

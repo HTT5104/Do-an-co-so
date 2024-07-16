@@ -7,9 +7,17 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -17,26 +25,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import project_do_an_co_so.Controller_Nhansu_1DoiTuong;
-import project_do_an_co_so.Player;
-import project_do_an_co_so.View_CT_LichThiDau;
-
 public class View_Cau_Thu_1minh {
 
     private static JFrame frame;
-    private JLabel nameLabel, positionLabel, birthDateLabel, hometownLabel, numberShirtLabel, weightLabel, heightLabel,
-            bodyMassLabel, photoLabel;
-    private JLabel nameLabelTitle, positionLabelTitle, birthDateLabelTitle, hometownLabelTitle, numberShirtLabelTitle,
-            weightLabelTitle, heightLabelTitle, bodyMassLabelTitle;
+    private JLabel nameLabel, positionLabel, birthDateLabel, hometownLabel, numberShirtLabel, weightLabel, heightLabel, bodyMassLabel, photoLabel;
+    private JLabel nameLabelTitle, positionLabelTitle, birthDateLabelTitle, hometownLabelTitle, numberShirtLabelTitle, weightLabelTitle, heightLabelTitle, bodyMassLabelTitle;
     private GridBagConstraints gbc;
     private Player currentPlayer;
     private JPanel panel, imagePanel;
@@ -65,9 +58,7 @@ public class View_Cau_Thu_1minh {
                 weightLabel.setText(player.getWeight());
                 heightLabel.setText(player.getHeight());
                 bodyMassLabel.setText(player.getBodyMass());
-                ImageIcon imageIcon = new ImageIcon(
-                        "src/project_do_an_co_so/Image/Player_avatar/"
-                        + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
+                ImageIcon imageIcon = new ImageIcon("src/project_do_an_co_so/Image/Player_avatar/" + Controller_Nhansu_1DoiTuong.formatNames(player.getName()) + ".png");
                 Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                 photoLabel.setIcon(new ImageIcon(image));
             }
@@ -77,41 +68,41 @@ public class View_Cau_Thu_1minh {
     private JPanel createPanel() {
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        panel.setBackground(new Color(240, 240, 240)); // Màu nền xám nhạt
+        panel.setBackground(new Color(240, 240, 240)); // Light gray background
         gbc = new GridBagConstraints();
 
-        // Tiêu đề
+        // Title
         JLabel titleLabel = new JLabel("Thông tin cầu thủ");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Tăng kích thước font
-        gbc.gridx = 0; // Vị trí cột
-        gbc.gridy = 0; // Vị trí hàng
-        gbc.gridwidth = 3; // Chiếm 3 cột
-        gbc.insets = new Insets(20, 20, 20, 20); // Tăng khoảng cách
-        panel.add(titleLabel, gbc); // Thêm tiêu đề vào panel
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Increased font size
+        gbc.gridx = 0; // Column position
+        gbc.gridy = 0; // Row position
+        gbc.gridwidth = 3; // Span 3 columns
+        gbc.insets = new Insets(20, 20, 20, 20); // Increased padding
+        panel.add(titleLabel, gbc); // Add title to panel
 
-        // Khung ảnh
+        // Image frame
         imagePanel = new JPanel();
-        imagePanel.setBackground(new Color(220, 220, 220)); // Màu nền xám nhạt
-        imagePanel.setPreferredSize(new Dimension(300, 300)); // Kích thước khung ảnh
-        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Viền đen cho khung ảnh
+        imagePanel.setBackground(new Color(220, 220, 220)); // Light gray background
+        imagePanel.setPreferredSize(new Dimension(300, 300)); // Image frame size
+        imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Black border for image frame
 
-        // Tải ảnh từ file
+        // Load image from file
         photoLabel = new JLabel();
         photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         imagePanel.add(photoLabel);
-        gbc.gridx = 8; // Vị trí cột
-        gbc.gridy = 1; // Vị trí hàng
-        gbc.gridheight = 8; // Chiếm 8 hàng
-        gbc.insets = new Insets(10, 10, 10, 10); // Giảm khoảng cách giữa các thành phần
-        gbc.anchor = GridBagConstraints.CENTER; // Canh giữa
-        panel.add(imagePanel, gbc); // Thêm khung ảnh vào panel
+        gbc.gridx = 8; // Column position
+        gbc.gridy = 1; // Row position
+        gbc.gridheight = 8; // Span 8 rows
+        gbc.insets = new Insets(10, 10, 10, 10); // Reduced padding between components
+        gbc.anchor = GridBagConstraints.CENTER; // Center alignment
+        panel.add(imagePanel, gbc); // Add image frame to panel
 
-        // Các trường văn bản (có thể chỉnh sửa)
-        gbc.gridheight = 1; // Chiếm 1 hàng
-        gbc.anchor = GridBagConstraints.WEST; // Canh trái
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Kéo dãn theo chiều ngang
+        // Text fields (editable)
+        gbc.gridheight = 1; // Span 1 row
+        gbc.anchor = GridBagConstraints.WEST; // Left alignment
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Stretch horizontally
 
-        // Thêm các JLabel
+        // Add JLabels
         nameLabelTitle = new JLabel("Họ tên:");
         positionLabelTitle = new JLabel("Vị trí:");
         birthDateLabelTitle = new JLabel("Ngày sinh:");
@@ -130,7 +121,7 @@ public class View_Cau_Thu_1minh {
         heightLabel = new JLabel();
         bodyMassLabel = new JLabel();
 
-        // Tăng kích thước font
+        // Increased font size
         Font labelFont = new Font("Arial", Font.PLAIN, 18);
         nameLabelTitle.setFont(labelFont);
         positionLabelTitle.setFont(labelFont);
@@ -150,7 +141,7 @@ public class View_Cau_Thu_1minh {
         heightLabel.setFont(labelFont);
         bodyMassLabel.setFont(labelFont);
 
-        // Thêm các nhãn và trường văn bản vào panel
+        // Add labels and text fields to panel
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, nameLabelTitle, nameLabel, gbc, 1);
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, positionLabelTitle, positionLabel, gbc, 2);
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, birthDateLabelTitle, birthDateLabel, gbc, 3);
@@ -160,8 +151,8 @@ public class View_Cau_Thu_1minh {
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 7);
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 8);
 
-        // Nút Quay lại
-        JButton backButton = new JButton("Quay lại");
+        // Back button
+        JButton backButton = new JButton("Back");
         Controller_Nhansu_1DoiTuong.styleButton(backButton);
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -169,59 +160,67 @@ public class View_Cau_Thu_1minh {
                 frame.dispose();
             }
         });
-        gbc.gridx = 0; // Vị trí cột
-        gbc.gridy = 9; // Vị trí hàng
-        gbc.gridwidth = 1; // Chiếm 1 cột
-        gbc.anchor = GridBagConstraints.WEST; // Canh trái
-        panel.add(backButton, gbc); // Thêm nút Quay lại vào panel
+        gbc.gridx = 0; // Column position
+        gbc.gridy = 9; // Row position
+        gbc.gridwidth = 1; // Span 1 column
+        gbc.anchor = GridBagConstraints.WEST; // Left alignment
+        panel.add(backButton, gbc); // Add back button to panel
 
-        // Nút Chỉnh sửa
-        JButton scheduleButton = new JButton("Lịch thi đấu");
+        // Schedule button
+        JButton scheduleButton = new JButton("Schedule");
         Controller_Nhansu_1DoiTuong.styleButton(scheduleButton);
         scheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Code xử lý sự kiện cho nút Nhân sự
+                // Code for schedule button event
                 View_CT_LichThiDau.main(currentPlayer);
                 frame.dispose();
             }
         });
-        gbc.gridx = 1; // Vị trí cột
-        gbc.gridy = 9; // Vị trí hàng
-        gbc.gridwidth = 1; // Chiếm 1 cột
-        gbc.anchor = GridBagConstraints.WEST; // Canh trái
-        panel.add(scheduleButton, gbc); // Thêm nút Chỉnh sửa vào panel
+        gbc.gridx = 1; // Column position
+        gbc.gridy = 9; // Row position
+        gbc.gridwidth = 1; // Span 1 column
+        gbc.anchor = GridBagConstraints.WEST; // Left alignment
+        panel.add(scheduleButton, gbc); // Add schedule button to panel
 
-        // Nút Đổi mật khẩu
-        JButton uploadImageButton = new JButton("Đổi mật khẩu");
+        // Change password button
+        JButton uploadImageButton = new JButton("Change Password");
         Controller_Nhansu_1DoiTuong.styleButton(uploadImageButton);
         uploadImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                ArrayList<Player> data = new ArrayList<>();
-//                String path = "src/project_do_an_co_so/CSV/Data.csv";
-//                data = readCSV(data, path);
-//                for (int i = 0; i < data.size(); i++) {
-//                    if (data.get(i).getName().equals(currentPlayer.getName())) {   
-//                        data.set(i, currentPlayer);
-//                        
-//                    }
-//                }
-//                Controller_Nhansu_1DoiTuong.clearCSVFile("src/project_do_an_co_so/CSV/Data.csv");
-//                View_BDH_Nhansu_BDH.save3("src/project_do_an_co_so/CSV/Data.csv", data);
-                  Controller_Cau_Thu_1minh.viewController_Cau_Thu_1minh(currentPlayer);
-            }            
+                Controller_Cau_Thu_1minh.viewController_Cau_Thu_1minh(currentPlayer);
+            }
         });
-        gbc.gridx = 2; // Vị trí cột
-        gbc.gridy = 9; // Vị trí hàng
-        gbc.gridwidth = 1; // Chiếm 1 cột
-        gbc.anchor = GridBagConstraints.WEST; // Canh trái
-        panel.add(uploadImageButton, gbc); // Thêm nút Cập nhật hình ảnh vào panel
+        gbc.gridx = 2; // Column position
+        gbc.gridy = 9; // Row position
+        gbc.gridwidth = 1; // Span 1 column
+        gbc.anchor = GridBagConstraints.WEST; // Left alignment
+        panel.add(uploadImageButton, gbc); // Add change password button to panel
 
-        return panel; // Trả về panel đã được thiết lập
+        // Logout button
+        JButton logoutButton = new JButton("Logout");
+        Controller_Nhansu_1DoiTuong.styleButton(logoutButton);
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(frame, "Are you sure you want to logout?", "Logout Confirmation", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.OK_OPTION) {
+                    Login.Hien();
+                    frame.dispose();
+                }
+            }
+        });
+        gbc.gridx = 3; // Column position
+        gbc.gridy = 9; // Row position
+        gbc.gridwidth = 1; // Span 1 column
+        gbc.anchor = GridBagConstraints.WEST; // Left alignment
+        panel.add(logoutButton, gbc); // Add logout button to panel
+
+        return panel; // Return configured panel
     }
 
-    // Đọc dữ liệu từ file CSV
+    // Read data from CSV file
     public static ArrayList<Player> readCSV(ArrayList<Player> data, String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -229,7 +228,6 @@ public class View_Cau_Thu_1minh {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length >= 2 && !values[0].isEmpty() && !values[values.length - 1].isEmpty()) {
-                    // Load
                     String name = values[0];
                     String hometown = values[1];
                     String birthDate = values[2];
@@ -250,7 +248,7 @@ public class View_Cau_Thu_1minh {
         return data;
     }
 
-    // Ghi dữ liệu vào file CSV và chỉ đổi mật khẩu của cầu thủ cụ thể
+    // Write data to CSV file and only change the password of specific players
     public static void writeCSV(String filePath, ArrayList<Player> players) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             for (Player player : players) {

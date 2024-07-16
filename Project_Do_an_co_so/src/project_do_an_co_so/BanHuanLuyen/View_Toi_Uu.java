@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +59,7 @@ public class View_Toi_Uu extends JFrame {
                 if (selectedFile == null) {
                     JOptionPane.showMessageDialog(null, "Please upload a CSV file first.");
                 } else if (selectedCount == 10) {
-                    printTopPlayers();
+                    showTopPlayersTable();
                 } else {
                     JOptionPane.showMessageDialog(null, "Please select exactly 10 positions.");
                 }
@@ -177,8 +178,6 @@ public class View_Toi_Uu extends JFrame {
                         - 5 * metrics[15] - metrics[16] + 4 * metrics[17] + 5 * metrics[18] + 5 * metrics[19]
                         + 1.5 * metrics[20]) * metrics[21] * metrics[22];
 
-                //Player player = new Player(playerName, qi);
-
                 // Add player to the position arrays
                 for (int i = 0; i < 15; i++) {
                     if (positions[i]) {
@@ -207,49 +206,54 @@ public class View_Toi_Uu extends JFrame {
         return -1;
     }
 
-    private void printTopPlayers() {
-    HashSet<String> selectedPlayers = new HashSet<>();
-    StringBuilder result = new StringBuilder("Selected top players:\n");
+    private void showTopPlayersTable() {
+        HashSet<String> selectedPlayers = new HashSet<>();
+        String[] columnNames = {"Position", "Player Name", "Quality"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
-    // Map each button text to a position array index
-    String[] positions = {
-            "GK", "CB", "LB", "RB", "LWB",
-            "RWB", "CDM", "CM", "LM", "RM",
-            "CAM", "CF", "LW", "RW", "ST"
-    };
+        // Map each button text to a position array index
+        String[] positions = {
+                "GK", "CB", "LB", "RB", "LWB",
+                "RWB", "CDM", "CM", "LM", "RM",
+                "CAM", "CF", "LW", "RW", "ST"
+        };
 
-    selectedPositions.sort(Comparator.comparingInt(pos -> indexOfPosition(pos, positions)));
+        selectedPositions.sort(Comparator.comparingInt(pos -> indexOfPosition(pos, positions)));
 
-    // Get top player for each selected position
-    for (String pos : selectedPositions) {
-        int index = indexOfPosition(pos, positions);
+        // Get top player for each selected position
+        for (String pos : selectedPositions) {
+            int index = indexOfPosition(pos, positions);
 
-        if (index != -1) {
-            boolean playerFound = false;
-            for (Player player : positionArrays[index]) {
-                if (!selectedPlayers.contains(player.getName())) {
-                    if (player.getQuality() > 0) {
-                        selectedPlayers.add(player.getName());
-                        result.append(pos).append(": ").append(player.getName()).append(" (QI: ")
-                                .append(player.getQuality()).append(")\n");
-                    } else {
-                        result.append(pos).append(": None\n");
+            if (index != -1) {
+                boolean playerFound = false;
+                for (Player player : positionArrays[index]) {
+                    if (!selectedPlayers.contains(player.getName())) {
+                        if (player.getQuality() > 0) {
+                            selectedPlayers.add(player.getName());
+                            tableModel.addRow(new Object[]{pos, player.getName(), player.getQuality()});
+                        } else {
+                            tableModel.addRow(new Object[]{pos, "None", "N/A"});
+                        }
+                        playerFound = true;
+                        break;
                     }
-                    playerFound = true;
-                    break;
                 }
+                if (!playerFound) {
+                    tableModel.addRow(new Object[]{pos, "None", "N/A"});
+                }
+            } else {
+                tableModel.addRow(new Object[]{pos, "None", "N/A"});
             }
-            if (!playerFound) {
-                result.append(pos).append(": None\n");
-            }
-        } else {
-            result.append(pos).append(": None\n");
         }
+
+        JTable table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        JDialog dialog = new JDialog(this, "Selected Top Players", true);
+        dialog.add(scrollPane);
+        dialog.setSize(600, 400);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
-
-    JOptionPane.showMessageDialog(null, result.toString());
-}
-
 
     public void addButtons(JPanel panel) {
         String[] positions = {
