@@ -88,7 +88,7 @@ public class Login extends JFrame {
             Map<String, String> mp = new HashMap<>();
             mp.put(formattedUsername, md5Password);
 
-            System.out.println("Attempting login with username: " + username + " and password: " + password);
+            /*System.out.println("Attempting login with username: " + username + " and password: " + password);
             System.out.println("MD5 Password: " + md5Password);
             System.out.println("Role: " + role);
 
@@ -98,15 +98,15 @@ public class Login extends JFrame {
             // Print playerData for verification
             for (Map.Entry<Map<String, String>, Player> entry : playerData.entrySet()) {
                 System.out.println("Player data map: " + entry.getKey() + ", Player: " + entry.getValue());
-            }
+            }*/
 
-            if ("minhduy".equals(username) && "123".equals(password) && "Manager".equals(role)) {
+            if ("minhduy".equals(username) && "202cb962ac59075b964b07152d234b70".equals(getMD5(password)) && "Manager".equals(role)) {
                 View_BanDieuHanh.hien();
                 Window window = SwingUtilities.getWindowAncestor(loginPanel);
                 if (window != null) {
                     window.dispose();
                 }
-            } else if ("minhduy".equals(username) && "123".equals(password) && "Coach".equals(role)) {
+            } else if ("minhduy".equals(username) && "202cb962ac59075b964b07152d234b70".equals(getMD5(password)) && "Coach".equals(role)) {
                 View_BanHuanLuyen.hien();
                 Window window = SwingUtilities.getWindowAncestor(loginPanel);
                 if (window != null) {
@@ -169,9 +169,9 @@ public class Login extends JFrame {
             e.printStackTrace();
         }
         // Print the player data for verification
-        for (Map.Entry<Map<String, String>, Player> entry : playerData.entrySet()) {
+        /*for (Map.Entry<Map<String, String>, Player> entry : playerData.entrySet()) {
             System.out.println("Player: " + entry.getKey() + ", MD5 Password: " + entry.getValue());
-        }
+        }*/
 
         return playerData;
     }
