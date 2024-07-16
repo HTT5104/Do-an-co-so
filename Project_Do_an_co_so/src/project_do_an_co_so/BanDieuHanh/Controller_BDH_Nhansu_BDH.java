@@ -198,7 +198,7 @@ public class Controller_BDH_Nhansu_BDH {
         filterDialog.add(hometownComboBox, gbc);
 
         // Thêm nút lọc cầu thủ
-        JButton filterButton = new View_BDH_Nhansu_BDH.RoundedButton("Filter");
+        JButton filterButton = new JButton("Filter");
         View_BDH_Nhansu_BDH.styleButton(filterButton);
         filterButton.addActionListener(new ActionListener() {
             @Override
@@ -269,7 +269,7 @@ public class Controller_BDH_Nhansu_BDH {
         }
 
         // Add "Chọn" button
-        JButton selectButton = new View_BDH_Nhansu_BDH.RoundedButton("Choose");
+        JButton selectButton = new JButton("Choose");
         styleButton(selectButton);
         selectButton.setBounds(350, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
@@ -282,7 +282,7 @@ public class Controller_BDH_Nhansu_BDH {
         panel.add(selectButton);
 
         // Add "Back" button
-        JButton backButton = new View_BDH_Nhansu_BDH.RoundedButton("Back");
+        JButton backButton = new JButton("Back");
         styleButton(backButton);
         backButton.setBounds(200, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {

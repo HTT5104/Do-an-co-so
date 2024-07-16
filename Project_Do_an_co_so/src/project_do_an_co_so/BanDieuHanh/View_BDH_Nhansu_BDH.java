@@ -148,7 +148,7 @@ public class View_BDH_Nhansu_BDH {
         });
 
         // Thêm nút lưu cầu thủ
-        JButton saveButton = new RoundedButton("Save");
+        JButton saveButton = new JButton("Save");
         styleButton(saveButton);
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -286,7 +286,8 @@ public class View_BDH_Nhansu_BDH {
         panel.add(searchField);
 
         // Add "Thêm" button
-        JButton addButton = new RoundedButton("Add");
+        JButton addButton = new JButton("Add");
+        Controller_Nhansu_1DoiTuong.styleButton(addButton);
         styleButton(addButton);
         addButton.setBounds(50, 350, 120, 50);
         addButton.addActionListener(new ActionListener() {
@@ -298,7 +299,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(addButton);
 
         // Add "Xóa" button
-        JButton deleteButton = new RoundedButton("Delete");
+        JButton deleteButton = new JButton("Delete");
         styleButton(deleteButton);
         deleteButton.setBounds(200, 350, 120, 50);
         deleteButton.addActionListener(new ActionListener() {
@@ -326,7 +327,8 @@ public class View_BDH_Nhansu_BDH {
         panel.add(deleteButton);
 
         // Add "Chọn" button
-        JButton selectButton = new RoundedButton("Choose");
+        JButton selectButton = new JButton("Choose");
+        
         styleButton(selectButton);
         selectButton.setBounds(350, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
@@ -338,7 +340,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(selectButton);
 
         // Add "Back" button
-        JButton backButton = new RoundedButton("Back");
+        JButton backButton = new JButton("Back");
         styleButton(backButton);
         backButton.setBounds(500, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {
@@ -351,7 +353,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(backButton);
 
         // Nút up csv
-        JButton loadCsvButton = new RoundedButton("Update");
+        JButton loadCsvButton = new JButton("Update");
         styleButton(loadCsvButton);
         loadCsvButton.setBounds(650, 350, 150, 50);
         loadCsvButton.addActionListener(new ActionListener() {
@@ -363,7 +365,7 @@ public class View_BDH_Nhansu_BDH {
         panel.add(loadCsvButton);
 
         // Add "Filter" button
-        JButton filterButton = new RoundedButton("Filter");
+        JButton filterButton = new JButton("Filter");
         styleButton(filterButton);
         filterButton.setBounds(650, 450, 150, 50);
         filterButton.addActionListener(new ActionListener() {
@@ -469,75 +471,14 @@ public class View_BDH_Nhansu_BDH {
     }
 
     public static void styleButton(JButton button) {
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        button.setOpaque(false); // Make the button completely transparent
-        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        button.setForeground(Color.BLACK);
-        button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        button.setPreferredSize(new Dimension(120, 50));
-
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(255, 69, 0, 150));
-                button.setOpaque(true);
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(0, 0, 0, 0));
-                button.setOpaque(false);
-            }
-        });
+        button.setFont(new Font("Arial", Font.BOLD, 18)); // Set font size to 18
+        button.setPreferredSize(new Dimension(200, 60)); // Increase button size
+        //button.setBackground(new Color(34, 139, 34)); // Forest green background color
+        button.setBackground(new Color(255, 0, 0));
+        button.setForeground(Color.WHITE); // White text color
+        button.setFocusPainted(false); // Remove focus paint
+        //button.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 2)); // Add white border
+        //button.setOpaque(true);
     }
 
-    public static class RoundedButton extends JButton {
-
-        public RoundedButton(String label) {
-            super(label);
-            setOpaque(false);
-            setContentAreaFilled(false);
-            setFocusPainted(false);
-            setBorderPainted(false);
-            setForeground(Color.BLACK);
-            setBackground(new Color(255, 0, 0, 150)); // Red color
-            setFont(new Font("Arial", Font.BOLD, 14));
-            setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            setPreferredSize(new Dimension(120, 50));
-            addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    setBackground(new Color(255, 69, 0, 150)); // Darker red on hover
-                    setOpaque(true);
-                }
-
-                @Override
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    setBackground(new Color(255, 0, 0, 150)); // Original red
-                    setOpaque(false);
-                }
-            });
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
-            g2.dispose();
-            super.paintComponent(g);
-        }
-
-        @Override
-        protected void paintBorder(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.BLACK);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
-            g2.dispose();
-        }
-    }
 }

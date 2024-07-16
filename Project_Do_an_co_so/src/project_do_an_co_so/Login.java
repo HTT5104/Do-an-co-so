@@ -18,37 +18,38 @@ public class Login extends JFrame {
     public static JPanel createLoginPanel() {
         BackgroundPanel backgroundPanel = new BackgroundPanel("src/project_do_an_co_so/Image/background.png");
 
-        // Tạo bảng điều khiển cho biểu mẫu đăng nhập
+        // Create the panel for the login form
         JPanel loginPanel = new JPanel();
-        loginPanel.setOpaque(false); // Đặt nền trong suốt
+        loginPanel.setOpaque(false); // Set background to transparent
         loginPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Tạo các thành phần cho biểu mẫu đăng nhập
-        Font font = new Font("Arial", Font.BOLD, 14);
+        // Create components for the login form
+        Font font = new Font("Arial", Font.BOLD, 16);
+        Color highlightColor = new Color(255, 69, 0); // Highlight color
 
-        JLabel roleLabel = new JLabel("Role");
+        JLabel roleLabel = new JLabel("Role:");
         roleLabel.setFont(font);
-        roleLabel.setForeground(Color.BLACK);
+        roleLabel.setForeground(highlightColor);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1; // Change to 1 to place components on the same line
         loginPanel.add(roleLabel, gbc);
 
         String[] roles = {"Manager", "Coach", "Player"};
         JComboBox<String> roleComboBox = new JComboBox<>(roles);
         roleComboBox.setFont(font);
-        roleComboBox.setSelectedIndex(-1);
-        gbc.gridy++;
+        roleComboBox.setPreferredSize(new Dimension(150, 25)); // Set a shorter width
+        gbc.gridx = 1;
         loginPanel.add(roleComboBox, gbc);
 
-        JLabel userLabel = new JLabel("Username");
+        JLabel userLabel = new JLabel("Username:");
         userLabel.setFont(font);
-        userLabel.setForeground(Color.BLACK);
+        userLabel.setForeground(highlightColor);
+        gbc.gridx = 0;
         gbc.gridy++;
-        gbc.gridwidth = 1;
         loginPanel.add(userLabel, gbc);
 
         JTextField userField = new JTextField(15);
@@ -56,9 +57,9 @@ public class Login extends JFrame {
         gbc.gridx = 1;
         loginPanel.add(userField, gbc);
 
-        JLabel passLabel = new JLabel("Password");
+        JLabel passLabel = new JLabel("Password:");
         passLabel.setFont(font);
-        passLabel.setForeground(Color.BLACK);
+        passLabel.setForeground(highlightColor);
         gbc.gridx = 0;
         gbc.gridy++;
         loginPanel.add(passLabel, gbc);
@@ -91,10 +92,10 @@ public class Login extends JFrame {
             System.out.println("MD5 Password: " + md5Password);
             System.out.println("Role: " + role);
 
-            // In ra mp để kiểm tra
+            // Print mp for verification
             System.out.println("User input map: " + mp);
 
-            // In ra playerData để kiểm tra
+            // Print playerData for verification
             for (Map.Entry<Map<String, String>, Player> entry : playerData.entrySet()) {
                 System.out.println("Player data map: " + entry.getKey() + ", Player: " + entry.getValue());
             }
@@ -111,10 +112,9 @@ public class Login extends JFrame {
                 if (window != null) {
                     window.dispose();
                 }
-            } else if ("Player".equals(role)) {               
-
+            } else if ("Player".equals(role)) {
                 if (playerData.containsKey(mp)) {
-                    System.out.println("Co");
+                    System.out.println("Player found");
                     Player x = playerData.get(mp);
                     View_Cau_Thu_1minh z = new View_Cau_Thu_1minh();
                     z.set(x);
@@ -123,16 +123,14 @@ public class Login extends JFrame {
                         window.dispose();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Wrong information", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Wrong information", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Wrong information", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Wrong information", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        // Thêm bảng điều khiển vào backgroundPanel
+        // Add the login panel to the background panel
         backgroundPanel.add(loginPanel, gbc);
         return backgroundPanel;
     }
@@ -150,9 +148,9 @@ public class Login extends JFrame {
                     String md5Password = values[8];
 
                     Map<String, String> bm = new HashMap<>();
-                    bm.put(playerName, md5Password); //Chứa tên đăng nhập và mật khảu chuẩn
+                    bm.put(playerName, md5Password); // Store username and password
 
-                    // Load
+                    // Load player data
                     String name = values[0];
                     String hometown = values[1];
                     String birthDate = values[2];
@@ -220,7 +218,7 @@ class BackgroundPanel extends JPanel {
 
     public BackgroundPanel(String fileName) {
         backgroundImage = new ImageIcon(fileName).getImage();
-        setLayout(new GridBagLayout()); // Sử dụng GridBagLayout để căn chỉnh các thành phần
+        setLayout(new GridBagLayout()); // Use GridBagLayout for component alignment
     }
 
     @Override

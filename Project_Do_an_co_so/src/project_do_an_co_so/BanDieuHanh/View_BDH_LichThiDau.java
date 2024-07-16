@@ -64,23 +64,27 @@ public class View_BDH_LichThiDau {
                 inputPanel.add(new JLabel("Home or Away:"));
                 inputPanel.add(homeAwayComboBox);
 
-                int result = JOptionPane.showConfirmDialog(frame, inputPanel, "New match",
-                        JOptionPane.OK_CANCEL_OPTION);
+                int result = JOptionPane.showConfirmDialog(frame, inputPanel, "New match", JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    Match newMatch = new Match(
-                            timeField.getText(),
-                            dateField.getText(),
-                            tournamentField.getText(),
-                            team1Field.getText(),
-                            team2Field.getText(),
-                            (String) homeAwayComboBox.getSelectedItem());
+                    if (timeField.getText().isEmpty() || dateField.getText().isEmpty() || tournamentField.getText().isEmpty() || 
+                        team1Field.getText().isEmpty() || team2Field.getText().isEmpty() || homeAwayComboBox.getSelectedItem() == null) {
+                        JOptionPane.showMessageDialog(frame, "Please enter all details.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        Match newMatch = new Match(
+                                timeField.getText(),
+                                dateField.getText(),
+                                tournamentField.getText(),
+                                team1Field.getText(),
+                                team2Field.getText(),
+                                (String) homeAwayComboBox.getSelectedItem());
 
-                    if (matchQueue.size() >= MAX_MATCHES) {
-                        matchQueue.poll(); // Remove the oldest match
+                        if (matchQueue.size() >= MAX_MATCHES) {
+                            matchQueue.poll(); // Remove the oldest match
+                        }
+                        matchQueue.add(newMatch);
+                        updateMainPanel(mainPanel);
+                        saveDataToCSV("src/project_do_an_co_so/CSV/lich_thi_dau.csv", matchQueue);
                     }
-                    matchQueue.add(newMatch);
-                    updateMainPanel(mainPanel);
-                    saveDataToCSV("src/project_do_an_co_so/CSV/lich_thi_dau.csv", matchQueue);
                 }
             }
         });
