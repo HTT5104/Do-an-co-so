@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -22,7 +23,11 @@ public class View_BDH_LichThiDau {
 
         // Create the main panel with GridLayout
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(MAX_MATCHES + 1, 1, 10, 10)); // +1 for buttons row
+        mainPanel.setLayout(new GridLayout(MAX_MATCHES + 2, 1, 10, 10)); // +2 for header row and buttons row
+
+        // Create and add the header panel
+        JPanel headerPanel = createHeaderPanel();
+        mainPanel.add(headerPanel);
 
         // Create a panel for each match data
         for (int i = 0; i < MAX_MATCHES; i++) {
@@ -36,25 +41,47 @@ public class View_BDH_LichThiDau {
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
+        
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Input new match details
-                JTextField timeField = new JTextField(10);
-                JTextField dateField = new JTextField(10);
+                JSpinner timeSpinner = new JSpinner(new SpinnerDateModel());
+                JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH'h'mm");
+                timeSpinner.setEditor(timeEditor);
+
+                JComboBox<String> dayComboBox = new JComboBox<>();
+                JComboBox<String> monthComboBox = new JComboBox<>();
+                JComboBox<String> yearComboBox = new JComboBox<>();
+                for (int i = 1; i <= 31; i++) {
+                    dayComboBox.addItem(String.format("%02d", i));
+                }
+                for (int i = 1; i <= 12; i++) {
+                    monthComboBox.addItem(String.format("%02d", i));
+                }
+                for (int i = 2020; i <= 2030; i++) {
+                    yearComboBox.addItem(String.valueOf(i));
+                }
+
                 JTextField tournamentField = new JTextField(10);
                 JTextField team1Field = new JTextField(10);
                 JTextField team2Field = new JTextField(10);
-                JComboBox<String> homeAwayComboBox = new JComboBox<>(new String[] { "Home", "Away" });
+                JComboBox<String> homeAwayComboBox = new JComboBox<>(new String[]{"Home", "Away"});
 
                 JPanel inputPanel = new JPanel();
-                inputPanel.setLayout(new GridLayout(6, 2, 10, 10));
+                inputPanel.setLayout(new GridLayout(7, 2, 10, 10));
                 inputPanel.add(new JLabel("Time:"));
-                inputPanel.add(timeField);
+                inputPanel.add(timeSpinner);
+
+                JPanel datePanel = new JPanel();
+                datePanel.setLayout(new GridLayout(1, 3, 5, 5));
+                datePanel.add(dayComboBox);
+                datePanel.add(monthComboBox);
+                datePanel.add(yearComboBox);
                 inputPanel.add(new JLabel("Date:"));
-                inputPanel.add(dateField);
+                inputPanel.add(datePanel);
+
                 inputPanel.add(new JLabel("League:"));
                 inputPanel.add(tournamentField);
                 inputPanel.add(new JLabel("Opponent:"));
@@ -66,13 +93,15 @@ public class View_BDH_LichThiDau {
 
                 int result = JOptionPane.showConfirmDialog(frame, inputPanel, "New match", JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    if (timeField.getText().isEmpty() || dateField.getText().isEmpty() || tournamentField.getText().isEmpty() || 
-                        team1Field.getText().isEmpty() || team2Field.getText().isEmpty() || homeAwayComboBox.getSelectedItem() == null) {
+                    String time = timeEditor.getFormat().format(timeSpinner.getValue());
+                    String date = String.format("%s/%s/%s", dayComboBox.getSelectedItem(), monthComboBox.getSelectedItem(), yearComboBox.getSelectedItem());
+
+                    if (tournamentField.getText().isEmpty() || team1Field.getText().isEmpty() || team2Field.getText().isEmpty() || homeAwayComboBox.getSelectedItem() == null) {
                         JOptionPane.showMessageDialog(frame, "Please enter all details.", "Input Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         Match newMatch = new Match(
-                                timeField.getText(),
-                                dateField.getText(),
+                                time,
+                                date,
                                 tournamentField.getText(),
                                 team1Field.getText(),
                                 team2Field.getText(),
@@ -88,6 +117,7 @@ public class View_BDH_LichThiDau {
                 }
             }
         });
+
         buttonPanel.add(addButton);
 
         JButton deleteButton = new JButton("Delete");
@@ -121,17 +151,32 @@ public class View_BDH_LichThiDau {
         frame.setVisible(true);
     }
 
+    // Method to create the header panel
+    private static JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new GridLayout(1, 6, 10, 10));
+
+        headerPanel.add(createHeaderLabel("Time"));
+        headerPanel.add(createHeaderLabel("Date"));
+        headerPanel.add(createHeaderLabel("League"));
+        headerPanel.add(createHeaderLabel("Opponent"));
+        headerPanel.add(createHeaderLabel("Stadium"));
+        headerPanel.add(createHeaderLabel("Home or Away"));
+
+        return headerPanel;
+    }
+
     // Method to create a panel for a match with specified fields
     private static JPanel createMatchPanel() {
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(1, 6, 10, 10));
 
-        rowPanel.add(createLabel("Time"));
-        rowPanel.add(createLabel("Date"));
-        rowPanel.add(createLabel("League"));
-        rowPanel.add(createLabel("Opponent"));
-        rowPanel.add(createLabel("Stadium"));
-        rowPanel.add(createLabel("Home or Away"));
+        rowPanel.add(createLabel(""));
+        rowPanel.add(createLabel(""));
+        rowPanel.add(createLabel(""));
+        rowPanel.add(createLabel(""));
+        rowPanel.add(createLabel(""));
+        rowPanel.add(createLabel(""));
 
         return rowPanel;
     }
@@ -141,6 +186,16 @@ public class View_BDH_LichThiDau {
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setOpaque(true);
         label.setBackground(new Color(173, 216, 230)); // Light blue background
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        return label;
+    }
+
+    // Method to create a JLabel for the header with specified text and styling
+    private static JLabel createHeaderLabel(String text) {
+        JLabel label = new JLabel(text, SwingConstants.CENTER);
+        label.setOpaque(true);
+        label.setBackground(new Color(135, 206, 250)); // Sky blue background
+        label.setFont(new Font("Arial", Font.BOLD, 16));
         label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return label;
     }
@@ -156,7 +211,6 @@ public class View_BDH_LichThiDau {
     public static void saveDataToCSV(String filePath, Queue<Match> matchQueue) {
         clearCSVFile(filePath);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-
             for (Match match : matchQueue) {
                 String csvLine = String.join(",",
                         match.getTime(),
@@ -192,7 +246,7 @@ public class View_BDH_LichThiDau {
     // Method to update main panel with current match queue
     private static void updateMainPanel(JPanel mainPanel) {
         Component[] components = mainPanel.getComponents();
-        int rowIndex = 0;
+        int rowIndex = 1; // Start after the header row
         Object[] matchArray = matchQueue.toArray();
         int startIndex = Math.max(0, matchArray.length - MAX_MATCHES);
         for (int i = startIndex; i < matchArray.length; i++) {
@@ -207,7 +261,7 @@ public class View_BDH_LichThiDau {
             rowIndex++;
         }
         // Clear remaining panels if any
-        for (int i = rowIndex; i < MAX_MATCHES; i++) {
+        for (int i = rowIndex; i < MAX_MATCHES + 1; i++) {
             JPanel rowPanel = (JPanel) components[i];
             ((JLabel) rowPanel.getComponent(0)).setText("");
             ((JLabel) rowPanel.getComponent(1)).setText("");
@@ -216,6 +270,7 @@ public class View_BDH_LichThiDau {
             ((JLabel) rowPanel.getComponent(4)).setText("");
             ((JLabel) rowPanel.getComponent(5)).setText("");
         }
+
     }
 
     // Match class to hold match details
