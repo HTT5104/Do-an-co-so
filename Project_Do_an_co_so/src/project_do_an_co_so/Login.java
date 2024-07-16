@@ -28,7 +28,7 @@ public class Login extends JFrame {
 
         // Create components for the login form
         Font font = new Font("Arial", Font.BOLD, 16);
-        Color highlightColor = new Color(255, 69, 0); // Highlight color
+        Color highlightColor = new Color(255, 255, 255); // Highlight color
 
         JLabel roleLabel = new JLabel("Role:");
         roleLabel.setFont(font);
