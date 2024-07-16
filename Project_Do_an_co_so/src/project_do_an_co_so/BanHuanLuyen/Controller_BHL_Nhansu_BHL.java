@@ -116,8 +116,7 @@ public class Controller_BHL_Nhansu_BHL {
         // Thay JComboBox bằng JCheckBox
         JPanel positionPanel = new JPanel();
         positionPanel.setLayout(new BoxLayout(positionPanel, BoxLayout.Y_AXIS));
-        String[] positions = { "GK", "LB", "CB", "RB", "LWB", "RWB", "CDM", "CM", "CAM", "LM", "RM", "LW", "RW", "CF",
-                "ST" };
+        String[] positions = { "GK", "LB", "CB", "RB", "LWB", "RWB", "CDM", "CM", "CAM", "LM", "RM", "LW", "RW", "CF", "ST" };
         for (String position : positions) {
             JCheckBox checkBox = new JCheckBox(position);
             positionPanel.add(checkBox);
@@ -177,7 +176,7 @@ public class Controller_BHL_Nhansu_BHL {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 1;
-        filterDialog.add(new JLabel("Hometown:"), gbc);
+        filterDialog.add(new JLabel("Nation:"), gbc);
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.gridwidth = 3;

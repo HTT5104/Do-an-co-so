@@ -27,7 +27,7 @@ public class View_Nhansu_1DoiTuong {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                frame = new JFrame("Player");
+                frame = new JFrame("Player's information");
                 frame.setSize(1200, 800); // Updated frame size
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);

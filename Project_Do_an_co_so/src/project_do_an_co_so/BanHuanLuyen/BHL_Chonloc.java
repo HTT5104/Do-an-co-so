@@ -109,7 +109,7 @@ public class BHL_Chonloc {
         nameLabelTitle = new JLabel("Name:");
         positionLabelTitle = new JLabel("Position:");
         birthDateLabelTitle = new JLabel("DoB:");
-        hometownLabelTitle = new JLabel("Hometown:");
+        hometownLabelTitle = new JLabel("Nation:");
         numberShirtLabelTitle = new JLabel("Number:");
         weightLabelTitle = new JLabel("Weight:");
         heightLabelTitle = new JLabel("Height:");

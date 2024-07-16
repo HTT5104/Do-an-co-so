@@ -92,7 +92,7 @@ public class View_BDH_Nhansu_BDH {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        addPlayerDialog.add(new JLabel("Hometown:"), gbc);
+        addPlayerDialog.add(new JLabel("Nation:"), gbc);
         gbc.gridx = 1;
         gbc.gridy = 1;
         addPlayerDialog.add(hometownComboBox, gbc);
@@ -250,11 +250,6 @@ public class View_BDH_Nhansu_BDH {
             }
         };
         panel.setLayout(null);
-
-        JLabel titleLabel = new JLabel("Player list");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(250, 20, 400, 30);
-        panel.add(titleLabel);
 
         // Create table
         String[] columnNames = {"Name"};
