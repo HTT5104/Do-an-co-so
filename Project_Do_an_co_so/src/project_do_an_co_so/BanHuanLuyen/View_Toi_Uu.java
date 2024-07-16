@@ -79,7 +79,7 @@ public class View_Toi_Uu extends JFrame {
             }
         });
 
-        JButton uploadButton = new JButton("Upload data last match");
+        JButton uploadButton = new JButton("Upload data");
         customizeButton(uploadButton);
         uploadButton.addActionListener(new ActionListener() {
             @Override
@@ -232,17 +232,17 @@ public class View_Toi_Uu extends JFrame {
                             selectedPlayers.add(player.getName());
                             tableModel.addRow(new Object[]{pos, player.getName(), player.getQuality()});
                         } else {
-                            tableModel.addRow(new Object[]{pos, "None", "N/A"});
+                            tableModel.addRow(new Object[]{pos, "Null", "N/A"});
                         }
                         playerFound = true;
                         break;
                     }
                 }
                 if (!playerFound) {
-                    tableModel.addRow(new Object[]{pos, "None", "N/A"});
+                    tableModel.addRow(new Object[]{pos, "Null", "N/A"});
                 }
             } else {
-                tableModel.addRow(new Object[]{pos, "None", "N/A"});
+                tableModel.addRow(new Object[]{pos, "Null", "N/A"});
             }
         }
 
@@ -250,7 +250,7 @@ public class View_Toi_Uu extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         JDialog dialog = new JDialog(this, "Selected Top Players", true);
         dialog.add(scrollPane);
-        dialog.setSize(600, 400);
+        dialog.setSize(600, 250);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }

@@ -67,7 +67,7 @@ public class View_BanHuanLuyen {
 
     public static void hien() {
         frame = new JFrame("Homepage");
-        frame.setTitle("Soccer App");
+        frame.setTitle("Homepage");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);

@@ -337,7 +337,7 @@ public class View_BDH_Nhansu_BDH {
         // Add "Back" button
         JButton backButton = new JButton("Back");
         styleButton(backButton);
-        backButton.setBounds(500, 350, 120, 50);
+        backButton.setBounds(650, 450, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -350,7 +350,7 @@ public class View_BDH_Nhansu_BDH {
         // Nút up csv
         JButton loadCsvButton = new JButton("Update");
         styleButton(loadCsvButton);
-        loadCsvButton.setBounds(650, 350, 150, 50);
+        loadCsvButton.setBounds(650, 350, 120, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -362,7 +362,7 @@ public class View_BDH_Nhansu_BDH {
         // Add "Filter" button
         JButton filterButton = new JButton("Filter");
         styleButton(filterButton);
-        filterButton.setBounds(650, 450, 150, 50);
+        filterButton.setBounds(500, 350, 120, 50);
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

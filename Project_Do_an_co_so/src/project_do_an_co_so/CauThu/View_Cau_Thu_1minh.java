@@ -43,7 +43,7 @@ public class View_Cau_Thu_1minh {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                frame = new JFrame("Nhân sự");
+                frame = new JFrame("Homepage");
                 frame.setSize(1200, 800); // Updated frame size
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
@@ -71,15 +71,6 @@ public class View_Cau_Thu_1minh {
         panel.setBackground(new Color(240, 240, 240)); // Light gray background
         gbc = new GridBagConstraints();
 
-        // Title
-        JLabel titleLabel = new JLabel("Thông tin cầu thủ");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Increased font size
-        gbc.gridx = 0; // Column position
-        gbc.gridy = 0; // Row position
-        gbc.gridwidth = 3; // Span 3 columns
-        gbc.insets = new Insets(20, 20, 20, 20); // Increased padding
-        panel.add(titleLabel, gbc); // Add title to panel
-
         // Image frame
         imagePanel = new JPanel();
         imagePanel.setBackground(new Color(220, 220, 220)); // Light gray background
@@ -90,7 +81,7 @@ public class View_Cau_Thu_1minh {
         photoLabel = new JLabel();
         photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         imagePanel.add(photoLabel);
-        gbc.gridx = 8; // Column position
+        gbc.gridx = 3; // Column position
         gbc.gridy = 1; // Row position
         gbc.gridheight = 8; // Span 8 rows
         gbc.insets = new Insets(10, 10, 10, 10); // Reduced padding between components
@@ -103,14 +94,14 @@ public class View_Cau_Thu_1minh {
         gbc.fill = GridBagConstraints.HORIZONTAL; // Stretch horizontally
 
         // Add JLabels
-        nameLabelTitle = new JLabel("Họ tên:");
-        positionLabelTitle = new JLabel("Vị trí:");
-        birthDateLabelTitle = new JLabel("Ngày sinh:");
-        hometownLabelTitle = new JLabel("Quê quán:");
-        numberShirtLabelTitle = new JLabel("Số áo:");
-        weightLabelTitle = new JLabel("Cân nặng:");
-        heightLabelTitle = new JLabel("Chiều cao:");
-        bodyMassLabelTitle = new JLabel("Chân thuận:");
+        nameLabelTitle = new JLabel("Name:");
+        positionLabelTitle = new JLabel("Position:");
+        birthDateLabelTitle = new JLabel("DoB:");
+        hometownLabelTitle = new JLabel("Nation:");
+        numberShirtLabelTitle = new JLabel("Number:");
+        weightLabelTitle = new JLabel("Weight:");
+        heightLabelTitle = new JLabel("Height:");
+        bodyMassLabelTitle = new JLabel("Dominant foot:");
 
         nameLabel = new JLabel();
         positionLabel = new JLabel();
@@ -151,21 +142,6 @@ public class View_Cau_Thu_1minh {
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, heightLabelTitle, heightLabel, gbc, 7);
         Controller_Nhansu_1DoiTuong.addLabelAndTextField(panel, bodyMassLabelTitle, bodyMassLabel, gbc, 8);
 
-        // Back button
-        JButton backButton = new JButton("Back");
-        Controller_Nhansu_1DoiTuong.styleButton(backButton);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-        gbc.gridx = 0; // Column position
-        gbc.gridy = 9; // Row position
-        gbc.gridwidth = 1; // Span 1 column
-        gbc.anchor = GridBagConstraints.WEST; // Left alignment
-        panel.add(backButton, gbc); // Add back button to panel
-
         // Schedule button
         JButton scheduleButton = new JButton("Schedule");
         Controller_Nhansu_1DoiTuong.styleButton(scheduleButton);
@@ -177,7 +153,7 @@ public class View_Cau_Thu_1minh {
                 frame.dispose();
             }
         });
-        gbc.gridx = 1; // Column position
+        gbc.gridx = 2; // Column position
         gbc.gridy = 9; // Row position
         gbc.gridwidth = 1; // Span 1 column
         gbc.anchor = GridBagConstraints.WEST; // Left alignment
@@ -192,7 +168,7 @@ public class View_Cau_Thu_1minh {
                 Controller_Cau_Thu_1minh.viewController_Cau_Thu_1minh(currentPlayer);
             }
         });
-        gbc.gridx = 2; // Column position
+        gbc.gridx = 3; // Column position
         gbc.gridy = 9; // Row position
         gbc.gridwidth = 1; // Span 1 column
         gbc.anchor = GridBagConstraints.WEST; // Left alignment
@@ -211,7 +187,7 @@ public class View_Cau_Thu_1minh {
                 }
             }
         });
-        gbc.gridx = 3; // Column position
+        gbc.gridx = 1; // Column position
         gbc.gridy = 9; // Row position
         gbc.gridwidth = 1; // Span 1 column
         gbc.anchor = GridBagConstraints.WEST; // Left alignment
