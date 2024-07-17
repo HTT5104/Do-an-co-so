@@ -88,22 +88,17 @@ public class View_BHL_Nhan_su_BHL {
         panel.setLayout(null);
         panel.setBackground(Color.WHITE);
 
-        JLabel titleLabel = new JLabel("Player list");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(250, 20, 400, 30);
-        panel.add(titleLabel);
-
         // Create table
         String[] columnNames = {"Name"};
         tableModel = new DefaultTableModel(columnNames, 0);
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(100, 100, 600, 200);
+        scrollPane.setBounds(150, 100, 600, 200);
         panel.add(scrollPane);
         
         // Add search field
         searchField = new JTextField(20);
-        searchField.setBounds(100, 60, 200, 30);
+        searchField.setBounds(150, 60, 200, 30);
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -126,7 +121,7 @@ public class View_BHL_Nhan_su_BHL {
         JButton selectButton = new JButton("Choose");
         selectButton.setFont(new Font("Arial", Font.BOLD, 18));
         selectButton.setBackground(new Color(255, 182, 193));
-        selectButton.setBounds(150, 350, 120, 50);
+        selectButton.setBounds(300, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,7 +134,7 @@ public class View_BHL_Nhan_su_BHL {
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.setBackground(new Color(255, 182, 193));
-        backButton.setBounds(350, 350, 120, 50);
+        backButton.setBounds(150, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,7 +148,7 @@ public class View_BHL_Nhan_su_BHL {
         JButton loadCsvButton = new JButton("Update");
         loadCsvButton.setFont(new Font("Arial", Font.BOLD, 18));
         loadCsvButton.setBackground(new Color(255, 182, 193));
-        loadCsvButton.setBounds(550, 350, 120, 50);
+        loadCsvButton.setBounds(450, 350, 120, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -164,8 +159,9 @@ public class View_BHL_Nhan_su_BHL {
 
         // Add "Filter" button
         JButton filterButton = new JButton("Filter");
-        styleButton(filterButton);
-        filterButton.setBounds(650, 450, 150, 50);
+        filterButton.setFont(new Font("Arial", Font.BOLD, 18));
+        filterButton.setBackground(new Color(255, 182, 193));
+        filterButton.setBounds(600, 350, 120, 50);
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -256,12 +256,12 @@ public class View_BDH_Nhansu_BDH {
         tableModel = new DefaultTableModel(columnNames, 0);
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(100, 100, 600, 200);
+        scrollPane.setBounds(150, 100, 600, 200);
         panel.add(scrollPane);
 
         // Add search field
         searchField = new JTextField(20);
-        searchField.setBounds(100, 60, 200, 30);
+        searchField.setBounds(150, 60, 200, 30);
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
