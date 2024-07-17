@@ -284,7 +284,7 @@ public class View_BDH_Nhansu_BDH {
         JButton addButton = new JButton("Add");
         Controller_Nhansu_1DoiTuong.styleButton(addButton);
         styleButton(addButton);
-        addButton.setBounds(50, 350, 120, 50);
+        addButton.setBounds(80, 350, 120, 50);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -296,7 +296,7 @@ public class View_BDH_Nhansu_BDH {
         // Add "Xóa" button
         JButton deleteButton = new JButton("Delete");
         styleButton(deleteButton);
-        deleteButton.setBounds(200, 350, 120, 50);
+        deleteButton.setBounds(230, 350, 120, 50);
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,7 +325,7 @@ public class View_BDH_Nhansu_BDH {
         JButton selectButton = new JButton("Choose");
         
         styleButton(selectButton);
-        selectButton.setBounds(350, 350, 120, 50);
+        selectButton.setBounds(380, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -337,7 +337,7 @@ public class View_BDH_Nhansu_BDH {
         // Add "Back" button
         JButton backButton = new JButton("Back");
         styleButton(backButton);
-        backButton.setBounds(650, 450, 120, 50);
+        backButton.setBounds(680, 450, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -350,7 +350,7 @@ public class View_BDH_Nhansu_BDH {
         // Nút up csv
         JButton loadCsvButton = new JButton("Update");
         styleButton(loadCsvButton);
-        loadCsvButton.setBounds(650, 350, 120, 50);
+        loadCsvButton.setBounds(680, 350, 120, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -362,7 +362,7 @@ public class View_BDH_Nhansu_BDH {
         // Add "Filter" button
         JButton filterButton = new JButton("Filter");
         styleButton(filterButton);
-        filterButton.setBounds(500, 350, 120, 50);
+        filterButton.setBounds(530, 350, 120, 50);
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
