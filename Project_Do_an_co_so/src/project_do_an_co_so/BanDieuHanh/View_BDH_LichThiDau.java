@@ -67,8 +67,8 @@ public class View_BDH_LichThiDau {
                 }
 
                 JTextField tournamentField = new JTextField(10);
-                JTextField team1Field = new JTextField(10);
-                JTextField team2Field = new JTextField(10);
+                JTextField teamField = new JTextField(10);
+                JTextField stadiumField = new JTextField(10);
                 JComboBox<String> homeAwayComboBox = new JComboBox<>(new String[]{"Home", "Away"});
 
                 JPanel inputPanel = new JPanel();
@@ -87,9 +87,9 @@ public class View_BDH_LichThiDau {
                 inputPanel.add(new JLabel("League:"));
                 inputPanel.add(tournamentField);
                 inputPanel.add(new JLabel("Opponent:"));
-                inputPanel.add(team1Field);
+                inputPanel.add(teamField);
                 inputPanel.add(new JLabel("Stadium:"));
-                inputPanel.add(team2Field);
+                inputPanel.add(stadiumField);
                 inputPanel.add(new JLabel("Home or Away:"));
                 inputPanel.add(homeAwayComboBox);
 
@@ -98,15 +98,15 @@ public class View_BDH_LichThiDau {
                     String time = timeEditor.getFormat().format(timeSpinner.getValue());
                     String date = String.format("%s/%s/%s", dayComboBox.getSelectedItem(), monthComboBox.getSelectedItem(), yearComboBox.getSelectedItem());
 
-                    if (tournamentField.getText().isEmpty() || team1Field.getText().isEmpty() || team2Field.getText().isEmpty() || homeAwayComboBox.getSelectedItem() == null) {
+                    if (tournamentField.getText().isEmpty() || teamField.getText().isEmpty() || stadiumField.getText().isEmpty() || homeAwayComboBox.getSelectedItem() == null) {
                         JOptionPane.showMessageDialog(frame, "Please enter all details.", "Input Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         Match newMatch = new Match(
                                 time,
                                 date,
                                 tournamentField.getText(),
-                                team1Field.getText(),
-                                team2Field.getText(),
+                                teamField.getText(),
+                                stadiumField.getText(),
                                 (String) homeAwayComboBox.getSelectedItem());
 
                         if (matchQueue.size() >= MAX_MATCHES) {
