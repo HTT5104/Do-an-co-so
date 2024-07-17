@@ -18,12 +18,13 @@ public class View_BDH_LichThiDau {
         // Create the main frame
         JFrame frame = new JFrame("Schedule");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 600);
+        frame.setSize(1000, 700);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
 
-        // Create the main panel with GridLayout
+        // Create the main panel with BoxLayout
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(MAX_MATCHES + 2, 1, 10, 10)); // +2 for header row and buttons row
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add padding around the panel
 
         // Create and add the header panel
         JPanel headerPanel = createHeaderPanel();
@@ -40,9 +41,10 @@ public class View_BDH_LichThiDau {
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        
-        JButton addButton = new JButton("Add");
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        JButton addButton = new JButton("Add Match");
+        styleButton(addButton);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,7 +122,8 @@ public class View_BDH_LichThiDau {
 
         buttonPanel.add(addButton);
 
-        JButton deleteButton = new JButton("Delete");
+        JButton deleteButton = new JButton("Delete Match");
+        styleButton(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,6 +137,7 @@ public class View_BDH_LichThiDau {
         buttonPanel.add(deleteButton);
 
         JButton backButton = new JButton("Back");
+        styleButton(backButton);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +149,7 @@ public class View_BDH_LichThiDau {
 
         // Add the main panel and the button panel to the frame
         frame.setLayout(new BorderLayout());
-        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(new JScrollPane(mainPanel), BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
@@ -155,6 +159,7 @@ public class View_BDH_LichThiDau {
     private static JPanel createHeaderPanel() {
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new GridLayout(1, 6, 10, 10));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         headerPanel.add(createHeaderLabel("Time"));
         headerPanel.add(createHeaderLabel("Date"));
@@ -170,6 +175,7 @@ public class View_BDH_LichThiDau {
     private static JPanel createMatchPanel() {
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(1, 6, 10, 10));
+        rowPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         rowPanel.add(createLabel(""));
         rowPanel.add(createLabel(""));
@@ -185,8 +191,9 @@ public class View_BDH_LichThiDau {
     private static JLabel createLabel(String text) {
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setOpaque(true);
-        label.setBackground(new Color(173, 216, 230)); // Light blue background
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        label.setBackground(Color.WHITE); // White background
+        label.setFont(new Font("Arial", Font.PLAIN, 14));
+        label.setBorder(BorderFactory.createLineBorder(new Color(211, 211, 211))); // Light grey border
         return label;
     }
 
@@ -194,10 +201,20 @@ public class View_BDH_LichThiDau {
     private static JLabel createHeaderLabel(String text) {
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setOpaque(true);
-        label.setBackground(new Color(135, 206, 250)); // Sky blue background
+        label.setBackground(new Color(70, 130, 180)); // Steel blue background
+        label.setForeground(Color.WHITE); // White text
         label.setFont(new Font("Arial", Font.BOLD, 16));
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        label.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180))); // Steel blue border
         return label;
+    }
+
+    // Method to style a button
+    private static void styleButton(JButton button) {
+        button.setBackground(new Color(70, 130, 180)); // Steel blue background
+        button.setForeground(Color.WHITE); // White text
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setFocusPainted(false); // Remove focus border
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding inside the button
     }
 
     public static void clearCSVFile(String filePath) {
