@@ -260,7 +260,7 @@ public class Controller_BHL_Nhansu_BHL {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filterFrame.dispose();
+                //filterFrame.dispose();
                 View_BHL_Nhan_su_BHL .chon2(filteredTable, filteredList); // Sử dụng filteredList để chọn cầu thủ
             }
         });
