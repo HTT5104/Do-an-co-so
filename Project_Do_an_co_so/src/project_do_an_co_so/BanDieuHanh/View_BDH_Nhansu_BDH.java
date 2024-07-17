@@ -469,7 +469,7 @@ public class View_BDH_Nhansu_BDH {
         button.setFont(new Font("Arial", Font.BOLD, 18)); // Set font size to 18
         button.setPreferredSize(new Dimension(200, 60)); // Increase button size
         //button.setBackground(new Color(34, 139, 34)); // Forest green background color
-        button.setBackground(new Color(255, 0, 0));
+        button.setBackground(new Color(70, 130, 180));
         button.setForeground(Color.WHITE); // White text color
         button.setFocusPainted(false); // Remove focus paint
         //button.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 2)); // Add white border

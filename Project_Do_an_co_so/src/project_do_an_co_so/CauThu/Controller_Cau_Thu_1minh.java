@@ -43,6 +43,12 @@ public class Controller_Cau_Thu_1minh{
         pfConfirmPassword = new JPasswordField();
 
         btnChangePassword = new JButton("Change Password");
+        btnChangePassword.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size to 18
+        btnChangePassword.setPreferredSize(new Dimension(200, 60)); // Increase button size
+        //button.setBackground(new Color(34, 139, 34)); // Forest green background color
+        btnChangePassword.setBackground(new Color(70, 130, 180));
+        btnChangePassword.setForeground(Color.WHITE); // White text color
+        btnChangePassword.setFocusPainted(false); // Remove focus paint
         btnChangePassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

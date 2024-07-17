@@ -120,7 +120,8 @@ public class View_BHL_Nhan_su_BHL {
         // Add "Chọn" button
         JButton selectButton = new JButton("Choose");
         selectButton.setFont(new Font("Arial", Font.BOLD, 18));
-        selectButton.setBackground(new Color(255, 182, 193));
+        selectButton.setBackground(new Color(70, 130, 180));
+        selectButton.setForeground(Color.WHITE); // White text color
         selectButton.setBounds(300, 350, 120, 50);
         selectButton.addActionListener(new ActionListener() {
             @Override
@@ -133,7 +134,8 @@ public class View_BHL_Nhan_su_BHL {
         // Add "Back" button
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
-        backButton.setBackground(new Color(255, 182, 193));
+        backButton.setBackground(new Color(70, 130, 180));
+        backButton.setForeground(Color.WHITE); // White text color
         backButton.setBounds(150, 350, 120, 50);
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -147,7 +149,8 @@ public class View_BHL_Nhan_su_BHL {
         // Nút up csv
         JButton loadCsvButton = new JButton("Update");
         loadCsvButton.setFont(new Font("Arial", Font.BOLD, 18));
-        loadCsvButton.setBackground(new Color(255, 182, 193));
+        loadCsvButton.setBackground(new Color(70, 130, 180));
+        loadCsvButton.setForeground(Color.WHITE); // White text color
         loadCsvButton.setBounds(450, 350, 120, 50);
         loadCsvButton.addActionListener(new ActionListener() {
             @Override
@@ -160,7 +163,8 @@ public class View_BHL_Nhan_su_BHL {
         // Add "Filter" button
         JButton filterButton = new JButton("Filter");
         filterButton.setFont(new Font("Arial", Font.BOLD, 18));
-        filterButton.setBackground(new Color(255, 182, 193));
+        filterButton.setBackground(new Color(70, 130, 180));
+        filterButton.setForeground(Color.WHITE); // White text color
         filterButton.setBounds(600, 350, 120, 50);
         filterButton.addActionListener(new ActionListener() {
             @Override
@@ -297,7 +301,7 @@ public class View_BHL_Nhan_su_BHL {
         button.setFont(new Font("Arial", Font.BOLD, 18)); // Set font size to 18
         button.setPreferredSize(new Dimension(200, 60)); // Increase button size
         //button.setBackground(new Color(34, 139, 34)); // Forest green background color
-        button.setBackground(new Color(255, 0, 0));
+        button.setBackground(new Color(70, 130, 180));
         button.setForeground(Color.WHITE); // White text color
         button.setFocusPainted(false); // Remove focus paint
         //button.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 2)); // Add white border
