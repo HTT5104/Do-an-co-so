@@ -275,7 +275,7 @@ public class Controller_BDH_Nhansu_BDH {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filterFrame.dispose();
+                //filterFrame.dispose();
                 chon2(filteredTable, filteredList); // Sử dụng filteredList để chọn cầu thủ
             }
         });
