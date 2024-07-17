@@ -1,69 +1,13 @@
 package project_do_an_co_so;
 
-import project_do_an_co_so.FlatArrowButton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class FlatArrowButton extends JButton {
-    private Image arrowImage;
-
-    public FlatArrowButton(String text, ImageIcon icon) {
-        super(text);
-        arrowImage = icon.getImage();
-        setContentAreaFilled(false);
-        setFocusPainted(false);
-        setBorderPainted(false);
-        setForeground(Color.BLACK); // Đặt màu chữ phù hợp với nền mũi tên
-        setFont(new Font("Arial", Font.BOLD, 18));
-        setHorizontalTextPosition(SwingConstants.CENTER);
-        setVerticalTextPosition(SwingConstants.CENTER);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Vẽ hình mũi tên tùy chỉnh
-        int arrowWidth = getWidth();
-        int arrowHeight = getHeight();
-        int arrowHeadWidth = arrowHeight / 2;
-        
-        Polygon arrow = new Polygon();
-        arrow.addPoint(0, arrowHeight / 2);
-        arrow.addPoint(arrowHeadWidth, 0);
-        arrow.addPoint(arrowHeadWidth, arrowHeight / 4);
-        arrow.addPoint(arrowWidth - 50, arrowHeight / 4); // Điều chỉnh độ dài thân mũi tên
-        arrow.addPoint(arrowWidth - 50, 3 * arrowHeight / 4); // Điều chỉnh độ dài thân mũi tên
-        arrow.addPoint(arrowHeadWidth, 3 * arrowHeight / 4);
-        arrow.addPoint(arrowHeadWidth, arrowHeight);
-        arrow.addPoint(0, arrowHeight / 2);
-        
-        g2.setColor(new Color(210, 180, 140)); // Màu mũi tên
-        g2.fill(arrow);
-
-        g2.setColor(Color.BLACK); // Viền mũi tên
-        g2.draw(arrow);
-
-        // Vẽ văn bản lên trên và căn giữa
-        FontMetrics fm = g2.getFontMetrics();
-        int textWidth = fm.stringWidth(getText());
-        int textHeight = fm.getAscent();
-        int x = (getWidth() - textWidth) / 2 - 6;
-        int y = (getHeight() + textHeight) / 2 - 1 ; // Điều chỉnh y để văn bản nằm chính xác ở giữa
-        
-        g2.setColor(getForeground());
-        g2.drawString(getText(), x, y);
-        
-        g2.dispose();
-    }
-}
-
 public class View_BanDieuHanh {
     private static JFrame frame;
-    
+
     public static void hien() {
         frame = new JFrame("Homepage");
         frame.setTitle("Homepage");
@@ -89,7 +33,7 @@ public class View_BanDieuHanh {
 
         // Tạo nút Đăng xuất với hình mũi tên tùy chỉnh
         ImageIcon arrowIcon = new ImageIcon("src/project_do_an_co_so/Image/arrow.png");
-        FlatArrowButton logoutButton = new FlatArrowButton("Log out", arrowIcon);
+        JButton logoutButton = createFlatArrowButton("Log out", arrowIcon);
         logoutButton.setBounds(30, 30, 200, 80); // Điều chỉnh kích thước nút cho mũi tên ngắn lại và chữ nằm hoàn toàn trong mũi tên
         homePanel.add(logoutButton);
 
@@ -127,6 +71,61 @@ public class View_BanDieuHanh {
         homePanel.add(scheduleButton);
 
         return homePanel;
+    }
+
+    public static JButton createFlatArrowButton(String text, ImageIcon icon) {
+        JButton button = new JButton(text) {
+            private Image arrowImage = icon.getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Vẽ hình mũi tên tùy chỉnh
+                int arrowWidth = getWidth();
+                int arrowHeight = getHeight();
+                int arrowHeadWidth = arrowHeight / 2;
+                
+                Polygon arrow = new Polygon();
+                arrow.addPoint(0, arrowHeight / 2);
+                arrow.addPoint(arrowHeadWidth, 0);
+                arrow.addPoint(arrowHeadWidth, arrowHeight / 4);
+                arrow.addPoint(arrowWidth - 50, arrowHeight / 4); // Điều chỉnh độ dài thân mũi tên
+                arrow.addPoint(arrowWidth - 50, 3 * arrowHeight / 4); // Điều chỉnh độ dài thân mũi tên
+                arrow.addPoint(arrowHeadWidth, 3 * arrowHeight / 4);
+                arrow.addPoint(arrowHeadWidth, arrowHeight);
+                arrow.addPoint(0, arrowHeight / 2);
+                
+                g2.setColor(new Color(210, 180, 140)); // Màu mũi tên
+                g2.fill(arrow);
+
+                g2.setColor(Color.BLACK); // Viền mũi tên
+                g2.draw(arrow);
+
+                // Vẽ văn bản lên trên và căn giữa
+                FontMetrics fm = g2.getFontMetrics();
+                int textWidth = fm.stringWidth(getText());
+                int textHeight = fm.getAscent();
+                int x = (getWidth() - textWidth) / 2 - 6;
+                int y = (getHeight() + textHeight) / 2 - 1; // Điều chỉnh y để văn bản nằm chính xác ở giữa
+                
+                g2.setColor(getForeground());
+                g2.drawString(getText(), x, y);
+                
+                g2.dispose();
+            }
+        };
+
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setForeground(Color.BLACK); // Đặt màu chữ phù hợp với nền mũi tên
+        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        button.setVerticalTextPosition(SwingConstants.CENTER);
+
+        return button;
     }
 
     public static JButton createButton(String text, int x, int y) {
