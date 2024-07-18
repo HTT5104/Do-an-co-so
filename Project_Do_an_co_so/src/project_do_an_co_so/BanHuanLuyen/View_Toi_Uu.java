@@ -342,9 +342,9 @@ public class View_Toi_Uu extends JFrame {
         }
     }
 
-    public static class Main {
+    /*public static class Main {
         public static void main(String[] args) {
             hien();
         }
-    }
+    }*/
 }
