@@ -158,7 +158,7 @@ public class BHL_Chonloc {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                View_BHL_Nhan_su_BHL.backk();
+                //View_BHL_Nhan_su_BHL.backk();
             }
         });
         gbc.gridx = 0; // Vị trí cột
