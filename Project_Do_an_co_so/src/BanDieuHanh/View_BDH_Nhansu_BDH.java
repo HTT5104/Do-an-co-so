@@ -168,7 +168,13 @@ public class View_BDH_Nhansu_BDH {
                     JOptionPane.showMessageDialog(frame, "Write the player's name");
                     return;
                 }
-
+                
+                //Kiểm tra ngày tháng năm 
+                if(!Ngoaile.isValidDate(birthDate)){
+                    JOptionPane.showMessageDialog(frame, "Invalid date");
+                    return;
+                }
+                
                 // Kiểm tra xem vị trí có được nhập hay không
                 if (position.equals("Select Positions")) {
                     JOptionPane.showMessageDialog(frame, "Select at least one position");
@@ -180,6 +186,11 @@ public class View_BDH_Nhansu_BDH {
                         || !Controller_BDH_Nhansu_BDH.isNaturalNumber(weight)
                         || !Controller_BDH_Nhansu_BDH.isNaturalNumber(height)) {
                     JOptionPane.showMessageDialog(frame, "Number, weight and height must be natural numbers");
+                    return;
+                }
+                
+                if(Ngoaile.checktrungsoao(numberShirt)){
+                    JOptionPane.showMessageDialog(frame, "You have chosen a duplicate shirt number, please choose again.");
                     return;
                 }
 

@@ -165,6 +165,10 @@ public class View_Nhansu_1DoiTuong {
                 }
                 if (dobCheckBox.isSelected()) {
                     String dob = x.getDobFromComboBoxes(dobPanel); // Lấy giá trị từ 3 JComboBox
+                    if (!Ngoaile.isValidDate(dob)) {
+                        JOptionPane.showMessageDialog(frame, "Invalid date");
+                        return;
+                    }
                     currentPlayer.setBirthDate(dob);
                     birthDateLabel.setText(dob);
                 }
@@ -178,14 +182,30 @@ public class View_Nhansu_1DoiTuong {
                     hometownLabel.setText(currentPlayer.getHometown());
                 }
                 if (numberCheckBox.isSelected() && !numberField.getText().trim().isEmpty()) {
+                    if (Ngoaile.checktrungsoao(numberField.getText().trim())) {
+                        JOptionPane.showMessageDialog(frame, "You have chosen a duplicate shirt number, please choose again.");
+                        return;
+                    }
+                    if (!Controller_BDH_Nhansu_BDH.isNaturalNumber(numberField.getText().trim())) {
+                        JOptionPane.showMessageDialog(frame, "Number, weight and height must be natural numbers");
+                        return;
+                    }
                     currentPlayer.setNumberShirt(numberField.getText().trim());
                     numberShirtLabel.setText(currentPlayer.getNumberShirt());
                 }
                 if (weightCheckBox.isSelected() && !weightField.getText().trim().isEmpty()) {
+                    if (!Controller_BDH_Nhansu_BDH.isNaturalNumber(weightField.getText().trim())) {
+                        JOptionPane.showMessageDialog(frame, "Number, weight and height must be natural numbers");
+                        return;
+                    }
                     currentPlayer.setWeight(weightField.getText().trim());
                     weightLabel.setText(currentPlayer.getWeight());
                 }
                 if (heightCheckBox.isSelected() && !heightField.getText().trim().isEmpty()) {
+                    if (!Controller_BDH_Nhansu_BDH.isNaturalNumber(heightField.getText().trim())) {
+                        JOptionPane.showMessageDialog(frame, "Number, weight and height must be natural numbers");
+                        return;
+                    }
                     currentPlayer.setHeight(heightField.getText().trim());
                     heightLabel.setText(currentPlayer.getHeight());
                 }

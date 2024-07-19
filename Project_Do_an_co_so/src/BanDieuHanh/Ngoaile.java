@@ -3,7 +3,12 @@ package project_do_an_co_so;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -11,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import java.text.SimpleDateFormat;
 
 public class Ngoaile {
     public JPanel createDobPanel() {
@@ -40,6 +46,36 @@ public class Ngoaile {
         dobPanel.add(yearComboBox);
 
         return dobPanel;
+    }
+    
+    public static LinkedHashSet<String> docsoao(String filePath) { //Hàm đọc toàn bộ số áo trong file csv
+        LinkedHashSet<String> soao = new LinkedHashSet<>();
+
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                if (values.length >= 2 && !values[0].isEmpty() && !values[values.length - 1].isEmpty()) {
+                    // Load player data
+                    String numberShirt = values[3];
+                    soao.add(numberShirt );
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return soao;
+    }
+    
+    public static boolean checktrungsoao(String x){
+        if(docsoao("Data.csv").contains(x)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public String getDobFromComboBoxes(JPanel dobPanel) {
@@ -156,4 +192,43 @@ public class Ngoaile {
         return normalized.toString().trim(); // Loại bỏ dấu cách thừa ở cuối chuỗi trước khi trả về
     }
     
+    public static boolean isValidDate(String dateStr) {
+        // Định dạng ngày tháng năm
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); // Không cho phép ngày không hợp lệ
+
+        try {
+            // Thử phân tích chuỗi thành ngày tháng năm
+            sdf.parse(dateStr);
+            String[] parts = dateStr.split("/");
+            int day = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int year = Integer.parseInt(parts[2]);
+
+            // Kiểm tra số ngày hợp lệ cho từng tháng
+            int[] daysInMonth = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+            // Nếu là năm nhuận và tháng 2 thì có 29 ngày
+            if (isLeapYear(year) && month == 2) {
+                daysInMonth[2] = 29;
+            }
+
+            // Kiểm tra ngày hợp lệ
+            return day >= 1 && day <= daysInMonth[month];
+        } catch (ParseException | NumberFormatException e) {
+            // Nếu có lỗi khi phân tích, nghĩa là ngày không hợp lệ
+            return false;
+        }
+    }
+
+    // Kiểm tra xem năm có phải là năm nhuận không
+    private static boolean isLeapYear(int year) {
+        if (year % 4 == 0) {
+            if (year % 100 == 0) {
+                return year % 400 == 0;
+            }
+            return true;
+        }
+        return false;
+    }
 }
