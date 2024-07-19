@@ -303,6 +303,9 @@ public class View_BDH_Nhansu_BDH {
                             JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         Player selectedPlayer = displayedPlayers.get(selectedRow);
+                        String tmp = "Image/Player_avatar/" + Controller_Nhansu_1DoiTuong.formatNames(selectedPlayer.getName()) + ".png";
+                        File file = new File(tmp);
+                        file.delete();
                         playerList.remove(selectedPlayer);
                         displayedPlayers.remove(selectedPlayer);
                         tableModel.removeRow(selectedRow);
@@ -310,6 +313,9 @@ public class View_BDH_Nhansu_BDH {
                         // Gọi hàm save2 để lưu danh sách cầu thủ sau khi xóa
                         Controller_Nhansu_1DoiTuong.clearCSVFile("Data.csv");
                         Controller_BDH_Nhansu_BDH.save("Data.csv", playerList);
+                        
+                        //Xóa ảnh của cầu thủ đấy khỏi folder
+                        
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame, "Choose a player to delete");
