@@ -17,9 +17,10 @@ public class Controller_Cau_Thu_1minh{
     private static JPasswordField pfNewPassword; // Ô nhập mật khẩu mới
     private static JPasswordField pfConfirmPassword; // Ô nhập xác nhận mật khẩu mới
     private static JButton btnChangePassword; // Nút để đổi mật khẩu 
+    private static JFrame frame;
     
     public static void viewController_Cau_Thu_1minh(Player x) {
-        JFrame frame = new JFrame("Change Password"); // Tạo khung mới
+        frame = new JFrame("Change Password"); // Tạo khung mới
         // Thiết lập tiêu đề cho khung
         frame.setTitle("Change Password");
         // Thiết lập kích thước cho khung
@@ -94,6 +95,7 @@ public class Controller_Cau_Thu_1minh{
         newPassword = Login.getMD5(newPassword); 
         confirmPassword = Login.getMD5(confirmPassword); 
         // Kiểm tra mật khẩu mới và xác nhận mật khẩu có trùng khớp không
+        System.out.println("Pass x.get la:" + x.getPassword());
         if (newPassword.equals(confirmPassword) && x.getPassword().equals(currentPassword)) {
             // Logic để đổi mật khẩu
             // Đây là nơi bạn sẽ thêm logic để kiểm tra mật khẩu hiện tại
@@ -103,14 +105,19 @@ public class Controller_Cau_Thu_1minh{
             System.out.println("newPassword" + newPassword);
             System.out.println("confirmPassword" + confirmPassword);
             JOptionPane.showMessageDialog(null, "Password changed successfully.");
+            frame.dispose();
             return newPassword;
-        } else {
+        } else if(!x.getPassword().equals(currentPassword)) {
             // Hiển thị thông báo nếu mật khẩu mới và xác nhận mật khẩu không trùng khớp      
             System.out.println("pass cua x: " + x.getPassword());                      
             System.out.println("currentPassword" + currentPassword);
             System.out.println("newPassword" + newPassword);
             System.out.println("confirmPassword" + confirmPassword);
-            JOptionPane.showMessageDialog(null, "New Password and Confirm Password do not match.");                     
+            JOptionPane.showMessageDialog(null, "Pass moi va Pass cu khong an nhap");  
+            return x.getPassword();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "New Password and Confirm Password do not match.");  
             return currentPassword;
         }
     }
