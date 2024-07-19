@@ -4,7 +4,10 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class View_Nhansu_1DoiTuong {
@@ -141,14 +144,24 @@ public class View_Nhansu_1DoiTuong {
                 positionButton.setText(selectedPositions); // Cập nhật tên nút
             }
         });
-
+        
+        
+        
         // Action listener cho nút lưu
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (nameCheckBox.isSelected() && !nameField.getText().trim().isEmpty()) {
+                    String tmp = "Image/Player_avatar/" + Controller_Nhansu_1DoiTuong.formatNames(currentPlayer.getName()) + ".png";
                     currentPlayer.setName(x.normalizeName(nameField.getText().trim()));
                     nameLabel.setText(currentPlayer.getName());
+                    String tmp2 = Controller_Nhansu_1DoiTuong.formatNames(currentPlayer.getName());
+                    
+                    try {
+                        Controller_Nhansu_1DoiTuong.renameImageFile(tmp, tmp2);
+                    } catch (IOException ex) {
+                        Logger.getLogger(View_Nhansu_1DoiTuong.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 if (dobCheckBox.isSelected()) {
                     String dob = x.getDobFromComboBoxes(dobPanel); // Lấy giá trị từ 3 JComboBox

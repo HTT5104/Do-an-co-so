@@ -88,6 +88,33 @@ public class Controller_Nhansu_1DoiTuong {
             }
         }
     }
+    
+    public static void renameImageFile(String imagePath, String newFileName) throws IOException {
+        File oldFile = new File(imagePath);
+
+        // Kiểm tra nếu file tồn tại
+        if (!oldFile.exists()) {
+            throw new IOException("File không tồn tại: " + imagePath);
+        }
+
+        // Lấy phần mở rộng của file cũ
+        String fileExtension = "";
+        int i = imagePath.lastIndexOf('.');
+        if (i > 0) {
+            fileExtension = imagePath.substring(i);
+        }
+
+        // Đường dẫn mới với tên file mới
+        String newFilePath = oldFile.getParent() + File.separator + newFileName + fileExtension;
+        File newFile = new File(newFilePath);
+
+        // Đổi tên file
+        if (oldFile.renameTo(newFile)) {
+            System.out.println("File da duoc doi ten thanh: " + newFilePath);
+        } else {
+            throw new IOException("Doi ten file thanh cong");
+        }
+    }
 
     public static void delennhau_gayqua(String Filecu, String Filemoi) {
         // Đường dẫn tới tệp tin cũ
